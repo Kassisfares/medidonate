@@ -11,6 +11,7 @@
 		A7C20C412B9A169F00966CA3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C20C402B9A169F00966CA3 /* ContentView.swift */; };
 		A7C20C432B9A16A100966CA3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A7C20C422B9A16A100966CA3 /* Assets.xcassets */; };
 		A7C20C462B9A16A100966CA3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A7C20C452B9A16A100966CA3 /* Preview Assets.xcassets */; };
+		A7C20C672B9A24FD00966CA3 /* signup.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C20C662B9A24FD00966CA3 /* signup.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +20,7 @@
 		A7C20C402B9A169F00966CA3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A7C20C422B9A16A100966CA3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A7C20C452B9A16A100966CA3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		A7C20C662B9A24FD00966CA3 /* signup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = signup.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +55,7 @@
 			children = (
 				A7C20C3E2B9A169F00966CA3 /* medidonateApp.swift */,
 				A7C20C402B9A169F00966CA3 /* ContentView.swift */,
+				A7C20C662B9A24FD00966CA3 /* signup.swift */,
 				A7C20C422B9A16A100966CA3 /* Assets.xcassets */,
 				A7C20C442B9A16A100966CA3 /* Preview Content */,
 			);
@@ -137,6 +140,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7C20C672B9A24FD00966CA3 /* signup.swift in Sources */,
 				A7C20C412B9A169F00966CA3 /* ContentView.swift in Sources */,
 				A7C20C3F2B9A169F00966CA3 /* medidonateApp.swift in Sources */,
 			);
