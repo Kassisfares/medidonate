@@ -11,7 +11,8 @@ import SwiftUI
 struct medidonateApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            login()
+            signup()
         }
     }
 }

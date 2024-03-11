@@ -7,20 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A739B9CF2B9F49C0003952DA /* settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A739B9CE2B9F49C0003952DA /* settings.swift */; };
 		A7C20C3F2B9A169F00966CA3 /* medidonateApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C20C3E2B9A169F00966CA3 /* medidonateApp.swift */; };
-		A7C20C412B9A169F00966CA3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C20C402B9A169F00966CA3 /* ContentView.swift */; };
 		A7C20C432B9A16A100966CA3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A7C20C422B9A16A100966CA3 /* Assets.xcassets */; };
 		A7C20C462B9A16A100966CA3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A7C20C452B9A16A100966CA3 /* Preview Assets.xcassets */; };
 		A7C20C672B9A24FD00966CA3 /* signup.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C20C662B9A24FD00966CA3 /* signup.swift */; };
+		A7D8801D2B9D20A800FE2F40 /* test2.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D8801C2B9D20A800FE2F40 /* test2.swift */; };
+		A7D880202B9D37D200FE2F40 /* login.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D8801F2B9D37D200FE2F40 /* login.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A739B9CE2B9F49C0003952DA /* settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settings.swift; sourceTree = "<group>"; };
 		A7C20C3B2B9A169F00966CA3 /* medidonate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = medidonate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7C20C3E2B9A169F00966CA3 /* medidonateApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = medidonateApp.swift; sourceTree = "<group>"; };
-		A7C20C402B9A169F00966CA3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A7C20C422B9A16A100966CA3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A7C20C452B9A16A100966CA3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		A7C20C662B9A24FD00966CA3 /* signup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = signup.swift; sourceTree = "<group>"; };
+		A7D8801C2B9D20A800FE2F40 /* test2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test2.swift; sourceTree = "<group>"; };
+		A7D8801F2B9D37D200FE2F40 /* login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = login.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,8 +58,8 @@
 			isa = PBXGroup;
 			children = (
 				A7C20C3E2B9A169F00966CA3 /* medidonateApp.swift */,
-				A7C20C402B9A169F00966CA3 /* ContentView.swift */,
-				A7C20C662B9A24FD00966CA3 /* signup.swift */,
+				A7D8801C2B9D20A800FE2F40 /* test2.swift */,
+				A7D8801E2B9D378E00FE2F40 /* app_pages */,
 				A7C20C422B9A16A100966CA3 /* Assets.xcassets */,
 				A7C20C442B9A16A100966CA3 /* Preview Content */,
 			);
@@ -68,6 +72,16 @@
 				A7C20C452B9A16A100966CA3 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		A7D8801E2B9D378E00FE2F40 /* app_pages */ = {
+			isa = PBXGroup;
+			children = (
+				A7C20C662B9A24FD00966CA3 /* signup.swift */,
+				A7D8801F2B9D37D200FE2F40 /* login.swift */,
+				A739B9CE2B9F49C0003952DA /* settings.swift */,
+			);
+			path = app_pages;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -140,9 +154,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A7D8801D2B9D20A800FE2F40 /* test2.swift in Sources */,
 				A7C20C672B9A24FD00966CA3 /* signup.swift in Sources */,
-				A7C20C412B9A169F00966CA3 /* ContentView.swift in Sources */,
+				A7D880202B9D37D200FE2F40 /* login.swift in Sources */,
 				A7C20C3F2B9A169F00966CA3 /* medidonateApp.swift in Sources */,
+				A739B9CF2B9F49C0003952DA /* settings.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
