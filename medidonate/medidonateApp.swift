@@ -12,7 +12,8 @@ struct medidonateApp: App {
     var body: some Scene {
         WindowGroup {
             login()
-            signup()
+            //settings()
+            //signup()
         }
     }
 }

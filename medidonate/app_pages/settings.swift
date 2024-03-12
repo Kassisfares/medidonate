@@ -16,7 +16,7 @@ struct settings: View {
             ZStack{
                 Group{
                     Rectangle()
-                        .fill(Color.blue)
+                        .fill(Color.primarycolor)
                         .frame(width: 400, height: 220)
                     HStack{
                         Circle()
@@ -38,20 +38,76 @@ struct settings: View {
                         }
                     }
                 }
-                .offset(y: -220)
+                .offset(y: -200)
             }
-                    Text("History")
-                    Text("Messages")
-                    Text("Your Addresses")
-                    .padding()
-                    Text("Log out")
-                    Text("Need Help?")
-                    .padding()
-                    .background(Color.gray.opacity(0.1))
+            VStack(alignment: .leading){
+                Group(){
+                    HStack{
+                        Image(systemName: "clock.arrow.circlepath")
+                            .padding(.bottom, 10)
+                            .padding(.leading, 20)
+                            .padding(.top, 10)
+                        Text("History")
+                            .font(.title2)
+                            .padding(.bottom, 10)
+                            .padding(.top, 10)
+                    }
+                    Rectangle()
+                        .fill(Color.gray1)
+                        .frame(width: 350, height: 2)
+                        .offset(x: 8)
+                    HStack{
+                        Image(systemName: "message")
+                            .padding(.bottom, 10)
+                            .padding(.top, 10)
+                            .padding(.leading, 20)
+                        Text("Messages")
+                            .font(.title2)
+                            .padding(.bottom, 10)
+                            .padding(.top, 10)
+                    }
+                    Rectangle()
+                        .fill(Color.gray1)
+                        .frame(width: 350, height: 2)
+                        .offset(x: 8)
+                    HStack{
+                        Image(systemName: "location")
+                            .padding(.bottom, 10)
+                            .padding(.top, 10)
+                            .padding(.leading, 20)
+                        Text("Your Addresses")
+                            .font(.title2)
+                            .padding(.bottom, 10)
+                            .padding(.top, 10)
+                    }
+                    Rectangle()
+                        .fill(Color.gray1)
+                        .frame(width: 350, height: 2)
+                        .offset(x: 8)
+                    HStack{
+                        Image(systemName: "power.circle.fill")
+                            .foregroundColor(Color("primarycolor"))
+                            .padding(.bottom, 10)
+                            .padding(.top, 10)
+                            .padding(.leading, 20)
+                        Text("Log out")
+                            .font(.title2)
+                            .padding(.bottom, 10)
+                            .padding(.top, 10)
+                    }
                 }
-                .padding()
+                Text("Need Help?")
+                    .fontWeight(.semibold)
+                    .frame(width: 330, height: 25)
+                    .padding()
+                    .background(Color.helpcolor)
+                    .cornerRadius(25)
+                    .shadow(color: .black.opacity(0.2), radius: 5)
             }
+            .offset(y: -200)
         }
+    }
+}
 #Preview {
     settings()
 }
