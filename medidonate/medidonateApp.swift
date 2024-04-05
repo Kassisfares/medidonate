@@ -11,7 +11,7 @@ import SwiftUI
 struct medidonateApp: App {
     var body: some Scene {
         WindowGroup {
-            login()
+            welcome()
             //settings()
             //signup()
         }
