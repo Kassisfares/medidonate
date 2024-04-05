@@ -11,6 +11,7 @@ struct login: View {
     @State var email: String = ""
     @State var password: String = ""
     var body: some View {
+        NavigationView(){
             ZStack{
                     Circle()
                         .fill(Color.primarycolor)
@@ -27,11 +28,6 @@ struct login: View {
                         .fontWeight(.bold)
                         .foregroundColor(Color.white)
                         .offset(x: -73, y: -260)
-                    Image(systemName: "arrowshape.left")
-                        .font(.system(size: 30))
-                        .foregroundColor(Color.white)
-                        .frame(width: 200, height: 200)
-                        .offset(x: -160, y: -360)
                 VStack(spacing: 5){
                     Spacer()
                     TextField("Email or Phone", text: $email)
@@ -49,12 +45,13 @@ struct login: View {
                         .shadow(color: .black.opacity(0.2), radius: 5)
                         .padding(.bottom, 15)
                     HStack(spacing: 140){
+                        NavigationLink(destination: forgetpwd1().navigationBarBackButtonHidden()){
                             Text("Forget Password ?")
                                 .font(.body)
                                 .padding(.all, 5)
-                        Button(action: {
-                            // Handle sign-in logic here
-                        }) {
+                        }
+                        .accentColor(.black)
+                        NavigationLink(destination: home() .navigationBarBackButtonHidden(true)){
                             ZStack{
                                 Group {
                                     Circle()
@@ -111,10 +108,17 @@ struct login: View {
                     }
                         
                 }
-                    Text("Need an account ? Register Now!")
-                        .font(.body)
-                        .padding()
-                        .underline()
+                    NavigationLink(destination: signup().navigationBarBackButtonHidden()){
+                        Text("Need an account ? Register Now!")
+                            .font(.body)
+                            .padding()
+                            .underline()
+                        
+                    }
+                    .navigationTitle("Login")
+                    .navigationBarHidden(true)
+                    .accentColor(.gray)
+                }
             }
         }
     }
