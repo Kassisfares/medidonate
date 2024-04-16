@@ -95,7 +95,7 @@ struct editrequestmedicine: View {
                 .offset(y: -230)
             }
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarItems(leading:NavigationLink(destination: home().navigationBarBackButtonHidden(), label: {Image(systemName: "chevron.backward")
+            .navigationBarItems(leading:NavigationLink(destination: requestmedicine().navigationBarBackButtonHidden(), label: {Image(systemName: "chevron.backward")
                     .font(.title2)
                     .foregroundColor(.white)}))
         }

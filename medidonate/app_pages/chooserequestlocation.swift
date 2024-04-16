@@ -82,9 +82,20 @@ struct chooserequestlocation: View {
                         .foregroundColor(.primarycolor)
                         .cornerRadius(50)
                     VStack{
-                        Text("Choose location")
-                            .font(.title)
-                            .foregroundColor(.white)
+                        HStack{
+                            NavigationLink(destination: requestmedicine().navigationBarBackButtonHidden()) {
+                                Image(systemName: "plus")
+                                    .padding(.leading, 20)
+                                    .font(.title)
+                                    .rotationEffect(.degrees(45))
+                                    .foregroundColor(.white)
+                            }
+                            .offset(x: -70, y: -7)
+                            Text("Choose location")
+                                .font(.title)
+                                .foregroundColor(.white)
+                                .offset(x: -25)
+                        }
                         Text("Set location on map")
                             .font(.title3)
                             .foregroundColor(.white)
@@ -134,9 +145,9 @@ struct chooserequestlocation: View {
                 .offset(y: -570)
             }
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarItems(leading:NavigationLink(destination: home().navigationBarBackButtonHidden(), label: {Image(systemName: "chevron.backward")
+            .navigationBarItems(leading:Image(systemName: "chevron.backward")
                     .font(.title2)
-                    .foregroundColor(.white)}))
+                    .foregroundColor(.white))
         }
     }
 }

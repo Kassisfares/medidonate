@@ -8,152 +8,68 @@
 import SwiftUI
 
 struct conversation: View {
-    @State var message: String = ""
+    @State var messages: String = ""
     var body: some View {
         NavigationView{
             VStack {
+                ZStack{
+                        VStack{
+                            Image(systemName: "person.circle.fill")
+                                .resizable(resizingMode: .tile)
+                                .frame(width: 50, height: 50)
+                                .padding(.leading, 5)
+                            HStack{
+                                Text("Stephen Yustiono")
+                                    .font(.footnote)
+                                    .foregroundColor(.black)
+                            }
+                        }
+                }
                 ScrollView{
+                    ForEach(0..<10){ index in
+                        ZStack{
+                            RoundedRectangle(cornerRadius: 15)
+                                .foregroundStyle(Color.primarycolor)
+                                .frame(width: 250, height: 80, alignment: .center)
+                            VStack(alignment: .leading){
+                                Text("Lorem ipsum dolor sit")
+                                    .fontWeight(.medium)
+                                    .foregroundColor(.white)
+                                Text("amet, consectetur.")
+                                    .fontWeight(.medium)
+                                    .foregroundColor(.white)
+                            }
+                            .padding(.leading, -50)
+                        }
+                    }
+                }
+                VStack {
                     ZStack{
                         Group{
-                            Rectangle()
-                                .fill(Color.primarycolor)
-                                .frame(width: 400, height: 180)
-                            Text("Messages")
-                                .font(.title2)
+                            RoundedRectangle(cornerRadius: 30)
+                                .frame(width: 350, height: 50)
+                                .padding(.all, 8)
                                 .foregroundColor(Color.white)
-                                .offset(x: -100, y:-12)
-                            VStack{
-                                Image(systemName: "person.circle.fill")
-                                    .resizable(resizingMode: .tile)
-                                    .frame(width: 50, height: 50)
-                                    .padding(.leading, 5)
-                                HStack{
-                                    Text("Stephen Yustiono")
-                                        .font(.footnote)
-                                        .foregroundColor(.white)
-                                    Image(systemName: "chevron.forward")
-                                        .foregroundColor(.white)
-                                        .font(.footnote)
-                                }
-                            }
-                            .offset(y: 35)
+                                .cornerRadius(30)
+                                .shadow(color: .black, radius: 2)
+                            TextField("Aa", text: $messages, axis: .vertical)
+                                .frame(width: 280, height: 50)
+                                .offset(x: -20)
+                            NavigationLink(destination: conversation().navigationBarBackButtonHidden(), label: {Image(systemName: "arrow.up.circle.fill")
+                                    .foregroundColor(Color("primarycolor"))
+                                .font(.system(size: 35))})
+                            .offset(x: 150)
                         }
-                        .offset(y: -100)
                     }
-                    ZStack{
-                        RoundedRectangle(cornerRadius: 15)
-                            .foregroundStyle(Color.primarycolor)
-                            .frame(width: 250, height: 80, alignment: .center)
-                        Text("Lorem ipsum dolor sit")
-                            .padding(.bottom, 50)
-                        Text("amet, consectetur.")
-                            .fontWeight(.medium)
-                            .foregroundColor(.white)
-                    }
-                    .offset(x: 60, y: -90)
-                    ZStack{
-                        RoundedRectangle(cornerRadius: 15)
-                            .foregroundStyle(Color.primarycolor)
-                            .frame(width: 250, height: 80, alignment: .center)
-                        Text("Lorem ipsum dolor sit")
-                            .padding(.bottom, 50)
-                        Text("amet, consectetur.")
-                            .fontWeight(.medium)
-                            .foregroundColor(.white)
-                    }
-                    .offset(x: 60, y: -90)
-                    ZStack{
-                        RoundedRectangle(cornerRadius: 15)
-                            .foregroundStyle(Color.primarycolor)
-                            .frame(width: 250, height: 80, alignment: .center)
-                        Text("Lorem ipsum dolor sit")
-                            .padding(.bottom, 50)
-                        Text("amet, consectetur.")
-                            .fontWeight(.medium)
-                            .foregroundColor(.white)
-                    }
-                    .offset(x: 60, y: -90)
-                    ZStack{
-                        RoundedRectangle(cornerRadius: 15)
-                            .foregroundStyle(Color.primarycolor)
-                            .frame(width: 250, height: 80, alignment: .center)
-                        Text("Lorem ipsum dolor sit")
-                            .padding(.bottom, 50)
-                        Text("amet, consectetur.")
-                            .fontWeight(.medium)
-                            .foregroundColor(.white)
-                    }
-                    .offset(x: 60, y: -90)
-                    ZStack{
-                        RoundedRectangle(cornerRadius: 15)
-                            .foregroundStyle(Color.primarycolor)
-                            .frame(width: 250, height: 80, alignment: .center)
-                        Text("Lorem ipsum dolor sit")
-                            .padding(.bottom, 50)
-                        Text("amet, consectetur.")
-                            .fontWeight(.medium)
-                            .foregroundColor(.white)
-                    }
-                    .offset(x: 60, y: -90)
-                    ZStack{
-                        RoundedRectangle(cornerRadius: 15)
-                            .foregroundStyle(Color.primarycolor)
-                            .frame(width: 250, height: 80, alignment: .center)
-                        Text("Lorem ipsum dolor sit")
-                            .padding(.bottom, 50)
-                        Text("amet, consectetur.")
-                            .fontWeight(.medium)
-                            .foregroundColor(.white)
-                    }
-                    .offset(x: 60, y: -90)
-                    ZStack{
-                        RoundedRectangle(cornerRadius: 15)
-                            .foregroundStyle(Color.primarycolor)
-                            .frame(width: 250, height: 80, alignment: .center)
-                        Text("Lorem ipsum dolor sit")
-                            .padding(.bottom, 50)
-                        Text("amet, consectetur.")
-                            .fontWeight(.medium)
-                            .foregroundColor(.white)
-                    }
-                    .offset(x: 60, y: -90)
-                    ZStack{
-                        RoundedRectangle(cornerRadius: 15)
-                            .foregroundStyle(Color.primarycolor)
-                            .frame(width: 250, height: 80, alignment: .center)
-                        Text("Lorem ipsum dolor sit")
-                            .padding(.bottom, 50)
-                        Text("amet, consectetur.")
-                            .fontWeight(.medium)
-                            .foregroundColor(.white)
-                    }
-                    .offset(x: 60, y: -90)
-                    TextField("hello", text: $message, axis: .vertical)
-                        .background(.red)
-                        .lineLimit(/*@START_MENU_TOKEN@*/2/*@END_MENU_TOKEN@*/)
                 }
-                .navigationBarItems(leading:NavigationLink(destination: home().navigationBarBackButtonHidden(), label: {Image(systemName: "chevron.backward")
-                        .font(.title2)
-                .foregroundColor(.white)}))
             }
+            .navigationBarItems(leading:NavigationLink(destination: message().navigationBarBackButtonHidden(), label: {Image(systemName: "chevron.backward")
+                    .font(.title2)
+                .foregroundColor(.black)}))
         }
     }
 }
 #Preview {
     conversation()
-}
-struct messagebar: View {
-    @State var message: String = ""
-    var body: some View {
-        VStack {
-            ScrollView{
-                TextField("hello", text: $message, axis: .vertical)
-                    .background(.red)
-            }
-        }
-    }
-}
-#Preview {
-    messagebar()
 }
 

@@ -8,6 +8,13 @@
 import SwiftUI
 struct donatepost: View {
     @State var text: String = ""
+    @State var category: String = ""
+    @State private var fab_date = Date()
+    @State private var exp_date = Date()
+    @State private var quantity: Int = 0
+    @State var choicemade = "Tap to select medicine's type"
+    @State var medicinee = "tap to select medicine's name"
+    @State var donate: Bool = false
     var body: some View {
         NavigationView{
             ScrollView{
@@ -88,7 +95,9 @@ struct donatepost: View {
                         .padding(.top)
                 }
                 Group{
-                    NavigationLink (destination: postdetails().navigationBarBackButtonHidden(), label:{
+                    Button(action: {
+                        donate.toggle()
+                    }, label: {
                         ZStack{
                             RoundedRectangle(cornerRadius: 30)
                                 .stroke(Color.primarycolor, lineWidth: 1)
@@ -104,23 +113,153 @@ struct donatepost: View {
                             }
                         }
                     })
-                    .padding(.bottom, 10)
-                    NavigationLink (destination: addlocation().navigationBarBackButtonHidden(), label:{
-                        ZStack{
-                            RoundedRectangle(cornerRadius: 30)
-                                .stroke(Color.primarycolor, lineWidth: 1)
-                                .foregroundStyle(Color.white)
-                                .frame(width: 180, height: 40, alignment: .center)
-                            HStack{
-                                Image(systemName: "map.circle")
-                                    .foregroundColor(.primarycolor)
-                                Text("Add address")
-                                    .foregroundColor(.primarycolor)
-                                Image(systemName: "plus.circle")
-                                    .foregroundColor(.primarycolor)
+                    if donate{
+                        Group{
+                            ZStack{
+                                VStack{
+                                    Text("Medicine Name")
+                                        .offset(x: -120)
+                                        .frame(height: 25)
+                                    ZStack(alignment: .leading){
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(Color.black, lineWidth: 2)
+                                            .foregroundColor(.white)
+                                            .frame(width: 365, height: 50)
+                                            .cornerRadius(10)
+                                        Menu("\(medicinee)"){
+                                            Button("panadole"){
+                                                medicinee = "panadole"
+                                            }
+                                            Button("maxilase"){
+                                                medicinee = "maxilase"
+                                            }
+                                            Button("vaccines"){
+                                                medicinee = "vaccines"
+                                            }
+                                            Button("moov"){
+                                                medicinee = "moov"
+                                            }
+                                        }
+                                        .foregroundColor(.gray)
+                                        .padding(.leading)
+                                        .frame(width: 250, alignment: .leading)
+                                    }
+                                    Text("Medicine Category")
+                                        .offset(x: -105)
+                                        .frame(height: 25)
+                                    ZStack(alignment: .leading){
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(Color.black, lineWidth: 2)
+                                            .foregroundColor(.white)
+                                            .frame(width: 365, height: 50)
+                                            .cornerRadius(10)
+                                        TextField("Medicine category(it will be auto fill)", text: $category)
+                                            .font(.headline)
+                                            .frame(width: 300, height: 50)
+                                            .padding(.leading)
+                                            .fontWeight(.regular)
+                                    }
+                                    Text("Medicine Type")
+                                        .offset(x: -120)
+                                        .frame(height: 25)
+                                    ZStack(alignment: .leading){
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(Color.black, lineWidth: 2)
+                                            .foregroundColor(.white)
+                                            .frame(width: 365, height: 50)
+                                            .cornerRadius(10)
+                                        Menu("\(choicemade)"){
+                                            Button("pills"){
+                                                choicemade = "pills"
+                                            }
+                                            Button("sirop"){
+                                                choicemade = "sirop"
+                                            }
+                                            Button("injections"){
+                                                choicemade = "injections"
+                                            }
+                                            Button("spray"){
+                                                choicemade = "spray"
+                                            }
+                                        }
+                                        .foregroundColor(.gray)
+                                        .padding(.leading)
+                                        .frame(width: 250, alignment: .leading)
+                                    }
+                                    ZStack{
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(Color.black, lineWidth: 2)
+                                            .foregroundColor(.white)
+                                            .frame(width: 300, height: 50)
+                                            .cornerRadius(10)
+                                            .padding(.top, 3)
+                                        Stepper(value: $quantity, in: 0...100,step: 1){
+                                            Text("Quantity: \(quantity)")
+                                        }
+                                        .frame(width: 220)
+                                    }
+                                    ZStack{
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(Color.black, lineWidth: 2)
+                                            .foregroundColor(.white)
+                                            .frame(width: 300, height: 50)
+                                            .cornerRadius(10)
+                                            .padding(.top, 3)
+                                            .padding(.bottom, 3)
+                                        DatePicker("Fab_Date", selection: $fab_date, in: ...Date(), displayedComponents:.date)
+                                            .frame(width: 220)
+                                    }
+                                    ZStack{
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(Color.black, lineWidth: 2)
+                                            .foregroundColor(.white)
+                                            .frame(width: 300, height: 50)
+                                            .cornerRadius(10)
+                                        DatePicker("Exp_Date", selection: $exp_date, in: Date()..., displayedComponents:.date)
+                                            .frame(width: 220)
+                                    }
+                                    HStack(spacing: 30){
+                                        Group{
+                                            Button {
+                                                donate.toggle()
+                                            } label: {
+                                                ZStack{
+                                                    RoundedRectangle(cornerRadius: 15)
+                                                        .stroke(Color.primarycolor, lineWidth: 1)
+                                                        .foregroundStyle(Color.white)
+                                                        .frame(width: 100, height: 40, alignment: .center)
+                                                    HStack{
+                                                        Text("Cancel")
+                                                            .fontWeight(.medium)
+                                                            .foregroundColor(.primarycolor)
+                                                    }
+                                                }
+                                            }
+                                            
+                                            NavigationLink (destination: addmedicine().navigationBarBackButtonHidden(), label:{
+                                                ZStack{
+                                                    RoundedRectangle(cornerRadius: 15)
+                                                        .foregroundStyle(Color.primarycolor)
+                                                        .frame(width: 100, height: 40, alignment: .center)
+                                                    HStack{
+                                                        Text("Add")
+                                                            .fontWeight(.medium)
+                                                            .foregroundColor(.white)
+                                                    }
+                                                }
+                                            })
+                                        }
+                                        .offset(y: 20)
+                                    }
+                                }
                             }
                         }
-                    })
+                        .background()
+                        .offset(y: -450)
+                        .transition(.move(edge: .bottom))
+                        .animation(.easeInOut)
+                        .edgesIgnoringSafeArea(.bottom)
+                    }
                 }
                 .offset(y: 400)
             }

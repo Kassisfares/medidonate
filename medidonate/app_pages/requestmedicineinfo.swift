@@ -9,6 +9,7 @@ import SwiftUI
 
 struct requestmedicineinfo: View {
     @State private var quantity: Int = 0
+    @Environment(\.dismiss) private var dismiss
     var body: some View {
         NavigationView{
             ScrollView{
@@ -16,6 +17,7 @@ struct requestmedicineinfo: View {
                     .resizable(resizingMode: .stretch)
                     .frame(width: 150, height:
                             180)
+                    .padding()
                 VStack(alignment: .leading){
                     Group{
                         Text("Panadol")
@@ -85,7 +87,9 @@ struct requestmedicineinfo: View {
                         .padding()
                         .frame(width: 220)
                     }
-                    NavigationLink (destination: requestmedicine().navigationBarBackButtonHidden(), label:{
+                    Button(action: {
+                        dismiss()
+                    }, label: {
                         ZStack{
                             RoundedRectangle(cornerRadius: 15)
                                 .foregroundStyle(Color.primarycolor)
@@ -99,10 +103,6 @@ struct requestmedicineinfo: View {
                     })
                 }
             }
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationBarItems(leading:NavigationLink(destination: requestmedicine().navigationBarBackButtonHidden(), label: {Image(systemName: "chevron.backward")
-                    .font(.title2)
-                    .foregroundColor(.primarycolor)}))
         }
     }
 }

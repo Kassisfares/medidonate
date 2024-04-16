@@ -8,6 +8,14 @@
 import SwiftUI
 struct addmedicine: View {
     @State var text: String = ""
+    @State var category: String = ""
+    @State private var fab_date = Date()
+    @State private var exp_date = Date()
+    @State private var quantity: Int = 0
+    @State var choicemade = "Tap to select medicine's type"
+    @State var medicinee = "tap to select medicine's name"
+    @State var showview4: Bool = false
+    @State var showview5: Bool = false
     var body: some View {
         NavigationView{
             ScrollView{
@@ -101,7 +109,9 @@ struct addmedicine: View {
                 }
                 .padding(.leading, -30)
                 Group{
-                    NavigationLink (destination: postdetails().navigationBarBackButtonHidden(), label:{
+                    Button(action: {
+                        showview4.toggle()
+                    }, label: {
                         ZStack{
                             RoundedRectangle(cornerRadius: 30)
                                 .stroke(Color.primarycolor, lineWidth: 1)
@@ -118,7 +128,157 @@ struct addmedicine: View {
                         }
                     })
                     .padding(.bottom, 10)
-                    NavigationLink (destination: addlocation().navigationBarBackButtonHidden(), label:{
+                    if showview4{
+                        Group{
+                            ZStack{
+                                VStack{
+                                    Text("Medicine Name")
+                                        .offset(x: -120)
+                                        .frame(height: 25)
+                                    ZStack(alignment: .leading){
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(Color.black, lineWidth: 2)
+                                            .foregroundColor(.white)
+                                            .frame(width: 365, height: 50)
+                                            .cornerRadius(10)
+                                        Menu("\(medicinee)"){
+                                            Button("panadole"){
+                                                medicinee = "panadole"
+                                            }
+                                            Button("maxilase"){
+                                                medicinee = "maxilase"
+                                            }
+                                            Button("vaccines"){
+                                                medicinee = "vaccines"
+                                            }
+                                            Button("moov"){
+                                                medicinee = "moov"
+                                            }
+                                        }
+                                        .foregroundColor(.gray)
+                                        .padding(.leading)
+                                        .frame(width: 250, alignment: .leading)
+                                    }
+                                    Text("Medicine Category")
+                                        .offset(x: -105)
+                                        .frame(height: 25)
+                                    ZStack(alignment: .leading){
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(Color.black, lineWidth: 2)
+                                            .foregroundColor(.white)
+                                            .frame(width: 365, height: 50)
+                                            .cornerRadius(10)
+                                        TextField("Medicine category(it will be auto fill)", text: $category)
+                                            .font(.headline)
+                                            .frame(width: 300, height: 50)
+                                            .padding(.leading)
+                                            .fontWeight(.regular)
+                                    }
+                                    Text("Medicine Type")
+                                        .offset(x: -120)
+                                        .frame(height: 25)
+                                    ZStack(alignment: .leading){
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(Color.black, lineWidth: 2)
+                                            .foregroundColor(.white)
+                                            .frame(width: 365, height: 50)
+                                            .cornerRadius(10)
+                                        Menu("\(choicemade)"){
+                                            Button("pills"){
+                                                choicemade = "pills"
+                                            }
+                                            Button("sirop"){
+                                                choicemade = "sirop"
+                                            }
+                                            Button("injections"){
+                                                choicemade = "injections"
+                                            }
+                                            Button("spray"){
+                                                choicemade = "spray"
+                                            }
+                                        }
+                                        .foregroundColor(.gray)
+                                        .padding(.leading)
+                                        .frame(width: 250, alignment: .leading)
+                                    }
+                                    ZStack{
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(Color.black, lineWidth: 2)
+                                            .foregroundColor(.white)
+                                            .frame(width: 300, height: 50)
+                                            .cornerRadius(10)
+                                            .padding(.top, 3)
+                                        Stepper(value: $quantity, in: 0...100,step: 1){
+                                            Text("Quantity: \(quantity)")
+                                        }
+                                        .frame(width: 220)
+                                    }
+                                    ZStack{
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(Color.black, lineWidth: 2)
+                                            .foregroundColor(.white)
+                                            .frame(width: 300, height: 50)
+                                            .cornerRadius(10)
+                                            .padding(.top, 3)
+                                            .padding(.bottom, 3)
+                                        DatePicker("Fab_Date", selection: $fab_date, in: ...Date(), displayedComponents:.date)
+                                            .frame(width: 220)
+                                    }
+                                    ZStack{
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(Color.black, lineWidth: 2)
+                                            .foregroundColor(.white)
+                                            .frame(width: 300, height: 50)
+                                            .cornerRadius(10)
+                                        DatePicker("Exp_Date", selection: $exp_date, in: Date()..., displayedComponents:.date)
+                                            .frame(width: 220)
+                                    }
+                                    HStack(spacing: 30){
+                                        Group{
+                                            Button {
+                                                showview4.toggle()
+                                            } label: {
+                                                ZStack{
+                                                    RoundedRectangle(cornerRadius: 15)
+                                                        .stroke(Color.primarycolor, lineWidth: 1)
+                                                        .foregroundStyle(Color.white)
+                                                        .frame(width: 100, height: 40, alignment: .center)
+                                                    HStack{
+                                                        Text("Cancel")
+                                                            .fontWeight(.medium)
+                                                            .foregroundColor(.primarycolor)
+                                                    }
+                                                }
+                                            }
+                                            Button {
+                                                showview4.toggle()
+                                            } label: {
+                                                ZStack{
+                                                    RoundedRectangle(cornerRadius: 15)
+                                                        .foregroundStyle(Color.primarycolor)
+                                                        .frame(width: 100, height: 40, alignment: .center)
+                                                    HStack{
+                                                        Text("Add")
+                                                            .fontWeight(.medium)
+                                                            .foregroundColor(.white)
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        .offset(y: 20)
+                                    }
+                                }
+                            }
+                        }
+                        .background()
+                        .offset(y: -450)
+                        .transition(.move(edge: .bottom))
+                        .animation(.easeInOut)
+                        .edgesIgnoringSafeArea(.bottom)
+                    }
+                    Button {
+                        showview5.toggle()
+                    } label: {
                         ZStack{
                             RoundedRectangle(cornerRadius: 30)
                                 .stroke(Color.primarycolor, lineWidth: 1)
@@ -133,7 +293,82 @@ struct addmedicine: View {
                                     .foregroundColor(.primarycolor)
                             }
                         }
-                    })
+                    }
+                    if showview5 {
+                        ZStack(alignment: .bottom){
+                            Rectangle()
+                                .frame(width: 400, height: 430)
+                                .foregroundColor(.primarycolor)
+                                .cornerRadius(50)
+                            VStack{
+                                HStack{
+                                    Button(action: {
+                                        showview5.toggle()
+                                    }, label: {
+                                        Image(systemName: "plus")
+                                            .padding(.leading, 20)
+                                            .font(.title)
+                                            .rotationEffect(.degrees(45))
+                                            .foregroundColor(.white)
+                                    })
+                                    .offset(x: -70, y: -7)
+                                    Text("Choose location")
+                                        .font(.title)
+                                        .foregroundColor(.white)
+                                        .offset(x: -25)
+                                }
+                                Text("Set location on map")
+                                    .font(.title3)
+                                    .foregroundColor(.white)
+                                    .offset(x: -90)
+                                    .padding(.bottom, 10)
+                                NavigationLink (destination: addlocation2().navigationBarBackButtonHidden(), label:{
+                                    Image("map")
+                                        .resizable(resizingMode: .stretch)
+                                        .frame(width: 300, height: 200)
+                                })
+                                HStack{
+                                    Rectangle()
+                                        .fill(Color.gray3)
+                                        .frame(width:100, height: 2)
+                                        .offset(y: -2)
+                                    Text("Or")
+                                        .foregroundColor(.white)
+                                        .padding(.leading)
+                                        .padding(.trailing)
+                                    Rectangle()
+                                        .fill(Color.gray3)
+                                        .frame(width:100, height: 2)
+                                        .offset(y: -2)
+                                }
+                                .padding(.top, 10)
+                                .padding(.bottom, 10)
+                                NavigationLink (destination: addlocation2().navigationBarBackButtonHidden(), label:{
+                                    ZStack{
+                                        Rectangle()
+                                            .cornerRadius(12)
+                                            .foregroundStyle(Color.white)
+                                            .frame(width: 250, height: 40, alignment: .center)
+                                        HStack{
+                                            Image(systemName: "plus")
+                                                .foregroundColor(.primarycolor)
+                                                .fontWeight(.medium)
+                                            Text("Add new location")
+                                                .font(.title2)
+                                                .fontWeight(.medium)
+                                                .multilineTextAlignment(.center)
+                                                .foregroundStyle(.primarycolor)
+                                        }
+                                    }
+                                })
+                            }
+                            .offset(y: -20)
+                        }
+                        .offset(y: -380)
+                        .transition(.move(edge: .bottom))
+                        .animation(.easeInOut)
+                        .edgesIgnoringSafeArea(.bottom)
+                    }
                 }
                 .offset(y: 300)
             }

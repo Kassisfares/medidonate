@@ -38,6 +38,7 @@ struct login: View {
                         .shadow(color: .black.opacity(0.2), radius: 5)
                         .padding(.bottom, 15)
                     TextField("Password", text: $password)
+                        .textContentType(.password)
                         .frame(width: 330, height: 50)
                         .padding()
                         .background(Color.white)

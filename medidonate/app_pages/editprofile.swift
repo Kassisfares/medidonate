@@ -19,18 +19,6 @@ struct editprofile: View {
         NavigationView{
             ScrollView{
                 VStack {
-                    ZStack{
-                        Group{
-                            Rectangle()
-                                .fill(Color.primarycolor)
-                                .frame(width: 400, height: 136)
-                            Text("Your profile")
-                                .font(.title2)
-                                .fontWeight(.regular)
-                                .foregroundColor(Color.white)
-                                .offset(x: -100, y: 17)
-                        }
-                    }
                     Image(systemName: "person.circle.fill")
                         .resizable(resizingMode: .tile)
                         .frame(width: 100, height: 100)
@@ -155,11 +143,12 @@ struct editprofile: View {
                         })
                     }
                 }
-                .offset(y: -107)
             }
+            .navigationTitle("Profile")
+            .navigationBarTitleDisplayMode(.inline)
             .navigationBarItems(leading:NavigationLink(destination: settings().navigationBarBackButtonHidden(), label: {Image(systemName: "chevron.backward")
                     .font(.title2)
-                .foregroundColor(.white)}))
+                .foregroundColor(.black)}))
         }
     }
 }
