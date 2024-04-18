@@ -126,15 +126,26 @@ struct changelocation: View {
                             .shadow(color: .black.opacity(0.2), radius: 5)
                     }
                     .offset(y: -200)
-                    ZStack{
+                    ZStack(alignment: .bottom){
                         Rectangle()
                             .frame(width: 400, height: 430)
                             .foregroundColor(.primarycolor)
                             .cornerRadius(50)
                         VStack{
-                            Text("Choose location")
-                                .font(.title)
-                                .foregroundColor(.white)
+                            HStack{
+                                NavigationLink (destination: settings().navigationBarBackButtonHidden(), label:{
+                                    Image(systemName: "plus")
+                                        .padding(.leading, 20)
+                                        .font(.title)
+                                        .rotationEffect(.degrees(45))
+                                        .foregroundColor(.white)
+                                })
+                                .offset(x: -70, y: -7)
+                                Text("Choose location")
+                                    .font(.title)
+                                    .foregroundColor(.white)
+                                    .offset(x: -25)
+                            }
                             Text("Set location on map")
                                 .font(.title3)
                                 .foregroundColor(.white)
@@ -180,8 +191,9 @@ struct changelocation: View {
                                 }
                             })
                         }
+                        .offset(y: -20)
                     }
-                    .offset(y: 70)
+                    .offset(y: 63)
                 }
             }
             .navigationBarItems(leading:NavigationLink(destination: settings().navigationBarBackButtonHidden(), label: {Image(systemName: "chevron.backward")

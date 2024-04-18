@@ -116,8 +116,6 @@ struct login: View {
                             .underline()
                         
                     }
-                    .navigationTitle("Login")
-                    .navigationBarHidden(true)
                     .accentColor(.gray)
                 }
             }

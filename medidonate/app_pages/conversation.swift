@@ -24,24 +24,28 @@ struct conversation: View {
                                     .foregroundColor(.black)
                             }
                         }
+                        .offset(y: -20)
                 }
                 ScrollView{
                     ForEach(0..<10){ index in
+                        let condition = index%2 == 0
+                        let condition1 = index%1 == 1
                         ZStack{
                             RoundedRectangle(cornerRadius: 15)
-                                .foregroundStyle(Color.primarycolor)
-                                .frame(width: 250, height: 80, alignment: .center)
+                                .foregroundStyle(condition ? Color(.gray4) : Color(.primarycolor))
+                                .frame(width: 250, height: 80, alignment: .leading)
+                                .padding(condition ? .leading : .trailing, -100)
                             VStack(alignment: .leading){
-                                Text("Lorem ipsum dolor sit")
+                                Text("Lorem ipsum dolor sit amet, consectetur.")
+                                    .frame(width: 225)
                                     .fontWeight(.medium)
                                     .foregroundColor(.white)
-                                Text("amet, consectetur.")
-                                    .fontWeight(.medium)
-                                    .foregroundColor(.white)
+                                    .padding(condition ? .leading : .trailing, -100)
+                                    .padding(condition1 ? .leading : .trailing, -10)
                             }
-                            .padding(.leading, -50)
                         }
                     }
+                    .frame(width: 390.0)
                 }
                 VStack {
                     ZStack{

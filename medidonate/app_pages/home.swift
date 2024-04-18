@@ -8,7 +8,6 @@
 import SwiftUI
 
 enum Pages{
-    case message1
     case conversation1
 }
 
@@ -109,7 +108,6 @@ struct home: View {
                                         .frame(width: 280, height: 50)
                                         .offset(x: -20)
                                     Button {
-                                        path.append(Pages.message1)
                                         path.append(Pages.conversation1)
                                     } label: {
                                     Image(systemName: "arrow.up.circle.fill")
@@ -144,7 +142,7 @@ struct home: View {
                                         .foregroundColor(.gray4)
                                 }
                                 .frame(width: 200, height: 50, alignment: .leading)
-                                NavigationLink(destination: createpost().navigationBarBackButtonHidden()){
+                                NavigationLink(destination: requestmedicine().navigationBarBackButtonHidden()){
                                     ZStack(){
                                         Group{
                                             Rectangle()
@@ -172,10 +170,14 @@ struct home: View {
                                     .frame(width: 360, height: 80, alignment: .leading)
                                     .padding(.leading, 25)
                             }
-                            HStack(alignment: .center, spacing: 10){
-                                Image("claritine")
-                                    .resizable(resizingMode: .stretch)
-                                    .frame(width: 200, height: 250)
+                            NavigationLink(destination: requestmedicine().navigationBarBackButtonHidden()){
+                                ZStack{
+                                    HStack(alignment: .center, spacing: 10){
+                                        Image("claritine")
+                                            .resizable(resizingMode: .stretch)
+                                            .frame(width: 200, height: 250)
+                                    }
+                                }
                             }
                             .padding(.leading, 18)
                             ZStack{
@@ -190,7 +192,6 @@ struct home: View {
                                         .frame(width: 280, height: 50)
                                         .offset(x: -20)
                                     Button {
-                                        path.append(Pages.message1)
                                         path.append(Pages.conversation1)
                                     } label: {
                                     Image(systemName: "arrow.up.circle.fill")
@@ -226,8 +227,6 @@ struct Navigator{
     @ViewBuilder
     static func navigate(page: Pages) -> some View{
         switch page {
-        case .message1:
-            message1()
         case .conversation1:
             conversation1()
         }
@@ -263,24 +262,28 @@ struct conversation1: View {
                                     .foregroundColor(.black)
                             }
                         }
+                        .offset(y: -20)
                 }
                 ScrollView{
                     ForEach(0..<10){ index in
+                        let condition = index%2 == 0
+                        let condition1 = index%1 == 1
                         ZStack{
                             RoundedRectangle(cornerRadius: 15)
-                                .foregroundStyle(Color.primarycolor)
-                                .frame(width: 250, height: 80, alignment: .center)
+                                .foregroundStyle(condition ? Color(.gray4) : Color(.primarycolor))
+                                .frame(width: 250, height: 80, alignment: .leading)
+                                .padding(condition ? .leading : .trailing, -100)
                             VStack(alignment: .leading){
-                                Text("Lorem ipsum dolor sit")
+                                Text("Lorem ipsum dolor sit amet, consectetur.")
+                                    .frame(width: 225)
                                     .fontWeight(.medium)
                                     .foregroundColor(.white)
-                                Text("amet, consectetur.")
-                                    .fontWeight(.medium)
-                                    .foregroundColor(.white)
+                                    .padding(condition ? .leading : .trailing, -100)
+                                    .padding(condition1 ? .leading : .trailing, -10)
                             }
-                            .padding(.leading, -50)
                         }
                     }
+                    .frame(width: 390.0)
                 }
                 VStack {
                     ZStack{
@@ -316,70 +319,70 @@ struct conversation1: View {
 //  Created by fares kassis on 11/3/2024.
 //
 
-import SwiftUI
-
-struct message1: View {
-    @State var search: String = ""
-    var body: some View {
-        NavigationView{
-            ScrollView{
-                VStack {
-                    ZStack{
-                        Group{
-                            ZStack{
-                                TextField("search", text: $search)
-                                    .frame(width: 330, height: 20)
-                                    .padding()
-                                    .background(Color.gray5)
-                                    .cornerRadius(20)
-                                    .foregroundColor(.gray)
-                                Image(systemName: "magnifyingglass")
-                                    .foregroundColor(.gray)
-                                    .offset(x: 150)
-                            }
-                            .offset(y: -350)
-                        }
-                        .offset(y: -50)
-                        VStack{
-                            ForEach(0..<10){ index in
-                                HStack{
-                                    Circle()
-                                        .frame(width: 15, height: 15)
-                                        .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
-                                        .padding(.leading, 25)
-                                    NavigationLink(destination: conversation().navigationBarBackButtonHidden()){
-                                        Image(systemName: "person.circle.fill")
-                                            .resizable(resizingMode: .tile)
-                                            .frame(width: 50, height: 50)
-                                            .padding(.leading, 5)
-                                        VStack(alignment: .leading){
-                                            Text("Stephen Yustiono")
-                                                .font(.title2)
-                                                .fontWeight(.bold)
-                                                .foregroundColor(.black)
-                                            Text("Lorem ipsum dolor sit amet consectetur adipiscing elit.")
-                                                .frame(width: 200, height: 50, alignment: .leading)
-                                                .font(.callout)
-                                                .fontWeight(.light)
-                                                .foregroundColor(.gray)
-                                                .padding(.top, -15)
-                                        }
-                                    }
-                                }
-                            }
-                            .offset(x: -45, y:90)
-                        }
-                    }
-                }
-            }
-            //.navigationTitle("Messages")
-            //.navigationBarTitleDisplayMode(.inline)
-        }
-    }
-}
-#Preview {
-    message1()
-}
+//import SwiftUI
+//
+//struct message1: View {
+//    @State var search: String = ""
+//    var body: some View {
+//        NavigationView{
+//            ScrollView{
+//                VStack {
+//                    ZStack{
+//                        Group{
+//                            ZStack{
+//                                TextField("search", text: $search)
+//                                    .frame(width: 330, height: 20)
+//                                    .padding()
+//                                    .background(Color.gray5)
+//                                    .cornerRadius(20)
+//                                    .foregroundColor(.gray)
+//                                Image(systemName: "magnifyingglass")
+//                                    .foregroundColor(.gray)
+//                                    .offset(x: 150)
+//                            }
+//                            .offset(y: -350)
+//                        }
+//                        .offset(y: -50)
+//                        VStack{
+//                            ForEach(0..<10){ index in
+//                                HStack{
+//                                    Circle()
+//                                        .frame(width: 15, height: 15)
+//                                        .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
+//                                        .padding(.leading, 25)
+//                                    NavigationLink(destination: conversation().navigationBarBackButtonHidden()){
+//                                        Image(systemName: "person.circle.fill")
+//                                            .resizable(resizingMode: .tile)
+//                                            .frame(width: 50, height: 50)
+//                                            .padding(.leading, 5)
+//                                        VStack(alignment: .leading){
+//                                            Text("Stephen Yustiono")
+//                                                .font(.title2)
+//                                                .fontWeight(.bold)
+//                                                .foregroundColor(.black)
+//                                            Text("Lorem ipsum dolor sit amet consectetur adipiscing elit.")
+//                                                .frame(width: 200, height: 50, alignment: .leading)
+//                                                .font(.callout)
+//                                                .fontWeight(.light)
+//                                                .foregroundColor(.gray)
+//                                                .padding(.top, -15)
+//                                        }
+//                                    }
+//                                }
+//                            }
+//                            .offset(x: -45, y:90)
+//                        }
+//                    }
+//                }
+//            }
+//            //.navigationTitle("Messages")
+//            //.navigationBarTitleDisplayMode(.inline)
+//        }
+//    }
+//}
+//#Preview {
+//    message1()
+//}
 
 
 

@@ -177,7 +177,7 @@ struct requestmedicine: View {
                                     }
                                     .offset(y: -20)
                                 }
-                                .offset(x: -142, y: -340)
+                                .offset(x: -142, y: -330)
                                 .transition(.move(edge: .bottom))
                                 .animation(.easeInOut)
                                 .edgesIgnoringSafeArea(.bottom)

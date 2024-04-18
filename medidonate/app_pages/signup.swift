@@ -28,12 +28,12 @@ struct signup: View {
                         .font(.system(size: 50))
                         .fontWeight(.bold)
                         .foregroundColor(Color.white)
-                        .offset(x: -70, y: -335)
+                        .offset(x: -70, y: -310)
                     Text("Account")
                         .font(.system(size: 50))
                         .fontWeight(.bold)
                         .foregroundColor(Color.white)
-                        .offset(x: -50, y: -285)
+                        .offset(x: -47, y: -260)
                 }
                 VStack(alignment: .center, spacing: 10){
                     Spacer()

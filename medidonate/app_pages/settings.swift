@@ -11,8 +11,8 @@ struct settings: View {
     @State var email: String = ""
     @State var password: String = ""
     @State var showalert: Bool = false
-    @Environment(\.dismiss) var dismiss
-    @State var showview1: Bool = false
+    @State private var navigateToLogin = false
+
     var body: some View {
         NavigationView{
             VStack {
@@ -88,9 +88,7 @@ struct settings: View {
                             .fill(Color.gray1)
                             .frame(width: 350, height: 2)
                             .offset(x: 8)
-                        Button {
-                            showview1.toggle()
-                        } label: {
+                        NavigationLink(destination: changelocation().navigationBarBackButtonHidden()){
                             HStack{
                                 Image(systemName: "location")
                                     .padding(.bottom, 10)
@@ -107,8 +105,10 @@ struct settings: View {
                             .fill(Color.gray1)
                             .frame(width: 350, height: 2)
                             .offset(x: 8)
+                        
+                        NavigationLink(destination: login().navigationBarBackButtonHidden(), isActive: self.$navigateToLogin) { EmptyView() }
                         Button {
-                            showalert.toggle()
+                            showalert = true
                         } label: {
                             HStack{
                                 Image(systemName: "power.circle.fill")
@@ -124,11 +124,12 @@ struct settings: View {
                             }
                         }
                         .alert(isPresented: $showalert, content: {
-                            Alert(title: Text("Do you want to Log out ?"),
-                                  primaryButton: Alert.Button.destructive(Text("Log out")),
-                                  secondaryButton: Alert.Button.cancel(Text("cancel"), action: {
-                                dismiss()
-                            }))
+                            Alert(title: Text("Are you sure you want to Log out ?"),
+                                  primaryButton: Alert.Button.destructive(Text("Log out"), action: {
+                                self.navigateToLogin = true
+                            }),
+                                  secondaryButton: Alert.Button.cancel(Text("cancel")))
+                            
                         })
                     }
                     Text("Need Help?")
@@ -140,84 +141,6 @@ struct settings: View {
                         .shadow(color: .black.opacity(0.2), radius: 5)
                 }
                 .offset(y: -200)
-                
-                //hedi lezem nrigelha !!!
-                
-                if showview1 {
-                    ZStack(alignment: .bottom){
-                        Rectangle()
-                            .frame(width: 400, height: 430)
-                            .foregroundColor(.primarycolor)
-                            .cornerRadius(50)
-                        VStack{
-                            HStack{
-                                Button(action: {
-                                    showview1.toggle()
-                                }, label: {
-                                    Image(systemName: "plus")
-                                        .padding(.leading, 20)
-                                        .font(.title)
-                                        .rotationEffect(.degrees(45))
-                                        .foregroundColor(.white)
-                                })
-                                .offset(x: -70, y: -7)
-                                Text("Choose location")
-                                    .font(.title)
-                                    .foregroundColor(.white)
-                                    .offset(x: -25)
-                            }
-                            Text("Set location on map")
-                                .font(.title3)
-                                .foregroundColor(.white)
-                                .offset(x: -90)
-                                .padding(.bottom, 10)
-                            NavigationLink (destination: changelocation2().navigationBarBackButtonHidden(), label:{
-                                Image("map")
-                                    .resizable(resizingMode: .stretch)
-                                    .frame(width: 300, height: 200)
-                            })
-                            HStack{
-                                Rectangle()
-                                    .fill(Color.gray3)
-                                    .frame(width:100, height: 2)
-                                    .offset(y: -2)
-                                Text("Or")
-                                    .foregroundColor(.white)
-                                    .padding(.leading)
-                                    .padding(.trailing)
-                                Rectangle()
-                                    .fill(Color.gray3)
-                                    .frame(width:100, height: 2)
-                                    .offset(y: -2)
-                            }
-                            .padding(.top, 10)
-                            .padding(.bottom, 10)
-                            NavigationLink (destination: changelocation2().navigationBarBackButtonHidden(), label:{
-                                ZStack{
-                                    Rectangle()
-                                        .cornerRadius(12)
-                                        .foregroundStyle(Color.white)
-                                        .frame(width: 250, height: 40, alignment: .center)
-                                    HStack{
-                                        Image(systemName: "plus")
-                                            .foregroundColor(.primarycolor)
-                                            .fontWeight(.medium)
-                                        Text("Add new location")
-                                            .font(.title2)
-                                            .fontWeight(.medium)
-                                            .multilineTextAlignment(.center)
-                                            .foregroundStyle(.primarycolor)
-                                    }
-                                }
-                            })
-                        }
-                        .offset(y: -20)
-                    }
-                    .offset(y: -90)
-                    .transition(.move(edge: .bottom))
-                    .animation(.easeInOut)
-                    .edgesIgnoringSafeArea(.bottom)
-                }
             }
             .navigationBarItems(leading:NavigationLink(destination: home().navigationBarBackButtonHidden(), label: {Image(systemName: "chevron.backward")
                     .font(.title2)
