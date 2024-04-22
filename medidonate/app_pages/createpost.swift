@@ -15,6 +15,8 @@ struct createpost: View {
     @State var choicemade = "Tap to select medicine's type"
     @State var medicinee = "tap to select medicine's name"
     @State var showview3: Bool = false
+    @State private var request = false
+    @State private var donate = false
     var body: some View {
         NavigationView{
             ScrollView{
@@ -61,33 +63,21 @@ struct createpost: View {
                             Text("Freas Kassis")
                                 .font(.title3)
                                 .fontWeight(.semibold)
-                            HStack{
-                                NavigationLink (destination: requestpost().navigationBarBackButtonHidden(), label:{
-                                    ZStack{
-                                        RoundedRectangle(cornerRadius: 30)
-                                            .stroke(Color.primarycolor, lineWidth: 1)
-                                            .foregroundStyle(Color.white)
-                                            .frame(width: 75, height: 40, alignment: .center)
-                                        Text("Request")
-                                            .multilineTextAlignment(.center)
-                                            .foregroundStyle(.primarycolor)
-                                    }
-                                })
-                                NavigationLink (destination: donatepost().navigationBarBackButtonHidden(), label:{
-                                    ZStack{
-                                        RoundedRectangle(cornerRadius: 30)
-                                            .stroke(Color.primarycolor, lineWidth: 1)
-                                            .foregroundStyle(Color.white)
-                                            .frame(width: 75, height: 40, alignment: .center)
-                                        Text("Donate")
-                                            .multilineTextAlignment(.center)
-                                            .foregroundStyle(.primarycolor)
-                                    }
-                                })
+                            HStack(spacing: 9){
+                                Toggle("Request", isOn: $request)
+                                    .toggleStyle(.button)
+                                    .tint(Color.primarycolor)
+                                    .font(.headline)
+                                    .border(Color.primarycolor)
+                                Toggle("Donate", isOn: $donate)
+                                    .toggleStyle(.button)
+                                    .tint(Color.primarycolor)
+                                    .font(.headline)
+                                    .border(Color.primarycolor)
                             }
                         }
-                        .frame(width: 200, height: 60)
-                        .padding(.leading, 8)
+                        .frame(width: 180, height: 60)
+                        .padding(.leading, 25)
                     }
                     .padding(.top)
                     TextField("What's on your mind ?", text: $text)

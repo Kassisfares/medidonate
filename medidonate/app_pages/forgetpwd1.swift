@@ -27,7 +27,7 @@ struct forgetpwd1: View {
                     .padding(.bottom, 10)
                     .padding(.top, 10)
                     .padding(.leading, 35)
-                    
+                    .keyboardType(.emailAddress)
                 Rectangle()
                     .fill(Color.gray2)
                     .frame(width: 360, height: 2)

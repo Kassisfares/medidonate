@@ -10,6 +10,10 @@ import SwiftUI
 struct login: View {
     @State var email: String = ""
     @State var password: String = ""
+    @State private var wrongemail = 0
+    @State private var wrongpassword = 0
+    @State private var showhomescreen = false
+    @State private var navigateToHome = false
     var body: some View {
         NavigationView(){
             ZStack{
@@ -28,7 +32,7 @@ struct login: View {
                         .fontWeight(.bold)
                         .foregroundColor(Color.white)
                         .offset(x: -73, y: -260)
-                VStack(spacing: 5){
+                VStack(spacing: 14){
                     Spacer()
                     TextField("Email or Phone", text: $email)
                         .frame(width: 330, height: 50)
@@ -36,34 +40,40 @@ struct login: View {
                         .background(Color.white)
                         .cornerRadius(25)
                         .shadow(color: .black.opacity(0.2), radius: 5)
-                        .padding(.bottom, 15)
-                    TextField("Password", text: $password)
-                        .textContentType(.password)
+                        .border(.red, width: CGFloat(wrongemail))
+                        .keyboardType(.emailAddress)
+                    SecureField("Password", text: $password)
                         .frame(width: 330, height: 50)
                         .padding()
                         .background(Color.white)
                         .cornerRadius(25)
                         .shadow(color: .black.opacity(0.2), radius: 5)
-                        .padding(.bottom, 15)
+                        .border(.red, width: CGFloat(wrongpassword))
                     HStack(spacing: 140){
                         NavigationLink(destination: forgetpwd1().navigationBarBackButtonHidden()){
                             Text("Forget Password ?")
                                 .font(.body)
                                 .padding(.all, 5)
+                                .padding(.leading)
                         }
                         .accentColor(.black)
-                        NavigationLink(destination: home() .navigationBarBackButtonHidden(true)){
-                            ZStack{
-                                Group {
-                                    Circle()
-                                        .foregroundColor(.secondarycolor)
-                                        .frame(width: 64, height: 64)
-                                    Image(systemName: "arrowshape.right.fill")
-                                        .font(.system (size: 30))
-                                        .foregroundColor(.white)
+                        NavigationLink(destination: home().navigationBarBackButtonHidden(), isActive: $showhomescreen) {
+                            Button(action: {
+                                loginuser(email: email, password: password)
+                            }, label: {
+                                ZStack{
+                                    Group {
+                                        Circle()
+                                            .foregroundColor(.secondarycolor)
+                                            .frame(width: 64, height: 64)
+                                        Image(systemName: "arrowshape.right.fill")
+                                            .font(.system (size: 30))
+                                            .foregroundColor(.white)
+                                    }
+                                    .padding(.all, 5)
+                                    .padding(.trailing)
                                 }
-                                .padding(.all, 5)
-                            }
+                            })
                         }
                     }
                     Text("Or connect with")
@@ -119,6 +129,21 @@ struct login: View {
                     .accentColor(.gray)
                 }
             }
+        }
+    }
+    
+    func loginuser(email: String, password: String) {
+        if email.lowercased() == ""{
+            wrongemail = 2
+        } 
+        else if password.lowercased() == ""{
+            wrongpassword = 2
+            wrongemail = 0
+        }
+        else {
+            wrongemail = 0
+            wrongpassword = 0
+            showhomescreen = true
         }
     }
 }
