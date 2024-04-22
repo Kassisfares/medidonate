@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CountryPicker
 
 struct signup: View {
     @State var name: String = ""
@@ -23,6 +24,8 @@ struct signup: View {
     @State private var wrongRepassword = 0
     @State private var showhomescreen1 = false
     @State private var navigateToHome = false
+    @State var isShowPicker: Bool = false
+    @State var countryObj: Country?
     var body: some View {
         NavigationView{
             ZStack{
@@ -62,21 +65,30 @@ struct signup: View {
                             .frame(width: 330)
                     }
                     HStack{
-                        Group{
-                            TextField("+000", text: $code)
-                                .frame(width: 50, height: 30)
-                                .border(.red, width: CGFloat(wrongcode))
-                                .keyboardType(.phonePad)
+                            Button {
+                                isShowPicker = true
+                            } label: {
+                                if let countryObj = countryObj{
+                                    
+                                    Text("\( countryObj.isoCode.getFlag() )")
+                                        .font(.system(size: 30))
+                                        .foregroundColor(.black)
+                                    
+                                    Text("+\( countryObj.phoneCode )")
+                                        .font(.system(size: 20))
+                                        .foregroundColor(.black)
+                                }
+                            }
                             TextField("Phone Number", text: $phone_number)
                                 .frame(width: 240, height: 30)
-                                .border(.red, width: CGFloat(wrongnumber))
+                                .font(.system(size: 20))
                                 .keyboardType(.phonePad)
-                        }
-                        .padding()
-                        .background(Color.white)
-                        .cornerRadius(25)
-                        .shadow(color: .black.opacity(0.2), radius: 5)
                     }
+                    .padding()
+                    .background(Color.white)
+                    .cornerRadius(25)
+                    .shadow(color: .black.opacity(0.2), radius: 5)
+                    .border(.red, width: CGFloat(wrongnumber))
                     TextField("Email", text: $email)
                         .frame(width: 330, height: 30)
                         .padding()
@@ -104,7 +116,7 @@ struct signup: View {
                         .border(.red, width: CGFloat(wrongRepassword))
                     NavigationLink(destination: home().navigationBarBackButtonHidden(), isActive: $showhomescreen1) {
                         Button(action: {
-                            loginuser(name: name, code: code, phone_number: phone_number, email: email, password: password, repassword: repassword)
+                            loginuser(name: name, phone_number: phone_number, email: email, password: password, repassword: repassword)
                         }, label: {
                             ZStack{
                                 Group {
@@ -131,18 +143,20 @@ struct signup: View {
                 }
             }
         }
+        .onAppear{
+            self.countryObj = Country(phoneCode: "91", isoCode: "IN")
+        }
+        .sheet(isPresented: $isShowPicker, content: {
+            CountryPickerUI(country: $countryObj)
+        })
     }
-    func loginuser(name: String, code: String, phone_number: String, email: String, password: String, repassword: String) {
+    func loginuser(name: String, phone_number: String, email: String, password: String, repassword: String) {
         if name.lowercased() == ""{
             wrongname = 2
         }
-        else if code.lowercased() == ""{
-            wrongcode = 2
-            wrongname = 0
-        }
         else if phone_number.lowercased() == ""{
             wrongnumber = 2
-            wrongcode = 0
+            wrongname = 0
         }
         else if email.lowercased() == ""{
             wrongemail = 2

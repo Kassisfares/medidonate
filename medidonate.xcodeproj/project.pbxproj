@@ -8,9 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		A702AB1F2BBB175E0066A9B7 /* requestmedicine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A702AB1E2BBB175E0066A9B7 /* requestmedicine.swift */; };
+		A71197F02BD6B4CC006CDCC1 /* CountryPicker in Frameworks */ = {isa = PBXBuildFile; productRef = A71197EF2BD6B4CC006CDCC1 /* CountryPicker */; };
+		A71197F22BD6B53D006CDCC1 /* CountryPickeUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71197F12BD6B53D006CDCC1 /* CountryPickeUI.swift */; };
 		A71AF84D2BA1FEB100341C89 /* forgetpwd1.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71AF84C2BA1FEB100341C89 /* forgetpwd1.swift */; };
 		A71AF84F2BA2167A00341C89 /* forgetpwd2.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71AF84E2BA2167A00341C89 /* forgetpwd2.swift */; };
-		A73913262BC09E2A00ACCCD1 /* ExyteChat in Frameworks */ = {isa = PBXBuildFile; productRef = A73913252BC09E2A00ACCCD1 /* ExyteChat */; };
 		A739B9CF2B9F49C0003952DA /* settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A739B9CE2B9F49C0003952DA /* settings.swift */; };
 		A73D1CFE2BB1B16B00D8C5F7 /* postdetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73D1CFD2BB1B16B00D8C5F7 /* postdetails.swift */; };
 		A74A57562BCDAB0E004C94C8 /* textfieldscondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74A57552BCDAB0E004C94C8 /* textfieldscondition.swift */; };
@@ -51,6 +52,7 @@
 
 /* Begin PBXFileReference section */
 		A702AB1E2BBB175E0066A9B7 /* requestmedicine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = requestmedicine.swift; sourceTree = "<group>"; };
+		A71197F12BD6B53D006CDCC1 /* CountryPickeUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryPickeUI.swift; sourceTree = "<group>"; };
 		A71AF84C2BA1FEB100341C89 /* forgetpwd1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = forgetpwd1.swift; sourceTree = "<group>"; };
 		A71AF84E2BA2167A00341C89 /* forgetpwd2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = forgetpwd2.swift; sourceTree = "<group>"; };
 		A739B9CE2B9F49C0003952DA /* settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settings.swift; sourceTree = "<group>"; };
@@ -97,7 +99,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A73913262BC09E2A00ACCCD1 /* ExyteChat in Frameworks */,
+				A71197F02BD6B4CC006CDCC1 /* CountryPicker in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -145,6 +147,7 @@
 				A7D3DACB2BBF7FBF00653433 /* welcome.swift */,
 				A7D8801F2B9D37D200FE2F40 /* login.swift */,
 				A7C20C662B9A24FD00966CA3 /* signup.swift */,
+				A71197F12BD6B53D006CDCC1 /* CountryPickeUI.swift */,
 				A739B9CE2B9F49C0003952DA /* settings.swift */,
 				A7D3DAD12BBF90DE00653433 /* changelocation.swift */,
 				A7D3DAD32BBF929C00653433 /* changelocation2.swift */,
@@ -199,7 +202,7 @@
 			);
 			name = medidonate;
 			packageProductDependencies = (
-				A73913252BC09E2A00ACCCD1 /* ExyteChat */,
+				A71197EF2BD6B4CC006CDCC1 /* CountryPicker */,
 			);
 			productName = medidonate;
 			productReference = A7C20C3B2B9A169F00966CA3 /* medidonate.app */;
@@ -230,7 +233,7 @@
 			);
 			mainGroup = A7C20C322B9A169F00966CA3;
 			packageReferences = (
-				A73913242BC09E2A00ACCCD1 /* XCRemoteSwiftPackageReference "Chat" */,
+				A71197EE2BD6B4CC006CDCC1 /* XCRemoteSwiftPackageReference "CountryPicker" */,
 			);
 			productRefGroup = A7C20C3C2B9A169F00966CA3 /* Products */;
 			projectDirPath = "";
@@ -285,6 +288,7 @@
 				A7ECE7FA2BBE3DE700E3EE76 /* confirmerequest.swift in Sources */,
 				A7C20C3F2B9A169F00966CA3 /* medidonateApp.swift in Sources */,
 				A7D3DAC62BBF716700653433 /* conversation.swift in Sources */,
+				A71197F22BD6B53D006CDCC1 /* CountryPickeUI.swift in Sources */,
 				A7CB951C2BBCDF350088192A /* requestmedicineinfo.swift in Sources */,
 				A792BE162BB53294008A826C /* addmedicine.swift in Sources */,
 				A7D3DAD02BBF8D8500653433 /* historydonate.swift in Sources */,
@@ -504,21 +508,21 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		A73913242BC09E2A00ACCCD1 /* XCRemoteSwiftPackageReference "Chat" */ = {
+		A71197EE2BD6B4CC006CDCC1 /* XCRemoteSwiftPackageReference "CountryPicker" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/exyte/Chat.git";
+			repositoryURL = "https://github.com/mobven/CountryPicker.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.3.7;
+				minimumVersion = 2.0.3;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		A73913252BC09E2A00ACCCD1 /* ExyteChat */ = {
+		A71197EF2BD6B4CC006CDCC1 /* CountryPicker */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = A73913242BC09E2A00ACCCD1 /* XCRemoteSwiftPackageReference "Chat" */;
-			productName = ExyteChat;
+			package = A71197EE2BD6B4CC006CDCC1 /* XCRemoteSwiftPackageReference "CountryPicker" */;
+			productName = CountryPicker;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
