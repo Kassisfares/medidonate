@@ -14,6 +14,7 @@ enum Pages{
 struct home: View {
     @State var comment1: String = ""
     @State var comment2: String = ""
+    @State var comment3: String = ""
     @State var path: [Pages] = []
     var body: some View {
         NavigationStack(path: $path){
@@ -26,7 +27,7 @@ struct home: View {
                                     .frame(width: 50, height: 50)
                                     .padding(.leading, 25)
                                     .foregroundColor(.green)
-                                    Text("What's on your mind ?")
+                                    Text("Write your post here")
                                         .font(.title3)
                                         .padding(.leading, 15)
                                 }
@@ -262,7 +263,7 @@ struct home: View {
                                         .foregroundColor(Color.white)
                                         .cornerRadius(30)
                                         .shadow(color: .black, radius: 2)
-                                    TextField("Write your message", text: $comment2, axis: .vertical)
+                                    TextField("Write your message", text: $comment3, axis: .vertical)
                                         .frame(width: 280, height: 50)
                                         .offset(x: -20)
                                     Button {

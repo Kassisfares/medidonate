@@ -23,6 +23,7 @@
 		A792BE1E2BB54714008A826C /* donatepost.swift in Sources */ = {isa = PBXBuildFile; fileRef = A792BE1D2BB54714008A826C /* donatepost.swift */; };
 		A792BE202BB54815008A826C /* requestpost.swift in Sources */ = {isa = PBXBuildFile; fileRef = A792BE1F2BB54815008A826C /* requestpost.swift */; };
 		A792BE222BB54960008A826C /* sharepostinhome.swift in Sources */ = {isa = PBXBuildFile; fileRef = A792BE212BB54960008A826C /* sharepostinhome.swift */; };
+		A7AFE0672BE01072006E237D /* testing post request.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7AFE0662BE01072006E237D /* testing post request.swift */; };
 		A7B6BF2B2BAC62480013018E /* home.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B6BF2A2BAC62480013018E /* home.swift */; };
 		A7C20C3F2B9A169F00966CA3 /* medidonateApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C20C3E2B9A169F00966CA3 /* medidonateApp.swift */; };
 		A7C20C432B9A16A100966CA3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A7C20C422B9A16A100966CA3 /* Assets.xcassets */; };
@@ -66,6 +67,7 @@
 		A792BE1D2BB54714008A826C /* donatepost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = donatepost.swift; sourceTree = "<group>"; };
 		A792BE1F2BB54815008A826C /* requestpost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = requestpost.swift; sourceTree = "<group>"; };
 		A792BE212BB54960008A826C /* sharepostinhome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sharepostinhome.swift; sourceTree = "<group>"; };
+		A7AFE0662BE01072006E237D /* testing post request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "testing post request.swift"; sourceTree = "<group>"; };
 		A7B6BF2A2BAC62480013018E /* home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = home.swift; sourceTree = "<group>"; };
 		A7C20C3B2B9A169F00966CA3 /* medidonate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = medidonate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7C20C3E2B9A169F00966CA3 /* medidonateApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = medidonateApp.swift; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 				A7D3DAC32BBF67AA00653433 /* message.swift */,
 				A7D3DAC52BBF716700653433 /* conversation.swift */,
 				A74A57552BCDAB0E004C94C8 /* textfieldscondition.swift */,
+				A7AFE0662BE01072006E237D /* testing post request.swift */,
 			);
 			path = app_pages;
 			sourceTree = "<group>";
@@ -274,6 +277,7 @@
 				A7ECE7F62BBE3ABE00E3EE76 /* chooserequestlocation2.swift in Sources */,
 				A7CB95182BBCDDA60088192A /* editrequestmedicine2.swift in Sources */,
 				A7ECE7FC2BBE67EC00E3EE76 /* requestconfirmed.swift in Sources */,
+				A7AFE0672BE01072006E237D /* testing post request.swift in Sources */,
 				A7CB95162BBCDB2C0088192A /* editrequestmedicine.swift in Sources */,
 				A7D3DACC2BBF7FBF00653433 /* welcome.swift in Sources */,
 				A7CB951A2BBCDE280088192A /* editrequestmedicine3.swift in Sources */,

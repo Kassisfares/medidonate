@@ -107,81 +107,6 @@ struct requestmedicine: View {
                                     }
                                 }
                             }
-                            if showview {
-                                ZStack(alignment: .bottom){
-                                    Rectangle()
-                                        .frame(width: 400, height: 430)
-                                        .foregroundColor(.primarycolor)
-                                        .cornerRadius(50)
-                                    VStack{
-                                        HStack{
-                                            Button(action: {
-                                                showview.toggle()
-                                            }, label: {
-                                                Image(systemName: "plus")
-                                                    .padding(.leading, 20)
-                                                    .font(.title)
-                                                    .rotationEffect(.degrees(45))
-                                                    .foregroundColor(.white)
-                                            })
-                                            .offset(x: -70, y: -7)
-                                            Text("Choose location")
-                                                .font(.title)
-                                                .foregroundColor(.white)
-                                                .offset(x: -25)
-                                        }
-                                        Text("Set location on map")
-                                            .font(.title3)
-                                            .foregroundColor(.white)
-                                            .offset(x: -90)
-                                            .padding(.bottom, 10)
-                                        NavigationLink (destination: chooserequestlocation2().navigationBarBackButtonHidden(), label:{
-                                            Image("map")
-                                                .resizable(resizingMode: .stretch)
-                                                .frame(width: 300, height: 200)
-                                        })
-                                        HStack{
-                                            Rectangle()
-                                                .fill(Color.gray3)
-                                                .frame(width:100, height: 2)
-                                                .offset(y: -2)
-                                            Text("Or")
-                                                .foregroundColor(.white)
-                                                .padding(.leading)
-                                                .padding(.trailing)
-                                            Rectangle()
-                                                .fill(Color.gray3)
-                                                .frame(width:100, height: 2)
-                                                .offset(y: -2)
-                                        }
-                                        .padding(.top, 10)
-                                        .padding(.bottom, 10)
-                                        NavigationLink (destination: chooserequestlocation2().navigationBarBackButtonHidden(), label:{
-                                            ZStack{
-                                                Rectangle()
-                                                    .cornerRadius(12)
-                                                    .foregroundStyle(Color.white)
-                                                    .frame(width: 250, height: 40, alignment: .center)
-                                                HStack{
-                                                    Image(systemName: "plus")
-                                                        .foregroundColor(.primarycolor)
-                                                        .fontWeight(.medium)
-                                                    Text("Add new location")
-                                                        .font(.title2)
-                                                        .fontWeight(.medium)
-                                                        .multilineTextAlignment(.center)
-                                                        .foregroundStyle(.primarycolor)
-                                                }
-                                            }
-                                        })
-                                    }
-                                    .offset(y: -20)
-                                }
-                                .offset(x: -142, y: -330)
-                                .transition(.move(edge: .bottom))
-                                .animation(.easeInOut)
-                                .edgesIgnoringSafeArea(.bottom)
-                            }
                         }
                     }
                     .offset(y: -230)
@@ -190,6 +115,81 @@ struct requestmedicine: View {
                 .navigationBarItems(leading:NavigationLink(destination: home().navigationBarBackButtonHidden(), label: {Image(systemName: "chevron.backward")
                         .font(.title2)
                     .foregroundColor(.white)}))
+                if showview{
+                    ZStack(alignment: .bottom){
+                        Rectangle()
+                            .frame(width: 400, height: 450)
+                            .foregroundColor(.primarycolor)
+                            .cornerRadius(50)
+                        VStack{
+                            HStack{
+                                Button(action: {
+                                    showview.toggle()
+                                }, label: {
+                                    Image(systemName: "plus")
+                                        .padding(.leading, 20)
+                                        .font(.title)
+                                        .rotationEffect(.degrees(45))
+                                        .foregroundColor(.white)
+                                })
+                                .offset(x: -70, y: -7)
+                                Text("Choose location")
+                                    .font(.title)
+                                    .foregroundColor(.white)
+                                    .offset(x: -25)
+                            }
+                            Text("Set location on map")
+                                .font(.title3)
+                                .foregroundColor(.white)
+                                .offset(x: -90)
+                                .padding(.bottom, 10)
+                            NavigationLink (destination: chooserequestlocation2().navigationBarBackButtonHidden(), label:{
+                                Image("map")
+                                    .resizable(resizingMode: .stretch)
+                                    .frame(width: 300, height: 200)
+                            })
+                            HStack{
+                                Rectangle()
+                                    .fill(Color.gray3)
+                                    .frame(width:100, height: 2)
+                                    .offset(y: -2)
+                                Text("Or")
+                                    .foregroundColor(.white)
+                                    .padding(.leading)
+                                    .padding(.trailing)
+                                Rectangle()
+                                    .fill(Color.gray3)
+                                    .frame(width:100, height: 2)
+                                    .offset(y: -2)
+                            }
+                            .padding(.top, 10)
+                            .padding(.bottom, 10)
+                            NavigationLink (destination: chooserequestlocation2().navigationBarBackButtonHidden(), label:{
+                                ZStack{
+                                    Rectangle()
+                                        .cornerRadius(12)
+                                        .foregroundStyle(Color.white)
+                                        .frame(width: 250, height: 40, alignment: .center)
+                                    HStack{
+                                        Image(systemName: "plus")
+                                            .foregroundColor(.primarycolor)
+                                            .fontWeight(.medium)
+                                        Text("Add new location")
+                                            .font(.title2)
+                                            .fontWeight(.medium)
+                                            .multilineTextAlignment(.center)
+                                            .foregroundStyle(.primarycolor)
+                                    }
+                                }
+                            })
+                        }
+                        .offset(y: -20)
+                    }
+                    .offset(y: 35)
+                    .transition(.move(edge: .bottom))
+                    .animation(.easeInOut)
+                    .edgesIgnoringSafeArea(.all)
+                }
             }
         }
     }
