@@ -13,15 +13,12 @@
 		A71AF84D2BA1FEB100341C89 /* forgetpwd1.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71AF84C2BA1FEB100341C89 /* forgetpwd1.swift */; };
 		A71AF84F2BA2167A00341C89 /* forgetpwd2.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71AF84E2BA2167A00341C89 /* forgetpwd2.swift */; };
 		A739B9CF2B9F49C0003952DA /* settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A739B9CE2B9F49C0003952DA /* settings.swift */; };
-		A73D1CFE2BB1B16B00D8C5F7 /* postdetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73D1CFD2BB1B16B00D8C5F7 /* postdetails.swift */; };
-		A74A57562BCDAB0E004C94C8 /* textfieldscondition.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74A57552BCDAB0E004C94C8 /* textfieldscondition.swift */; };
 		A7890DD62BB05F54004C05CA /* createpost.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7890DD52BB05F54004C05CA /* createpost.swift */; };
+		A78E32B32BE31BAB00843E7F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78E32B22BE31BAB00843E7F /* ContentView.swift */; };
 		A792BE162BB53294008A826C /* addmedicine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A792BE152BB53294008A826C /* addmedicine.swift */; };
 		A792BE182BB53A2F008A826C /* addlocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A792BE172BB53A2F008A826C /* addlocation.swift */; };
 		A792BE1A2BB542D4008A826C /* addlocation2.swift in Sources */ = {isa = PBXBuildFile; fileRef = A792BE192BB542D4008A826C /* addlocation2.swift */; };
 		A792BE1C2BB54447008A826C /* addlocation3.swift in Sources */ = {isa = PBXBuildFile; fileRef = A792BE1B2BB54447008A826C /* addlocation3.swift */; };
-		A792BE1E2BB54714008A826C /* donatepost.swift in Sources */ = {isa = PBXBuildFile; fileRef = A792BE1D2BB54714008A826C /* donatepost.swift */; };
-		A792BE202BB54815008A826C /* requestpost.swift in Sources */ = {isa = PBXBuildFile; fileRef = A792BE1F2BB54815008A826C /* requestpost.swift */; };
 		A792BE222BB54960008A826C /* sharepostinhome.swift in Sources */ = {isa = PBXBuildFile; fileRef = A792BE212BB54960008A826C /* sharepostinhome.swift */; };
 		A7AFE0672BE01072006E237D /* testing post request.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7AFE0662BE01072006E237D /* testing post request.swift */; };
 		A7B6BF2B2BAC62480013018E /* home.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B6BF2A2BAC62480013018E /* home.swift */; };
@@ -57,15 +54,12 @@
 		A71AF84C2BA1FEB100341C89 /* forgetpwd1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = forgetpwd1.swift; sourceTree = "<group>"; };
 		A71AF84E2BA2167A00341C89 /* forgetpwd2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = forgetpwd2.swift; sourceTree = "<group>"; };
 		A739B9CE2B9F49C0003952DA /* settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settings.swift; sourceTree = "<group>"; };
-		A73D1CFD2BB1B16B00D8C5F7 /* postdetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = postdetails.swift; sourceTree = "<group>"; };
-		A74A57552BCDAB0E004C94C8 /* textfieldscondition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = textfieldscondition.swift; sourceTree = "<group>"; };
 		A7890DD52BB05F54004C05CA /* createpost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = createpost.swift; sourceTree = "<group>"; };
+		A78E32B22BE31BAB00843E7F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A792BE152BB53294008A826C /* addmedicine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addmedicine.swift; sourceTree = "<group>"; };
 		A792BE172BB53A2F008A826C /* addlocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addlocation.swift; sourceTree = "<group>"; };
 		A792BE192BB542D4008A826C /* addlocation2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addlocation2.swift; sourceTree = "<group>"; };
 		A792BE1B2BB54447008A826C /* addlocation3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addlocation3.swift; sourceTree = "<group>"; };
-		A792BE1D2BB54714008A826C /* donatepost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = donatepost.swift; sourceTree = "<group>"; };
-		A792BE1F2BB54815008A826C /* requestpost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = requestpost.swift; sourceTree = "<group>"; };
 		A792BE212BB54960008A826C /* sharepostinhome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = sharepostinhome.swift; sourceTree = "<group>"; };
 		A7AFE0662BE01072006E237D /* testing post request.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "testing post request.swift"; sourceTree = "<group>"; };
 		A7B6BF2A2BAC62480013018E /* home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = home.swift; sourceTree = "<group>"; };
@@ -157,9 +151,7 @@
 				A71AF84E2BA2167A00341C89 /* forgetpwd2.swift */,
 				A7B6BF2A2BAC62480013018E /* home.swift */,
 				A7890DD52BB05F54004C05CA /* createpost.swift */,
-				A792BE1D2BB54714008A826C /* donatepost.swift */,
-				A792BE1F2BB54815008A826C /* requestpost.swift */,
-				A73D1CFD2BB1B16B00D8C5F7 /* postdetails.swift */,
+				A78E32B22BE31BAB00843E7F /* ContentView.swift */,
 				A792BE152BB53294008A826C /* addmedicine.swift */,
 				A792BE172BB53A2F008A826C /* addlocation.swift */,
 				A792BE192BB542D4008A826C /* addlocation2.swift */,
@@ -182,7 +174,6 @@
 				A7D3DAD52BBF93AE00653433 /* editprofile.swift */,
 				A7D3DAC32BBF67AA00653433 /* message.swift */,
 				A7D3DAC52BBF716700653433 /* conversation.swift */,
-				A74A57552BCDAB0E004C94C8 /* textfieldscondition.swift */,
 				A7AFE0662BE01072006E237D /* testing post request.swift */,
 			);
 			path = app_pages;
@@ -265,14 +256,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				A7D3DAD22BBF90DE00653433 /* changelocation.swift in Sources */,
-				A73D1CFE2BB1B16B00D8C5F7 /* postdetails.swift in Sources */,
 				A792BE1A2BB542D4008A826C /* addlocation2.swift in Sources */,
 				A7C20C672B9A24FD00966CA3 /* signup.swift in Sources */,
 				A792BE222BB54960008A826C /* sharepostinhome.swift in Sources */,
 				A71AF84D2BA1FEB100341C89 /* forgetpwd1.swift in Sources */,
 				A7D3DAC82BBF796900653433 /* searchesall.swift in Sources */,
 				A792BE182BB53A2F008A826C /* addlocation.swift in Sources */,
-				A74A57562BCDAB0E004C94C8 /* textfieldscondition.swift in Sources */,
 				A7B6BF2B2BAC62480013018E /* home.swift in Sources */,
 				A7ECE7F62BBE3ABE00E3EE76 /* chooserequestlocation2.swift in Sources */,
 				A7CB95182BBCDDA60088192A /* editrequestmedicine2.swift in Sources */,
@@ -281,13 +270,13 @@
 				A7CB95162BBCDB2C0088192A /* editrequestmedicine.swift in Sources */,
 				A7D3DACC2BBF7FBF00653433 /* welcome.swift in Sources */,
 				A7CB951A2BBCDE280088192A /* editrequestmedicine3.swift in Sources */,
-				A792BE202BB54815008A826C /* requestpost.swift in Sources */,
 				A7D880202B9D37D200FE2F40 /* login.swift in Sources */,
 				A7D3DAC42BBF67AA00653433 /* message.swift in Sources */,
 				A7ECE7F82BBE3AE300E3EE76 /* chooserequestlocation3.swift in Sources */,
 				A7D3DAD42BBF929C00653433 /* changelocation2.swift in Sources */,
 				A702AB1F2BBB175E0066A9B7 /* requestmedicine.swift in Sources */,
 				A7D3DACA2BBF7CC100653433 /* searcheslatest.swift in Sources */,
+				A78E32B32BE31BAB00843E7F /* ContentView.swift in Sources */,
 				A71AF84F2BA2167A00341C89 /* forgetpwd2.swift in Sources */,
 				A7ECE7FA2BBE3DE700E3EE76 /* confirmerequest.swift in Sources */,
 				A7C20C3F2B9A169F00966CA3 /* medidonateApp.swift in Sources */,
@@ -299,7 +288,6 @@
 				A7D3DACE2BBF856B00653433 /* historyrequest.swift in Sources */,
 				A739B9CF2B9F49C0003952DA /* settings.swift in Sources */,
 				A792BE1C2BB54447008A826C /* addlocation3.swift in Sources */,
-				A792BE1E2BB54714008A826C /* donatepost.swift in Sources */,
 				A7890DD62BB05F54004C05CA /* createpost.swift in Sources */,
 				A7ECE7F42BBE395500E3EE76 /* chooserequestlocation.swift in Sources */,
 				A7D3DAD62BBF93AE00653433 /* editprofile.swift in Sources */,

@@ -323,7 +323,6 @@ struct Navigator{
 //
 
 import SwiftUI
-import ExyteChat
 
 
 struct conversation1: View {

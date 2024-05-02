@@ -276,9 +276,9 @@ struct addmedicine: View {
                         .animation(.easeInOut)
                         .edgesIgnoringSafeArea(.bottom)
                     }
-                    Button {
+                    Button( action: {
                         showview5.toggle()
-                    } label: {
+                    }, label: {
                         ZStack{
                             RoundedRectangle(cornerRadius: 30)
                                 .stroke(Color.primarycolor, lineWidth: 1)
@@ -293,7 +293,7 @@ struct addmedicine: View {
                                     .foregroundColor(.primarycolor)
                             }
                         }
-                    }
+                    })
                     if showview5 {
                         ZStack(alignment: .bottom){
                             Rectangle()
