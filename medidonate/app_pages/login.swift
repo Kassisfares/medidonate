@@ -7,6 +7,92 @@
 
 import SwiftUI
 
+import Foundation
+
+import Foundation
+
+func loginrequest(email: String, password: String) {
+    // Create URL
+    let url = URL(string: "http://localhost:1337/api/auth/local")!
+    
+    // Create URLRequest
+    var request = URLRequest(url: url)
+    request.httpMethod = "POST"
+    
+    // Create a dictionary representing the JSON structure
+    let jsonData: [String: Any] = [
+        "data": [
+            "identifier": email,
+            "password": password
+        ]
+    ]
+    
+    // Construct the payload data
+    let payload: [String: Any] = ["identifier": email, "password": password]
+    
+    // Convert payload to Data
+    guard let payloadData = try? JSONSerialization.data(withJSONObject: payload) else {
+        print("Error creating payload data")
+        return
+    }
+    
+    // Attach payload data to the request
+    request.httpBody = payloadData
+    
+    // Set headers
+    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    
+    // Create URLSession
+    let session = URLSession.shared
+    
+    // Create data task
+    let task = session.dataTask(with: request) { data, response, error in
+        // Check for errors
+        if let error = error {
+            print("Error: \(error)")
+            return
+        }
+        
+        // Check for response
+        guard let httpResponse = response as? HTTPURLResponse else {
+            print("No HTTP response")
+            return
+        }
+        
+        // Check status code
+        guard (200...299).contains(httpResponse.statusCode) else {
+            print("HTTP status code \(httpResponse.statusCode)")
+            return
+        }
+        
+        // Check if data is available
+        guard let data = data else {
+            print("No data")
+            return
+        }
+        
+        // Parse JSON response
+        do {
+            if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
+                print(json)
+                // Handle response here
+            }
+        } catch {
+            print("Error parsing JSON: \(error)")
+        }
+    }
+    
+    // Resume task
+    task.resume()
+}
+
+// Example usage
+//login(email: "fares@gmail.com", password: "fares10")
+
+
+
+
+
 struct login: View {
     @State var email: String = ""
     @State var password: String = ""
@@ -59,6 +145,7 @@ struct login: View {
                         .accentColor(.black)
                         NavigationLink(destination: home().navigationBarBackButtonHidden(), isActive: $showhomescreen) {
                             Button(action: {
+                                loginrequest(email: email, password: password)
                                 loginuser(email: email, password: password)
                             }, label: {
                                 ZStack{

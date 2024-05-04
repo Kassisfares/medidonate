@@ -32,17 +32,22 @@ struct createpost: View {
     @State private var selectedMedicineImage: UIImage?
 
 func uploadImage() {
-        guard let image = selectedMedicineImage,
-              let imageData = image.jpegData(compressionQuality: 0.8) else {
+        guard let image = selectedMedicineImage else {
             print("No image selected")
+            sendPostRequest(with: "")
+            return
+        }
+    
+        guard let imageData = image.jpegData(compressionQuality: 0.8) else {
+            print("Failed to convert image to data")
             return
         }
         
         // Create URL
-        guard let url = URL(string: "http://localhost:1337/api/upload") else {
-            print("Invalid URL")
-            return
-        }
+    guard let url = URL(string: "http://localhost:1337/api/upload") else {
+        print("Invalid URL")
+        return
+    }
         let authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiaWF0IjoxNzE0NDMxNDE2LCJleHAiOjE3MTcwMjM0MTZ9.q1HEC10oBZQ3OpmeH8GSDeySREBYiKbtFo9cTGbxGdY"
         // Create request
         var request = URLRequest(url: url)
@@ -95,23 +100,36 @@ func uploadImage() {
 func sendPostRequest(with data: String) {
     
     let authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiaWF0IjoxNzE0NDMxNDE2LCJleHAiOjE3MTcwMjM0MTZ9.q1HEC10oBZQ3OpmeH8GSDeySREBYiKbtFo9cTGbxGdY"
+print("response getted from response body" ,    data)
+    let imagedata: [[String: Any]]
+    let newjsonData = data.data(using: .utf8)
+        // Convert Data to Array of Dictionaries
+    imagedata = try! JSONSerialization.jsonObject(with: newjsonData!, options: []) as! [[String : Any]]
+        
+        
+    
 
-    let data: [[String: Any]] = [
-        // Insert your Photo objects here
-        [
-            "id": 7,
-            "name": "image.jpg",
-            "width": 4288,
-            "height": 2848
-        ]
-    ]
+    // you should format data to array
+//    let imagedata: [[String: Any]] = [
+//        // Insert your Photo objects here
+//        [
+//            "id": 7,
+//            "name": "image.jpg",
+//            "width": 4288,
+//            "height": 2848
+//        ]
+//    ]
+
+// on add each medecine we should get all informations of selected medecine
+    // than append the id of selected medecine to the array that we will be sent with the post
+    //let medecinesdata : [Int: Any] = [1,2,3]
     
     
         // Create a dictionary representing the JSON structure
         let jsonData: [String: Any] = [
             "data": [
                 "description": description,
-                "photos": data
+                "photos": imagedata,
             ]
         ]
         
@@ -184,6 +202,26 @@ func sendPostRequest(with data: String) {
     @State private var donate = false
     @State private var shownewpost = false
     @State private var activeButton: Int?
+    @State private var showAlertEmptyDescription = false
+    @State private var showAlertDonateRequest = false
+    
+    private func validateAndPost() {
+        if description.isEmpty {
+            showAlertEmptyDescription = true
+            return
+        }
+        
+        guard let activeButton = activeButton else {
+            showAlertDonateRequest = true
+            return
+        }
+        
+        uploadImage() // Call uploadImage() only if conditions are met
+        
+        // Set shownewpost to true to activate the navigation link
+            shownewpost = true
+    }
+    
     var body: some View {
         NavigationView{
             ScrollView{
@@ -207,9 +245,8 @@ func sendPostRequest(with data: String) {
                                 Button {
                                     //this we write the function
                                     print("Button tapped")
-                                    uploadImage()
-                                    //her we activate the navigationlink
-                                    self.shownewpost = true
+                                    // Validate input before posting
+                                    validateAndPost()
                                 } label: {
                                     ZStack{
                                         Rectangle()
@@ -223,6 +260,16 @@ func sendPostRequest(with data: String) {
                                             .foregroundStyle(.white)
                                     }
                                 }
+                                .alert("Alert", isPresented: $showAlertEmptyDescription) {
+                                            Button("OK", role: .cancel) {}
+                                        } message: {
+                                            Text("Description cannot be empty.")
+                                        }
+                                        .alert("Alert", isPresented: $showAlertDonateRequest) {
+                                            Button("OK", role: .cancel) {}
+                                        } message: {
+                                            Text("Please select Donate or Request.")
+                                        }
                             }
                             .padding(.trailing, 50)
                         }
@@ -270,7 +317,7 @@ func sendPostRequest(with data: String) {
                         .padding(.leading, 13)
                     }
                     .padding(.top)
-                    TextField("What's on your mind ?", text: $description, axis: .vertical)
+                    TextField("Write your description here", text: $description, axis: .vertical)
                         .font(.title2)
                         .frame(width: 350, height: 100)
                         .background(Color.white)
