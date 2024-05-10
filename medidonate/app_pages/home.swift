@@ -20,7 +20,7 @@ struct home: View {
         NavigationStack(path: $path){
             ScrollView{
                 VStack(alignment: .leading){
-                    NavigationLink(destination: createpost().navigationBarBackButtonHidden()){
+                    NavigationLink(destination: createpost1().navigationBarBackButtonHidden()){
                         HStack{
                                 Image(systemName: "person.circle.fill")
                                     .resizable(resizingMode: .tile)

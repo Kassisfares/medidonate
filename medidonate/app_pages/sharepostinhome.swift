@@ -21,7 +21,7 @@ struct sharepostinhome: View {
         NavigationStack(path: $path){
             ScrollView{
                 VStack(alignment: .leading){
-                    NavigationLink(destination: createpost().navigationBarBackButtonHidden()){
+                    NavigationLink(destination: createpost1().navigationBarBackButtonHidden()){
                         HStack{
                                 Image(systemName: "person.circle.fill")
                                     .resizable(resizingMode: .tile)
@@ -230,7 +230,7 @@ struct sharepostinhome: View {
                                         .foregroundColor(.gray4)
                                 }
                                 .frame(width: 200, height: 50, alignment: .leading)
-                                NavigationLink(destination: createpost().navigationBarBackButtonHidden()){
+                                NavigationLink(destination: createpost1().navigationBarBackButtonHidden()){
                                     ZStack(){
                                         Group{
                                             Rectangle()
