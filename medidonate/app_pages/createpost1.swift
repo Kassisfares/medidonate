@@ -23,7 +23,7 @@ class MedicineViewModel: ObservableObject {
     }
     
     func fetchMedicines() {
-        guard let url = URL(string: "http://localhost:1337/api/medicines") else {
+        guard let url = URL(string: "http://localhost:1337/api/medicines?pagination[start]=1&pagination[limit]=300") else {
             print("Invalid URL")
             return
         }
@@ -213,7 +213,7 @@ print("response getted from response body" ,    data)
     // on add each medecine we should get all informations of selected medecine
     // than append the id of selected medecine to the array that we will be sent with the post
     //let medecinesdata : [Int: Any] = [1,2,3]
-    
+//        let MedicineData : [Int: Any] = medicines
     
     
 
@@ -339,6 +339,10 @@ print("response getted from response body" ,    data)
         searchText = ""
     }
 
+    
+    private func dismissKeyboard() {
+            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+        }
     
     var body: some View {
         NavigationView{
@@ -527,9 +531,17 @@ print("response getted from response body" ,    data)
                                         .padding()
                                         .background(Color(.systemGray6))
                                         .cornerRadius(10)
+                                        .onChange(of: searchText) { newValue in
+                                                            // This checks if the text field is not empty and then shows the search results
+                                                            if !newValue.isEmpty {
+                                                                showingSearchResults = true
+                                                            }
+                                                        }
                                         .onTapGesture {
                                             // This will toggle the display of the search results
-                                            self.showingSearchResults = true
+                                            if !searchText.isEmpty {
+                                                                    showingSearchResults = true
+                                                                }
                                         }
                                         .overlay(
                                             RoundedRectangle(cornerRadius: 10)
@@ -542,39 +554,26 @@ print("response getted from response body" ,    data)
                                 ForEach(viewModel1.medicines.filter {
                                     self.searchText.isEmpty || $0.name.localizedCaseInsensitiveContains(self.searchText)
                                 }) { medicine in
-                                    Button(action: {
-                                        if quantity == 0 {
-                                                showAlertForZeroQuantity = true
-                                        } else {
-                                            let newMedicine = Medicine(
-                                                attributes: MedicineAttributes(
-                                                    name: medicine.name,
-                                                    category: medicine.category,
-                                                    type: medicine.type),
-                                                quantity: quantity, // Default quantity, update as needed
-                                                fabDate: fab_date, // Default fabrication date, update as needed
-                                                expDate: exp_date // Default expiration date, update as needed
-//                                                image: selectedMedicineImage // Default image, update as needed
-                                            )
-                                            medicines.append(newMedicine)
-                                            resetFields()
-                                            showview3.toggle() // Optionally close the search view after selection
-                                        }
-                                    }) {
-                                        VStack(alignment: .leading) {
-                                            Text(medicine.name)
-                                                .font(.headline)
-                                            Text("Category: \(medicine.category)")
-                                            Text("Type: \(medicine.type)")
-                                        }
-                                        .foregroundColor(.black)
-                                        .padding()
+                                    VStack(alignment: .leading) {
+                                        Text(medicine.name)
+                                            .font(.headline)
+                                        Text("Category: \(medicine.category)")
+                                            .font(.headline)
+                                        Text("Type: \(medicine.type)")
+                                            .font(.headline)
                                     }
-                                    .alert("Quantity Required", isPresented: $showAlertForZeroQuantity, actions: {
-                                        Button("OK", role: .cancel) {}
-                                    }, message: {
-                                        Text("You must enter a quantity more than zero.")
-                                    })
+                                    .foregroundColor(.black)
+                                    .padding()
+                                    .onTapGesture {
+                                        self.searchText = medicine.name // This updates the TextField text
+                                        self.showingSearchResults = false // Optionally close the search results list
+                                        dismissKeyboard()
+                                                            }
+//                                    .onAppear {
+//                                        if quantity == 0 {
+//                                            showAlertForZeroQuantity = true
+//                                        }
+//                                    }
                                 }
                             }
                             .frame(width: 380, height: 350, alignment: .center)
@@ -583,7 +582,14 @@ print("response getted from response body" ,    data)
                             .transition(.move(edge: .bottom))
                             .animation(.easeInOut(duration: 0.5))
                             .edgesIgnoringSafeArea(.bottom)
+                            .alert("Quantity Required", isPresented: $showAlertForZeroQuantity, actions: {
+                                Button("OK", role: .cancel) {}
+                            }, message: {
+                                Text("You must enter a quantity more than zero.")
+                            })
                         }
+                        
+
                         ZStack{
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(Color.black, lineWidth: 2)
@@ -620,6 +626,7 @@ print("response getted from response body" ,    data)
                             Group{
                                 Button(action: {
                                     showview3.toggle()
+                                    resetFields()
                                 }, label: {
                                     ZStack{
                                         RoundedRectangle(cornerRadius: 15)
@@ -655,6 +662,7 @@ print("response getted from response body" ,    data)
                                     let newMedicine = Medicine(attributes: MedicineAttributes(name: medicinee, category: category, type: choicemade), quantity: quantity, fabDate: fab_date, expDate: exp_date, image: selectedMedicineImage)
                                     medicines.append(newMedicine)
                                     showview3.toggle()
+                                    resetFields()
                                 }, label: {
                                     ZStack{
                                         RoundedRectangle(cornerRadius: 15)

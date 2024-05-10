@@ -9,80 +9,44 @@ import SwiftUI
 
 import Foundation
 
-import Foundation
-
-func loginrequest(email: String, password: String) {
-    // Create URL
+func loginrequest(email: String, password: String, completion: @escaping (Bool) -> Void) {
     let url = URL(string: "http://localhost:1337/api/auth/local")!
-    
-    // Create URLRequest
     var request = URLRequest(url: url)
     request.httpMethod = "POST"
     
-    // Create a dictionary representing the JSON structure
-    let jsonData: [String: Any] = [
-        "data": [
-            "identifier": email,
-            "password": password
-        ]
-    ]
-    
-    // Construct the payload data
     let payload: [String: Any] = ["identifier": email, "password": password]
-    
-    // Convert payload to Data
     guard let payloadData = try? JSONSerialization.data(withJSONObject: payload) else {
         print("Error creating payload data")
+        completion(false)
         return
     }
     
-    // Attach payload data to the request
     request.httpBody = payloadData
-    
-    // Set headers
     request.setValue("application/json", forHTTPHeaderField: "Content-Type")
     
-    // Create URLSession
-    let session = URLSession.shared
-    
-    // Create data task
-    let task = session.dataTask(with: request) { data, response, error in
-        // Check for errors
+    let task = URLSession.shared.dataTask(with: request) { data, response, error in
         if let error = error {
             print("Error: \(error)")
+            completion(false)
             return
         }
         
-        // Check for response
-        guard let httpResponse = response as? HTTPURLResponse else {
-            print("No HTTP response")
+        guard let httpResponse = response as? HTTPURLResponse,
+              (200...299).contains(httpResponse.statusCode) else {
+            print("HTTP status code error")
+            completion(false)
             return
         }
         
-        // Check status code
-        guard (200...299).contains(httpResponse.statusCode) else {
-            print("HTTP status code \(httpResponse.statusCode)")
-            return
-        }
-        
-        // Check if data is available
-        guard let data = data else {
+        guard let _ = data else {
             print("No data")
+            completion(false)
             return
         }
         
-        // Parse JSON response
-        do {
-            if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] {
-                print(json)
-                // Handle response here
-            }
-        } catch {
-            print("Error parsing JSON: \(error)")
-        }
+        completion(true)
     }
     
-    // Resume task
     task.resume()
 }
 
@@ -100,6 +64,8 @@ struct login: View {
     @State private var wrongpassword = 0
     @State private var showhomescreen = false
     @State private var navigateToHome = false
+    @State private var verifLigin = false
+    
     var body: some View {
         NavigationView(){
             ZStack{
@@ -145,8 +111,17 @@ struct login: View {
                         .accentColor(.black)
                         NavigationLink(destination: home().navigationBarBackButtonHidden(), isActive: $showhomescreen) {
                             Button(action: {
-                                loginrequest(email: email, password: password)
+                                
                                 loginuser(email: email, password: password)
+                                loginrequest(email: email, password: password) { success in
+                                                        DispatchQueue.main.async {
+                                                            if success {
+                                                                self.showhomescreen = true // Navigate only on success
+                                                            } else {
+                                                                self.verifLigin = true
+                                                            }
+                                                        }
+                                                    }
                             }, label: {
                                 ZStack{
                                     Group {
@@ -161,7 +136,11 @@ struct login: View {
                                     .padding(.trailing)
                                 }
                             })
+                            .alert("Wrong email or password", isPresented: $verifLigin) {
+                                        Button("OK", role: .cancel) {}
+                                    }
                         }
+                        
                     }
                     Text("Or connect with")
                         .font(.callout)
@@ -222,10 +201,12 @@ struct login: View {
     func loginuser(email: String, password: String) {
         if email.lowercased() == ""{
             wrongemail = 2
-        } 
+            verifLigin = true
+        }
         else if password.lowercased() == ""{
             wrongpassword = 2
             wrongemail = 0
+            verifLigin = true
         }
         else {
             wrongemail = 0
