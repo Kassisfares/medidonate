@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import SwiftUIX
 
 struct Medicine1: Identifiable {
     let id: Int
@@ -17,37 +16,37 @@ struct Medicine1: Identifiable {
 
 class MedicineViewModel: ObservableObject {
     @Published var medicines = [Medicine1]()
-    
+
     init() {
         fetchMedicines()
     }
-    
+
     func fetchMedicines() {
         guard let url = URL(string: "http://localhost:1337/api/medicines?pagination[start]=1&pagination[limit]=300") else {
             print("Invalid URL")
             return
         }
-        
+
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
         request.addValue("Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiaWF0IjoxNzE0NDMxNDE2LCJleHAiOjE3MTcwMjM0MTZ9.q1HEC10oBZQ3OpmeH8GSDeySREBYiKbtFo9cTGbxGdY", forHTTPHeaderField: "Authorization")
-        
+
         URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data else {
                 print("No data in response: \(error?.localizedDescription ?? "Unknown error")")
                 return
             }
-            
-            
+
+
             let decoder = JSONDecoder()
                 decoder.dateDecodingStrategy = .iso8601 // Assuming dates are in ISO 8601 format
-                
+
                 do {
                     let decodedResponse = try decoder.decode(MedicineResponse.self, from: data)
-                    
+
                     let dateFormatter = DateFormatter()
                     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-                    
+
                     DispatchQueue.main.async {
                         self.medicines = decodedResponse.data.map { medicineData in
                             Medicine1(
@@ -70,13 +69,13 @@ struct MedicineResponse: Decodable {
         let id: Int
         let attributes: MedicineAttributes
     }
-    
+
     struct MedicineAttributes: Decodable {
         let name: String
         let category: String
         let type: String
     }
-    
+
     let data: [MedicineData]
 }
 
@@ -89,14 +88,14 @@ let dateFormatter: DateFormatter = {
     return formatter
 }()
 
-struct Medicine {
+struct Medicine: Encodable {
     var attributes: MedicineAttributes
     var quantity: Int
     var fabDate: Date
     var expDate: Date
-    var image: UIImage?
 }
-struct MedicineAttributes: Decodable {
+struct MedicineAttributes: Encodable {
+    let id: Int
     let name: String
     let category: String
     let type: String
@@ -104,8 +103,9 @@ struct MedicineAttributes: Decodable {
 
 
 
+
 struct createpost1: View {
-    
+
     // State variable to hold the selected image
     @State private var showingImagePicker = false
     @State private var medicines: [Medicine] = []
@@ -113,21 +113,55 @@ struct createpost1: View {
     @State private var selectedMedicineImage: UIImage?
     @State private var showingSearchResults = false
     @ObservedObject var postmedicine = ViewModel()
-
-
     
+
+    func encodedata(allData: [Medicine]) -> [[String: Any]]{
+        // Use JSONEncoder to convert the array to JSON data
+        let encoder = JSONEncoder()
+        var jsonString = ""
+        do {
+            let jsonData = try encoder.encode(allData)
+            //             Convert JSON data to a string
+            jsonString = String(data: jsonData, encoding: .utf8) ?? ""
+            print(jsonString)
+            //                return(jsonString)
+        } catch {
+            print("Error encoding array: \(error)")
+        }
+        
+        let newjsonData = jsonString.data(using: .utf8)
+        var newalldata: [[String: Any]] = []
+        // Attempt to convert Data to an Array of Dictionaries
+        do {
+            if let jsonData = newjsonData {
+                if let parsedData = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [[String: Any]] {
+                    newalldata = parsedData // Successfully parsed the JSON data
+                    return newalldata
+                } else {
+                    print("Data was not in the expected array of dictionaries format")
+                }
+            } else {
+                print("Failed to create Data from String")
+            }
+        } catch {
+            print("Failed to parse JSON: \(error)")
+        }
+        
+        return []
+    }
+
 func uploadImage() {
         guard let image = selectedMedicineImage else {
             print("No image selected")
             sendPostRequest(with: "", with: description)
             return
         }
-    
+
         guard let imageData = image.jpegData(compressionQuality: 0.8) else {
             print("Failed to convert image to data")
             return
         }
-        
+
         // Create URL
     guard let url = URL(string: "http://localhost:1337/api/upload") else {
         print("Invalid URL")
@@ -139,26 +173,26 @@ func uploadImage() {
         request.httpMethod = "POST"
         request.setValue("Bearer \(authToken)", forHTTPHeaderField: "Authorization")
 
-        
+
         // Create boundary
         let boundary = UUID().uuidString
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
-        
+
         var body = Data()
-        
+
         // Add image data
         body.append("--\(boundary)\r\n".data(using: .utf8)!)
         body.append("Content-Disposition: form-data; name=\"files\"; filename=\"image.jpg\"\r\n".data(using: .utf8)!)
         body.append("Content-Type: image/jpeg\r\n\r\n".data(using: .utf8)!)
         body.append(imageData)
         body.append("\r\n".data(using: .utf8)!)
-        
+
         // Add closing boundary
         body.append("--\(boundary)--\r\n".data(using: .utf8)!)
-        
+
         // Set request body
         request.httpBody = body
-        
+
         // Perform the request
         URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
@@ -180,13 +214,13 @@ func uploadImage() {
     func makeCoordinator() -> Coordinator {
         return Coordinator(self)
     }
-    
+
     // Function to send HTTP POST request with image
     func sendPostRequest(with data: String, with description: String) {
-    
+
     let authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiaWF0IjoxNzE0NDMxNDE2LCJleHAiOjE3MTcwMjM0MTZ9.q1HEC10oBZQ3OpmeH8GSDeySREBYiKbtFo9cTGbxGdY"
 print("response getted from response body" ,    data)
-    
+
     let newjsonData = data.data(using: .utf8)
         var imagedata: [[String: Any]] = []
         // Attempt to convert Data to an Array of Dictionaries
@@ -203,58 +237,47 @@ print("response getted from response body" ,    data)
             } catch {
                 print("Failed to parse JSON: \(error)")
             }
-    
-        //    let postmedicinedata: [[String: Any]]
-        //    let newjsonData1 = data1.data(using: .utf8)
-        //        // Convert Data to Array of Dictionaries
-        //    postmedicinedata = try! JSONSerialization.jsonObject(with: newjsonData1!, options: []) as! [[String : Any]]
-    
+        
 
-    // on add each medecine we should get all informations of selected medecine
-    // than append the id of selected medecine to the array that we will be sent with the post
-    //let medecinesdata : [Int: Any] = [1,2,3]
-//        let MedicineData : [Int: Any] = medicines
-    
-    
+//        print (encodedata(allData: medicines))
 
-    
         // Create a dictionary representing the JSON structure
         let jsonData: [String: Any] = [
             "data": [
                 "description": description,
                 "photos": imagedata,
-                "post_medicines": ["connect": [9, 10]]
+                "post_medicines": encodedata(allData: medicines)
+                ]
             ]
-        ]
         print("JSON data structured for sending: \(jsonData)")
 
-    
+
+
         // Create the URL to which you want to send the request
         guard let url = URL(string: "http://localhost:1337/api/post/uploadpost") else {
             print("Invalid URL")
             return
         }
-        
+
         // Create the request
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("Bearer \(authToken)", forHTTPHeaderField: "Authorization")
-        
-        
-        var body = Data()
-        
 
-        
+
+        var body = Data()
+
+
+
         // Add JSON data to the request body
         let json = try! JSONSerialization.data(withJSONObject: jsonData)
         body.append(json)
         body.append(Data("\r\n".utf8))
 //
         // Add closing boundary to the request body
-        
+
         request.httpBody = body
-        
         // Perform the request
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             // Handle response
@@ -272,11 +295,12 @@ print("response getted from response body" ,    data)
 
             }
         }
-        
+
         // Start the task
         task.resume()
+
     }
-    
+
 // Function to select an image
     func selectImage() {
         let picker = UIImagePickerController()
@@ -284,12 +308,13 @@ print("response getted from response body" ,    data)
         picker.delegate = self.makeCoordinator() // Change to self
         UIApplication.shared.windows.first?.rootViewController?.present(picker, animated: true)
     }
-    
+
     @State var description: String = ""
     @State var category: String = ""
     @State private var fab_date = Date()
     @State private var exp_date = Date()
     @State private var quantity: Int = 0
+    @State var id : Int = 0
     @State var choicemade = ""
     @State var medicinee = ""
     @State var showview3: Bool = false
@@ -301,35 +326,35 @@ print("response getted from response body" ,    data)
     @State private var showAlertEmptyDescription = false
     @State private var showAlertDonateRequest = false
     @State private var showAlertForZeroQuantity = false
-    
+
     @ObservedObject var viewModel1 = MedicineViewModel()
     @State private var searchText = ""
     @State private var selectedMedicines: [String] = []
-    
-    
+
+
     private func validateAndPost() {
         if description.isEmpty {
             showAlertEmptyDescription = true
             return
         }
-        
+
         guard let activeButton = activeButton else {
             showAlertDonateRequest = true
             return
         }
-        
+
 //        // Check if any medicine has a quantity of zero
 //            if medicines.contains(where: { $0.quantity <= 0 }) {
 //                showAlertForZeroQuantity = true
 //                return
 //            }
-        
+
         uploadImage() // Call uploadImage() only if conditions are met
-        
+
         // Set shownewpost to true to activate the navigation link
             shownewpost = true
     }
-    
+
     func resetFields() {
         // Reset all related fields to their default values
         quantity = 0
@@ -339,11 +364,11 @@ print("response getted from response body" ,    data)
         searchText = ""
     }
 
-    
+
     private func dismissKeyboard() {
             UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
         }
-    
+
     var body: some View {
         NavigationView{
             ScrollView{
@@ -490,14 +515,15 @@ print("response getted from response body" ,    data)
                 ScrollView{
                     ForEach(medicines.indices, id: \.self) { index in
                         HStack {
-                            if let image = medicines[index].image {
-                                Image(uiImage: image)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 100, height: 100)
-                                    .padding(.bottom, 8)
-                            }
+//                            if let image = medicines[index].image {
+//                                Image(uiImage: image)
+//                                    .resizable()
+//                                    .aspectRatio(contentMode: .fit)
+//                                    .frame(width: 100, height: 100)
+//                                    .padding(.bottom, 8)
+//                            }
                             VStack(alignment: .leading) {
+                                Text("Medicine Id: \(medicines[index].attributes.id)")
                                 Text("Medicine Name: \(medicines[index].attributes.name)")
                                 Text("Category: \(medicines[index].attributes.category)")
                                 Text("Type: \(medicines[index].attributes.type)")
@@ -518,7 +544,7 @@ print("response getted from response body" ,    data)
                 }
                 .border(Color.gray1)
                 .frame(width: 390, height: 357)
-                
+
                 .offset(y: -95)
             }
         }
@@ -541,6 +567,7 @@ print("response getted from response body" ,    data)
                                             // This will toggle the display of the search results
                                             if !searchText.isEmpty {
                                                                     showingSearchResults = true
+
                                                                 }
                                         }
                                         .overlay(
@@ -567,6 +594,10 @@ print("response getted from response body" ,    data)
                                     .onTapGesture {
                                         self.searchText = medicine.name // This updates the TextField text
                                         self.showingSearchResults = false // Optionally close the search results list
+                                        self.id = medicine.id
+                                        self.medicinee = medicine.name
+                                        self.category = medicine.category
+                                        self.choicemade = medicine.type
                                         dismissKeyboard()
                                                             }
 //                                    .onAppear {
@@ -588,7 +619,7 @@ print("response getted from response body" ,    data)
                                 Text("You must enter a quantity more than zero.")
                             })
                         }
-                        
+
 
                         ZStack{
                             RoundedRectangle(cornerRadius: 10)
@@ -659,7 +690,7 @@ print("response getted from response body" ,    data)
                                 }
                                 Button(action: {
 //                                    medicine in
-                                    let newMedicine = Medicine(attributes: MedicineAttributes(name: medicinee, category: category, type: choicemade), quantity: quantity, fabDate: fab_date, expDate: exp_date, image: selectedMedicineImage)
+                                    let newMedicine = Medicine(attributes: MedicineAttributes(id : id , name: medicinee, category: category, type: choicemade), quantity: quantity, fabDate: fab_date, expDate: exp_date)
                                     medicines.append(newMedicine)
                                     showview3.toggle()
                                     resetFields()
@@ -799,14 +830,14 @@ struct ImagePicker: UIViewControllerRepresentable {
         extension createpost1 {
             class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
                 let parent: createpost1
-                
+
                 init(_ parent: createpost1) {
                     self.parent = parent
                 }
-                
+
                 func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
                     print("Image picker delegate method called")
-                    
+
                     if let image = info[.originalImage] as? UIImage {
                         print("Image selected: \(image)")
                         // Assign the selected image to the state variable
@@ -814,13 +845,13 @@ struct ImagePicker: UIViewControllerRepresentable {
                     } else {
                         print("Failed to retrieve image")
                     }
-                    
+
                     // Dismiss the image picker
                     picker.dismiss(animated: true)
                 }
             }
         }
 
-#Preview {
-    createpost1()
-}
+//#Preview {
+//    createpost1()
+//}

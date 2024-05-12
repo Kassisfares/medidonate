@@ -6,6 +6,81 @@
 ////
 //
 //import SwiftUI
+//import SwiftUIX
+//
+//struct Medicine1: Identifiable {
+//    let id: Int
+//    let name: String
+//    let category: String
+//    let type: String
+//}
+//
+//class MedicineViewModel: ObservableObject {
+//    @Published var medicines = [Medicine1]()
+//    
+//    init() {
+//        fetchMedicines()
+//    }
+//    
+//    func fetchMedicines() {
+//        guard let url = URL(string: "http://localhost:1337/api/medicines?pagination[start]=1&pagination[limit]=300") else {
+//            print("Invalid URL")
+//            return
+//        }
+//        
+//        var request = URLRequest(url: url)
+//        request.httpMethod = "GET"
+//        request.addValue("Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiaWF0IjoxNzE0NDMxNDE2LCJleHAiOjE3MTcwMjM0MTZ9.q1HEC10oBZQ3OpmeH8GSDeySREBYiKbtFo9cTGbxGdY", forHTTPHeaderField: "Authorization")
+//        
+//        URLSession.shared.dataTask(with: request) { data, response, error in
+//            guard let data = data else {
+//                print("No data in response: \(error?.localizedDescription ?? "Unknown error")")
+//                return
+//            }
+//            
+//            
+//            let decoder = JSONDecoder()
+//                decoder.dateDecodingStrategy = .iso8601 // Assuming dates are in ISO 8601 format
+//                
+//                do {
+//                    let decodedResponse = try decoder.decode(MedicineResponse.self, from: data)
+//                    
+//                    let dateFormatter = DateFormatter()
+//                    dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+//                    
+//                    DispatchQueue.main.async {
+//                        self.medicines = decodedResponse.data.map { medicineData in
+//                            Medicine1(
+//                                id: medicineData.id,
+//                                name: medicineData.attributes.name,
+//                                category: medicineData.attributes.category,
+//                                type: medicineData.attributes.type
+//                            )
+//                        }
+//                    }
+//                } catch {
+//                    print("Error decoding JSON: \(error)")
+//                }
+//        }.resume()
+//    }
+//}
+//
+//struct MedicineResponse: Decodable {
+//    struct MedicineData: Decodable {
+//        let id: Int
+//        let attributes: MedicineAttributes
+//    }
+//    
+//    struct MedicineAttributes: Decodable {
+//        let name: String
+//        let category: String
+//        let type: String
+//    }
+//    
+//    let data: [MedicineData]
+//}
+//
+//
 //
 //let dateFormatter: DateFormatter = {
 //    let formatter = DateFormatter()
@@ -14,27 +89,51 @@
 //    return formatter
 //}()
 //
-//struct Medicine {
-//    var name: String
-//    var category: String
-//    var type: String
+//struct Medicine: Encodable {
+//    var attributes: MedicineAttributes
 //    var quantity: Int
 //    var fabDate: Date
 //    var expDate: Date
-//    var image: UIImage?
+//
+//    enum CodingKeys: String, CodingKey {
+//        case attributes, quantity, fabDate, expDate
+//    }
+//
+//    func encode(to encoder: Encoder) throws {
+//        var container = encoder.container(keyedBy: CodingKeys.self)
+//        try container.encode(attributes, forKey: .attributes)
+//        try container.encode(quantity, forKey: .quantity)
+//        try container.encode(fabDate, forKey: .fabDate)
+//        try container.encode(expDate, forKey: .expDate)
+//    }
 //}
 //
-//struct createpost: View {
+//struct MedicineAttributes: Encodable {
+//    let id: Int
+//    let name: String
+//    let category: String
+//    let type: String
+//}
+//
+//
+//
+//
+//struct createpost1: View {
 //    
 //    // State variable to hold the selected image
 //    @State private var showingImagePicker = false
 //    @State private var medicines: [Medicine] = []
+//    @State private var medicinesattributes: [MedicineAttributes] = []
 //    @State private var selectedMedicineImage: UIImage?
+//    @State private var showingSearchResults = false
+//    @ObservedObject var postmedicine = ViewModel()
 //
+//
+//    
 //func uploadImage() {
 //        guard let image = selectedMedicineImage else {
 //            print("No image selected")
-//            sendPostRequest(with: "")
+//            sendPostRequest(with: "", with: description)
 //            return
 //        }
 //    
@@ -83,7 +182,7 @@
 //                if let data = data {
 //                    if let responseBody = String(data: data, encoding: .utf8) {
 //                        print("Response body: \(responseBody)")
-//                        sendPostRequest(with: responseBody)
+//                        sendPostRequest(with: responseBody, with: description)
 //
 //                    }
 //                }
@@ -97,42 +196,71 @@
 //    }
 //    
 //    // Function to send HTTP POST request with image
-//func sendPostRequest(with data: String) {
+//    func sendPostRequest(with data: String, with description: String) {
 //    
 //    let authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiaWF0IjoxNzE0NDMxNDE2LCJleHAiOjE3MTcwMjM0MTZ9.q1HEC10oBZQ3OpmeH8GSDeySREBYiKbtFo9cTGbxGdY"
 //print("response getted from response body" ,    data)
-//    let imagedata: [[String: Any]]
+//    
 //    let newjsonData = data.data(using: .utf8)
-//        // Convert Data to Array of Dictionaries
-//    imagedata = try! JSONSerialization.jsonObject(with: newjsonData!, options: []) as! [[String : Any]]
-//        
-//        
+//        var imagedata: [[String: Any]] = []
+//        // Attempt to convert Data to an Array of Dictionaries
+//            do {
+//                if let jsonData = newjsonData {
+//                    if let parsedData = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [[String: Any]] {
+//                        imagedata = parsedData // Successfully parsed the JSON data
+//                    } else {
+//                        print("Data was not in the expected array of dictionaries format")
+//                    }
+//                } else {
+//                    print("Failed to create Data from String")
+//                }
+//            } catch {
+//                print("Failed to parse JSON: \(error)")
+//            }
+//    
+//        //    let postmedicinedata: [[String: Any]]
+//        //    let newjsonData1 = data1.data(using: .utf8)
+//        //        // Convert Data to Array of Dictionaries
+//        //    postmedicinedata = try! JSONSerialization.jsonObject(with: newjsonData1!, options: []) as! [[String : Any]]
 //    
 //
-//    // you should format data to array
-////    let imagedata: [[String: Any]] = [
-////        // Insert your Photo objects here
-////        [
-////            "id": 7,
-////            "name": "image.jpg",
-////            "width": 4288,
-////            "height": 2848
-////        ]
-////    ]
-//
-//// on add each medecine we should get all informations of selected medecine
-//    // than append the id of selected medecine to the array that we will be sent with the post
-//    //let medecinesdata : [Int: Any] = [1,2,3]
-//    
-//    
+//    //  on add each medecine we should get all informations of selected medecine
+//    //  than append the id of selected medecine to the array that we will be sent with the post
+//    //  let medecinesdata : [Int: Any] = [1,2,3]
+//    //  let MedicineData : [Int: Any] = medicines
+//        
+//        
+////        // Encode the medicines array to JSON Data
+////        var postmedecinedata: [[String: Any]] = []
+////        do {
+////            let medicinesData = try JSONEncoder().encode(self.medicines)
+////
+////            // Use JSONSerialization to convert data into a JSON object
+////            if let medicinesArray = try JSONSerialization.jsonObject(with: medicinesData, options: []) as? [[String: Any]] {
+////                postmedecinedata = medicinesArray
+////            } else {
+////                print("Error: Failed to convert Data to JSON")
+////            }
+////        } catch {
+////            print("Failed to parse JSON: \(error)")
+////        }
 //        // Create a dictionary representing the JSON structure
 //        let jsonData: [String: Any] = [
 //            "data": [
 //                "description": description,
 //                "photos": imagedata,
+//                "post_medicines": ["data": [
+//                    "fabricationDate": "2024-02-20",
+//                    "expirationDate": "2024-03-20",
+//                    "quantity": "100",
+//                    "medicines": ["connect": [14]]
+//                  ]
 //            ]
 //        ]
+//        print("JSON data structured for sending: \(jsonData)")
+//
 //        
+//
 //        // Create the URL to which you want to send the request
 //        guard let url = URL(string: "http://localhost:1337/api/post/uploadpost") else {
 //            print("Invalid URL")
@@ -158,7 +286,6 @@
 //        // Add closing boundary to the request body
 //        
 //        request.httpBody = body
-//        
 //        // Perform the request
 //        let task = URLSession.shared.dataTask(with: request) { data, response, error in
 //            // Handle response
@@ -176,9 +303,10 @@
 //
 //            }
 //        }
-//        
+//       
 //        // Start the task
 //        task.resume()
+//        
 //    }
 //    
 //// Function to select an image
@@ -194,8 +322,9 @@
 //    @State private var fab_date = Date()
 //    @State private var exp_date = Date()
 //    @State private var quantity: Int = 0
-//    @State var choicemade = "Tap to select medicine's type"
-//    @State var medicinee = "tap to select medicine's name"
+//    @State var id : Int = 0
+//    @State var choicemade = ""
+//    @State var medicinee = ""
 //    @State var showview3: Bool = false
 //    @State var showview5: Bool = false
 //    @State private var request = false
@@ -204,6 +333,12 @@
 //    @State private var activeButton: Int?
 //    @State private var showAlertEmptyDescription = false
 //    @State private var showAlertDonateRequest = false
+//    @State private var showAlertForZeroQuantity = false
+//    
+//    @ObservedObject var viewModel1 = MedicineViewModel()
+//    @State private var searchText = ""
+//    @State private var selectedMedicines: [String] = []
+//    
 //    
 //    private func validateAndPost() {
 //        if description.isEmpty {
@@ -216,11 +351,31 @@
 //            return
 //        }
 //        
+////        // Check if any medicine has a quantity of zero
+////            if medicines.contains(where: { $0.quantity <= 0 }) {
+////                showAlertForZeroQuantity = true
+////                return
+////            }
+//        
 //        uploadImage() // Call uploadImage() only if conditions are met
 //        
 //        // Set shownewpost to true to activate the navigation link
 //            shownewpost = true
 //    }
+//    
+//    func resetFields() {
+//        // Reset all related fields to their default values
+//        quantity = 0
+//        fab_date = Date()
+//        exp_date = Date()
+//        selectedMedicineImage = nil
+//        searchText = ""
+//    }
+//
+//    
+//    private func dismissKeyboard() {
+//            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+//        }
 //    
 //    var body: some View {
 //        NavigationView{
@@ -369,16 +524,17 @@
 //                    ForEach(medicines.indices, id: \.self) { index in
 //                        HStack {
 //                            if let image = medicines[index].image {
-//                                        Image(uiImage: image)
-//                                            .resizable()
-//                                            .aspectRatio(contentMode: .fit)
-//                                            .frame(width: 100, height: 100)
-//                                            .padding(.bottom, 8)
-//                                    }
+//                                Image(uiImage: image)
+//                                    .resizable()
+//                                    .aspectRatio(contentMode: .fit)
+//                                    .frame(width: 100, height: 100)
+//                                    .padding(.bottom, 8)
+//                            }
 //                            VStack(alignment: .leading) {
-//                                Text("Medicine Name: \(medicines[index].name)")
-//                                Text("Category: \(medicines[index].category)")
-//                                Text("Type: \(medicines[index].type)")
+//                                Text("Medicine Id: \(medicines[index].attributes.id)")
+//                                Text("Medicine Name: \(medicines[index].attributes.name)")
+//                                Text("Category: \(medicines[index].attributes.category)")
+//                                Text("Type: \(medicines[index].attributes.type)")
 //                                Text("Quantity: \(medicines[index].quantity)")
 //                                Text("Fab Date: \(medicines[index].fabDate, formatter: dateFormatter)")
 //                                Text("Exp Date: \(medicines[index].expDate, formatter: dateFormatter)")
@@ -404,75 +560,75 @@
 //            Group{
 //                ZStack{
 //                    VStack{
-//                        Text("Medicine Name")
-//                            .offset(x: -120)
-//                            .frame(height: 25)
-//                        ZStack(alignment: .leading){
-//                            RoundedRectangle(cornerRadius: 10)
-//                                .stroke(Color.black, lineWidth: 2)
-//                                .foregroundColor(.white)
-//                                .frame(width: 365, height: 50)
-//                                .cornerRadius(10)
-//                            Menu("\(medicinee)"){
-//                                Button("panadole"){
-//                                    medicinee = "panadole"
-//                                }
-//                                Button("maxilase"){
-//                                    medicinee = "maxilase"
-//                                }
-//                                Button("vaccines"){
-//                                    medicinee = "vaccines"
-//                                }
-//                                Button("moov"){
-//                                    medicinee = "moov"
-//                                }
-//                            }
-//                            .foregroundColor(.gray)
-//                            .padding(.leading)
-//                            .frame(width: 250, alignment: .leading)
-//                        }
-//                        Text("Medicine Category")
-//                            .offset(x: -105)
-//                            .frame(height: 25)
-//                        ZStack(alignment: .leading){
-//                            RoundedRectangle(cornerRadius: 10)
-//                                .stroke(Color.black, lineWidth: 2)
-//                                .foregroundColor(.white)
-//                                .frame(width: 365, height: 50)
-//                                .cornerRadius(10)
-//                            TextField("Medicine category(it will be auto fill)", text: $category)
-//                                .font(.headline)
-//                                .frame(width: 300, height: 50)
-//                                .padding(.leading)
-//                                .fontWeight(.regular)
-//                        }
-//                        Text("Medicine Type")
-//                            .offset(x: -120)
-//                            .frame(height: 25)
-//                        ZStack(alignment: .leading){
-//                            RoundedRectangle(cornerRadius: 10)
-//                                .stroke(Color.black, lineWidth: 2)
-//                                .foregroundColor(.white)
-//                                .frame(width: 365, height: 50)
-//                                .cornerRadius(10)
-//                            Menu("\(choicemade)"){
-//                                Button("pills"){
-//                                    choicemade = "pills"
-//                                }
-//                                Button("sirop"){
-//                                    choicemade = "sirop"
-//                                }
-//                                Button("injections"){
-//                                    choicemade = "injections"
-//                                }
-//                                Button("spray"){
-//                                    choicemade = "spray"
+//                        // Custom search bar that shows the list on tap
+//                                    TextField("Medicine name", text: $searchText)
+//                                        .padding()
+//                                        .background(Color(.systemGray6))
+//                                        .cornerRadius(10)
+//                                        .onChange(of: searchText) { newValue in
+//                                                            // This checks if the text field is not empty and then shows the search results
+//                                                            if !newValue.isEmpty {
+//                                                                showingSearchResults = true
+//                                                            }
+//                                                        }
+//                                        .onTapGesture {
+//                                            // This will toggle the display of the search results
+//                                            if !searchText.isEmpty {
+//                                                                    showingSearchResults = true
+//                                            
+//                                                                }
+//                                        }
+//                                        .overlay(
+//                                            RoundedRectangle(cornerRadius: 10)
+//                                                .stroke(Color.gray, lineWidth: 1)
+//                                        )
+//                                        .padding(.horizontal)
+//
+//                        if showingSearchResults && !searchText.isEmpty {
+//                            List {
+//                                ForEach(viewModel1.medicines.filter {
+//                                    self.searchText.isEmpty || $0.name.localizedCaseInsensitiveContains(self.searchText)
+//                                }) { medicine in
+//                                    VStack(alignment: .leading) {
+//                                        Text(medicine.name)
+//                                            .font(.headline)
+//                                        Text("Category: \(medicine.category)")
+//                                            .font(.headline)
+//                                        Text("Type: \(medicine.type)")
+//                                            .font(.headline)
+//                                    }
+//                                    .foregroundColor(.black)
+//                                    .padding()
+//                                    .onTapGesture {
+//                                        self.searchText = medicine.name // This updates the TextField text
+//                                        self.showingSearchResults = false // Optionally close the search results list
+//                                        self.id = medicine.id
+//                                        self.medicinee = medicine.name
+//                                        self.category = medicine.category
+//                                        self.choicemade = medicine.type
+//                                        dismissKeyboard()
+//                                                            }
+////                                    .onAppear {
+////                                        if quantity == 0 {
+////                                            showAlertForZeroQuantity = true
+////                                        }
+////                                    }
 //                                }
 //                            }
-//                            .foregroundColor(.gray)
-//                            .padding(.leading)
-//                            .frame(width: 250, alignment: .leading)
+//                            .frame(width: 380, height: 350, alignment: .center)
+//                            // Include any additional UI components as necessary
+//                            .background(Color.white) // Adjust background styling as needed
+//                            .transition(.move(edge: .bottom))
+//                            .animation(.easeInOut(duration: 0.5))
+//                            .edgesIgnoringSafeArea(.bottom)
+//                            .alert("Quantity Required", isPresented: $showAlertForZeroQuantity, actions: {
+//                                Button("OK", role: .cancel) {}
+//                            }, message: {
+//                                Text("You must enter a quantity more than zero.")
+//                            })
 //                        }
+//                        
+//
 //                        ZStack{
 //                            RoundedRectangle(cornerRadius: 10)
 //                                .stroke(Color.black, lineWidth: 2)
@@ -509,6 +665,7 @@
 //                            Group{
 //                                Button(action: {
 //                                    showview3.toggle()
+//                                    resetFields()
 //                                }, label: {
 //                                    ZStack{
 //                                        RoundedRectangle(cornerRadius: 15)
@@ -540,9 +697,11 @@
 //                                        .offset(y: 24)
 //                                }
 //                                Button(action: {
-//                                    let newMedicine = Medicine(name: medicinee, category: category, type: choicemade, quantity: quantity, fabDate: fab_date, expDate: exp_date, image: selectedMedicineImage)
+////                                    medicine in
+//                                    let newMedicine = Medicine(attributes: MedicineAttributes(id : id, name: medicinee, category: category, type: choicemade), quantity: quantity, fabDate: fab_date, expDate: exp_date, image: selectedMedicineImage)
 //                                    medicines.append(newMedicine)
 //                                    showview3.toggle()
+//                                    resetFields()
 //                                }, label: {
 //                                    ZStack{
 //                                        RoundedRectangle(cornerRadius: 15)
@@ -563,6 +722,7 @@
 //            .transition(.move(edge: .bottom))
 //            .animation(.easeInOut(duration: 0.5))
 //            .edgesIgnoringSafeArea(.bottom)
+//            .offset(y: -8)
 //        }
 //        if showview5 {
 //            ZStack(alignment: .bottom){
@@ -675,11 +835,11 @@
 //}
 //
 //        // Coordinator to handle image picker delegate methods
-//        extension createpost {
+//        extension createpost1 {
 //            class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-//                let parent: createpost
+//                let parent: createpost1
 //                
-//                init(_ parent: createpost) {
+//                init(_ parent: createpost1) {
 //                    self.parent = parent
 //                }
 //                
@@ -701,5 +861,5 @@
 //        }
 //
 //#Preview {
-//    createpost()
+//    createpost1()
 //}
