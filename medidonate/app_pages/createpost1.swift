@@ -21,8 +21,9 @@ class MedicineViewModel: ObservableObject {
         fetchMedicines()
     }
 
-    func fetchMedicines() {
-        guard let url = URL(string: "http://localhost:1337/api/medicines?pagination[start]=1&pagination[limit]=300") else {
+    func fetchMedicines(start: Int = 0) {
+        let limit = 6071
+        guard let url = URL(string: "http://localhost:1337/api/medicines?pagination[start]=\(start)&pagination[limit]=\(limit)") else {
             print("Invalid URL")
             return
         }
@@ -112,7 +113,6 @@ struct createpost1: View {
     @State private var medicinesattributes: [MedicineAttributes] = []
     @State private var selectedMedicineImage: UIImage?
     @State private var showingSearchResults = false
-    @ObservedObject var postmedicine = ViewModel()
     
 
     func encodedata(allData: [Medicine]) -> [[String: Any]]{
@@ -388,7 +388,7 @@ print("response getted from response body" ,    data)
                                 .font(.title2)
                                 .foregroundColor(.black)
                                 .offset(x: -5)
-                            NavigationLink(destination: sharepostinhome().navigationBarBackButtonHidden(), isActive: $shownewpost) {
+                            NavigationLink(destination: home().navigationBarBackButtonHidden(), isActive: $shownewpost) {
                                 Button {
                                     //this we write the function
                                     print("Button tapped")

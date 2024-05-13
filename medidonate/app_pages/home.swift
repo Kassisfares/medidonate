@@ -12,6 +12,7 @@ enum Pages{
 }
 
 struct home: View {
+    
     @State var comment1: String = ""
     @State var comment2: String = ""
     @State var comment3: String = ""
