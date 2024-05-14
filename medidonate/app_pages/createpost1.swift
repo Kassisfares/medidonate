@@ -7,12 +7,6 @@
 
 import SwiftUI
 
-struct Medicine1: Identifiable {
-    let id: Int
-    let name: String
-    let category: String
-    let type: String
-}
 
 class MedicineViewModel: ObservableObject {
     @Published var medicines = [Medicine1]()
@@ -65,6 +59,14 @@ class MedicineViewModel: ObservableObject {
     }
 }
 
+struct Medicine1: Identifiable {
+    let id: Int
+    let name: String
+    let category: String
+    let type: String
+}
+
+
 struct MedicineResponse: Decodable {
     struct MedicineData: Decodable {
         let id: Int
@@ -82,12 +84,7 @@ struct MedicineResponse: Decodable {
 
 
 
-let dateFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .none
-    return formatter
-}()
+
 
 struct Medicine: Encodable {
     var attributes: MedicineAttributes
@@ -103,7 +100,12 @@ struct MedicineAttributes: Encodable {
 }
 
 
-
+let dateFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.dateStyle = .short
+    formatter.timeStyle = .none
+    return formatter
+}()
 
 struct createpost1: View {
 
@@ -218,7 +220,6 @@ func uploadImage() {
     // Function to send HTTP POST request with image
     func sendPostRequest(with data: String, with description: String) {
 
-    let authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiaWF0IjoxNzE0NDMxNDE2LCJleHAiOjE3MTcwMjM0MTZ9.q1HEC10oBZQ3OpmeH8GSDeySREBYiKbtFo9cTGbxGdY"
 print("response getted from response body" ,    data)
 
     let newjsonData = data.data(using: .utf8)
@@ -259,12 +260,19 @@ print("response getted from response body" ,    data)
             return
         }
 
+//        let authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzE1NjI3ODY2LCJleHAiOjE3MTgyMTk4NjZ9.ObmAyiS5y4tJYjtV50OVGdrUkGUH7uVpEksVNzSndIg"
+        
         // Create the request
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue("Bearer \(authToken)", forHTTPHeaderField: "Authorization")
-
+        if let token = AuthService.token {
+                request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+            } else {
+                print("Authorization token is not available.")
+                // Optionally handle the scenario when there is no token (e.g., show login screen)
+                return
+            }
 
         var body = Data()
 
@@ -368,6 +376,8 @@ print("response getted from response body" ,    data)
     private func dismissKeyboard() {
             UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
         }
+    
+    @ObservedObject var viewModel = PostViewModel()
 
     var body: some View {
         NavigationView{
@@ -390,6 +400,7 @@ print("response getted from response body" ,    data)
                                 .offset(x: -5)
                             NavigationLink(destination: home().navigationBarBackButtonHidden(), isActive: $shownewpost) {
                                 Button {
+//                                    viewModel.fetchPosts()
                                     //this we write the function
                                     print("Button tapped")
                                     // Validate input before posting

@@ -13,7 +13,6 @@
 		A71AF84F2BA2167A00341C89 /* forgetpwd2.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71AF84E2BA2167A00341C89 /* forgetpwd2.swift */; };
 		A739B9CF2B9F49C0003952DA /* settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A739B9CE2B9F49C0003952DA /* settings.swift */; };
 		A77364D92BF14F470001EFAD /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77364D82BF14F470001EFAD /* HomeView.swift */; };
-		A77364DB2BF1AC920001EFAD /* hometest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77364DA2BF1AC920001EFAD /* hometest.swift */; };
 		A78FBFEF2BEA505A009532A8 /* SwiftUIX in Frameworks */ = {isa = PBXBuildFile; productRef = A78FBFEE2BEA505A009532A8 /* SwiftUIX */; };
 		A78FBFF12BEAB00F009532A8 /* createpost1.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78FBFF02BEAB00F009532A8 /* createpost1.swift */; };
 		A792BE162BB53294008A826C /* addmedicine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A792BE152BB53294008A826C /* addmedicine.swift */; };
@@ -54,7 +53,6 @@
 		A71AF84E2BA2167A00341C89 /* forgetpwd2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = forgetpwd2.swift; sourceTree = "<group>"; };
 		A739B9CE2B9F49C0003952DA /* settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settings.swift; sourceTree = "<group>"; };
 		A77364D82BF14F470001EFAD /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		A77364DA2BF1AC920001EFAD /* hometest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = hometest.swift; sourceTree = "<group>"; };
 		A78FBFF02BEAB00F009532A8 /* createpost1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = createpost1.swift; sourceTree = "<group>"; };
 		A792BE152BB53294008A826C /* addmedicine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addmedicine.swift; sourceTree = "<group>"; };
 		A792BE172BB53A2F008A826C /* addlocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addlocation.swift; sourceTree = "<group>"; };
@@ -150,9 +148,7 @@
 				A71AF84E2BA2167A00341C89 /* forgetpwd2.swift */,
 				A7B6BF2A2BAC62480013018E /* home.swift */,
 				A77364D82BF14F470001EFAD /* HomeView.swift */,
-				A77364DA2BF1AC920001EFAD /* hometest.swift */,
 				A78FBFF02BEAB00F009532A8 /* createpost1.swift */,
-				A792BE212BB54960008A826C /* sharepostinhome.swift */,
 				A792BE152BB53294008A826C /* addmedicine.swift */,
 				A792BE172BB53A2F008A826C /* addlocation.swift */,
 				A792BE192BB542D4008A826C /* addlocation2.swift */,
@@ -174,6 +170,7 @@
 				A7D3DAD52BBF93AE00653433 /* editprofile.swift */,
 				A7D3DAC32BBF67AA00653433 /* message.swift */,
 				A7D3DAC52BBF716700653433 /* conversation.swift */,
+				A792BE212BB54960008A826C /* sharepostinhome.swift */,
 			);
 			path = app_pages;
 			sourceTree = "<group>";
@@ -279,7 +276,6 @@
 				A7D3DACA2BBF7CC100653433 /* searcheslatest.swift in Sources */,
 				A71AF84F2BA2167A00341C89 /* forgetpwd2.swift in Sources */,
 				A7ECE7FA2BBE3DE700E3EE76 /* confirmerequest.swift in Sources */,
-				A77364DB2BF1AC920001EFAD /* hometest.swift in Sources */,
 				A7C20C3F2B9A169F00966CA3 /* medidonateApp.swift in Sources */,
 				A7D3DAC62BBF716700653433 /* conversation.swift in Sources */,
 				A7CB951C2BBCDF350088192A /* requestmedicineinfo.swift in Sources */,

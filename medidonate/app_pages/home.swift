@@ -17,6 +17,9 @@ struct home: View {
     @State var comment2: String = ""
     @State var comment3: String = ""
     @State var path: [Pages] = []
+    
+    @ObservedObject var viewModel = PostViewModel()
+    
     var body: some View {
         NavigationStack(path: $path){
             ScrollView{
@@ -26,30 +29,32 @@ struct home: View {
                                 Image(systemName: "person.circle.fill")
                                     .resizable(resizingMode: .tile)
                                     .frame(width: 50, height: 50)
-                                    .padding(.leading, 25)
+                                    .padding(.leading)
                                     .foregroundColor(.green)
                                     Text("Write your post here")
                                         .font(.title3)
-                                        .padding(.leading, 15)
+                                        .padding(.leading)
                                 }
                                 .padding(.top, 15)
                     }
                     .foregroundColor(.gray)
-                    Rectangle()
-                        .fill(Color.gray3)
-                        .frame(width:400, height: 8)
-                        .offset(x: 2)
-                        .padding(.top, 10)
-                        .padding(.bottom, 10)
-                    ForEach(0..<10){ index in
+                    ForEach(viewModel.posts, id: \.id) { post in
                         VStack(alignment: .center){
+                            Rectangle()
+                                .fill(Color.gray3)
+                                .frame(width:400, height: 8)
+                                .offset(x: 2)
+                                .padding(.top, 10)
+                                .padding(.bottom, 10)
+                            let userPermissions = post.attributes.users_permissions_user.data
                             HStack{
-                                Image(systemName: "person.circle.fill")
+                                Image(systemName: "person.circle")
                                     .resizable(resizingMode: .tile)
                                     .frame(width: 50, height: 50)
-                                    .padding(.leading, 25)
+                                    .padding(.leading)
+                                    .foregroundColor(.primarycolor)
                                 VStack(alignment: .leading){
-                                    Text("Stephen Yustiono")
+                                    Text("\(userPermissions.attributes.username)")
                                         .font(.title3)
                                         .fontWeight(.semibold)
                                     Text("30m")
@@ -77,14 +82,13 @@ struct home: View {
                                                     .foregroundStyle(.white)
                                             }
                                         }
+                                        .padding(.trailing)
                                     }
                                 }
                             }
-                            VStack{
-                                Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur.")
-                                    .frame(width: 360, height: 80, alignment: .leading)
-                                    .padding(.leading, 25)
-                            }
+                                Text("\(post.attributes.description)")
+                                .frame(minWidth: 50, maxWidth: 370, minHeight: 20, maxHeight: 150, alignment: .leading)
+                                    .padding(.leading, 15)
                             NavigationLink(destination: requestmedicine().navigationBarBackButtonHidden()){
                                 ZStack(){
                                     HStack(alignment: .center, spacing: 10){
@@ -97,7 +101,6 @@ struct home: View {
                                     }
                                 }
                             }
-                            .padding(.leading, 18)
                             ZStack{
                                 Group{
                                     RoundedRectangle(cornerRadius: 30)
@@ -122,171 +125,10 @@ struct home: View {
                             .padding(.leading)
                             .padding(.top, 5)
                         }
-                        Rectangle()
-                            .fill(Color.gray3)
-                            .frame(width:400, height: 8)
-                            .offset(x: 2)
-                            .padding(.top, 10)
-                            .padding(.bottom, 10)
-                        VStack(alignment: .center){
-                            HStack{
-                                Image(systemName: "person.circle.fill")
-                                    .resizable(resizingMode: .tile)
-                                    .frame(width: 50, height: 50)
-                                    .padding(.leading, 25)
-                                    .foregroundColor(.red)
-                                VStack(alignment: .leading){
-                                    Text("Erin Steed")
-                                        .font(.title3)
-                                        .fontWeight(.semibold)
-                                    Text("30m")
-                                        .font(.callout)
-                                        .foregroundColor(.gray4)
-                                }
-                                .frame(width: 200, height: 50, alignment: .leading)
-                                NavigationLink(destination: requestmedicine().navigationBarBackButtonHidden()){
-                                    ZStack(){
-                                        Group{
-                                            Rectangle()
-                                                .cornerRadius(10)
-                                                .foregroundStyle(Color.primarycolor)
-                                                .frame(width: 100, height: 50, alignment: .center)
-                                            VStack{
-                                                Text("Send")
-                                                    .font(.headline)
-                                                    .fontWeight(.semibold)
-                                                    .multilineTextAlignment(.center)
-                                                    .foregroundStyle(.white)
-                                                Text("Request")
-                                                    .font(.headline)
-                                                    .fontWeight(.semibold)
-                                                    .multilineTextAlignment(.center)
-                                                    .foregroundStyle(.white)
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            VStack{
-                                Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur.")
-                                    .frame(width: 360, height: 80, alignment: .leading)
-                                    .padding(.leading, 25)
-                            }
-                            NavigationLink(destination: requestmedicine().navigationBarBackButtonHidden()){
-                                ZStack{
-                                    HStack(alignment: .center, spacing: 10){
-                                        Image("claritine")
-                                            .resizable(resizingMode: .stretch)
-                                            .frame(width: 200, height: 250)
-                                    }
-                                }
-                            }
-                            .padding(.leading, 18)
-                            ZStack{
-                                Group{
-                                    RoundedRectangle(cornerRadius: 30)
-                                        .frame(width: 350, height: 50)
-                                        .padding(.all, 8)
-                                        .foregroundColor(Color.white)
-                                        .cornerRadius(30)
-                                        .shadow(color: .black, radius: 2)
-                                    TextField("Write your message", text: $comment2, axis: .vertical)
-                                        .frame(width: 280, height: 50)
-                                        .offset(x: -20)
-                                    Button {
-                                        path.append(Pages.conversation1)
-                                    } label: {
-                                    Image(systemName: "arrow.up.circle.fill")
-                                }
-                                    .foregroundColor(Color("primarycolor"))
-                                    .font(.largeTitle)
-                                    .offset(x: 150)
-                                }
-                            }
-                            .padding(.leading)
-                            .padding(.top, 5)
-                        }
-                        Rectangle()
-                            .fill(Color.gray3)
-                            .frame(width:400, height: 8)
-                            .offset(x: 2)
-                            .padding(.top, 10)
-                            .padding(.bottom, 10)
-                        VStack(alignment: .center){
-                            HStack{
-                                Image(systemName: "person.circle.fill")
-                                    .resizable(resizingMode: .tile)
-                                    .frame(width: 50, height: 50)
-                                    .padding(.leading, 25)
-                                    .foregroundColor(.blue)
-                                VStack(alignment: .leading){
-                                    Text("Zach Friedman")
-                                        .font(.title3)
-                                        .fontWeight(.semibold)
-                                    Text("30m")
-                                        .font(.callout)
-                                        .foregroundColor(.gray4)
-                                }
-                                .frame(width: 200, height: 50, alignment: .leading)
-                                NavigationLink(destination: requestmedicine().navigationBarBackButtonHidden()){
-                                    ZStack(){
-                                        Group{
-                                            Rectangle()
-                                                .cornerRadius(10)
-                                                .foregroundStyle(Color.primarycolor)
-                                                .frame(width: 100, height: 50, alignment: .center)
-                                            VStack{
-                                                Text("Send")
-                                                    .font(.headline)
-                                                    .fontWeight(.semibold)
-                                                    .multilineTextAlignment(.center)
-                                                    .foregroundStyle(.white)
-                                                Text("Request")
-                                                    .font(.headline)
-                                                    .fontWeight(.semibold)
-                                                    .multilineTextAlignment(.center)
-                                                    .foregroundStyle(.white)
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            VStack{
-                                Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur.")
-                                    .frame(width: 360, height: 80, alignment: .leading)
-                                    .padding(.leading, 25)
-                            }
-                            ZStack{
-                                Group{
-                                    RoundedRectangle(cornerRadius: 30)
-                                        .frame(width: 350, height: 50)
-                                        .padding(.all, 8)
-                                        .foregroundColor(Color.white)
-                                        .cornerRadius(30)
-                                        .shadow(color: .black, radius: 2)
-                                    TextField("Write your message", text: $comment3, axis: .vertical)
-                                        .frame(width: 280, height: 50)
-                                        .offset(x: -20)
-                                    Button {
-                                        path.append(Pages.conversation1)
-                                    } label: {
-                                    Image(systemName: "arrow.up.circle.fill")
-                                }
-                                    .foregroundColor(Color("primarycolor"))
-                                    .font(.largeTitle)
-                                    .offset(x: 150)
-                                }
-                            }
-                            .padding(.leading)
-                            .padding(.top, 5)
-                        }
-                        Rectangle()
-                            .fill(Color.gray3)
-                            .frame(width:400, height: 8)
-                            .offset(x: 2)
-                            .padding(.top, 10)
-                            .padding(.bottom, 10)
                     }
+                }
+                .onAppear {
+                    viewModel.fetchPosts()
                 }
             }
             .navigationTitle("Medi-Donate")

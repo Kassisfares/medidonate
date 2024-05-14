@@ -9,45 +9,67 @@ import SwiftUI
 
 import Foundation
 
-func loginrequest(email: String, password: String, completion: @escaping (Bool) -> Void) {
-    let url = URL(string: "http://localhost:1337/api/auth/local")!
-    var request = URLRequest(url: url)
-    request.httpMethod = "POST"
-    
-    let payload: [String: Any] = ["identifier": email, "password": password]
-    guard let payloadData = try? JSONSerialization.data(withJSONObject: payload) else {
-        print("Error creating payload data")
-        completion(false)
-        return
+class AuthService {
+    static var token: String? // Static variable to store the token
+
+    static func loginrequest(email: String, password: String, completion: @escaping (Bool) -> Void) {
+        let url = URL(string: "http://localhost:1337/api/auth/local")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        
+        let payload: [String: Any] = ["identifier": email, "password": password]
+        guard let payloadData = try? JSONSerialization.data(withJSONObject: payload) else {
+            print("Error creating payload data")
+            completion(false)
+            return
+        }
+        
+        request.httpBody = payloadData
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Error: \(error)")
+                completion(false)
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200...299).contains(httpResponse.statusCode) else {
+                print("HTTP status code error")
+                completion(false)
+                return
+            }
+            
+            guard let data = data else {
+                print("No data")
+                completion(false)
+                return
+            }
+            
+            // Attempt to decode the token from the JSON response
+            do {
+                if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+                   let jwt = json["jwt"] as? String {
+                    AuthService.token = jwt // Save the token in the static variable
+                    completion(true)
+                } else {
+                    print("Failed to decode token")
+                    completion(false)
+                }
+            } catch {
+                print("JSON decoding error: \(error)")
+                completion(false)
+            }
+            if let token = AuthService.token {
+                print("Token stored: \(token)")
+            } else {
+                print("No token stored.")
+            }
+        }
+        
+        task.resume()
     }
-    
-    request.httpBody = payloadData
-    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-    
-    let task = URLSession.shared.dataTask(with: request) { data, response, error in
-        if let error = error {
-            print("Error: \(error)")
-            completion(false)
-            return
-        }
-        
-        guard let httpResponse = response as? HTTPURLResponse,
-              (200...299).contains(httpResponse.statusCode) else {
-            print("HTTP status code error")
-            completion(false)
-            return
-        }
-        
-        guard let _ = data else {
-            print("No data")
-            completion(false)
-            return
-        }
-        
-        completion(true)
-    }
-    
-    task.resume()
 }
 
 // Example usage
@@ -65,7 +87,7 @@ struct login: View {
     @State private var showhomescreen = false
     @State private var navigateToHome = false
     @State private var verifLigin = false
-    
+
     var body: some View {
         NavigationView(){
             ZStack{
@@ -113,7 +135,7 @@ struct login: View {
                             Button(action: {
                                 
                                 loginuser(email: email, password: password)
-                                loginrequest(email: email, password: password) { success in
+                                AuthService.loginrequest(email: email, password: password) { success in
                                                         DispatchQueue.main.async {
                                                             if success {
                                                                 self.showhomescreen = true // Navigate only on success

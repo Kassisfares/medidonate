@@ -8,37 +8,57 @@
 import SwiftUI
 import Foundation
 
-func registerrequest(name: String, phone_number: String, email: String, password: String, repassword: String, completion: @escaping (Bool) -> Void) {
-    let url = URL(string: "http://localhost:1337/api/auth/local/register")!
-    var request = URLRequest(url: url)
-    request.httpMethod = "POST"
-    
-    let payload: [String: Any] = ["username": name, "email": email, "password": password, "phone": phone_number]
-    guard let payloadData = try? JSONSerialization.data(withJSONObject: payload) else {
-        print("Error creating payload data")
-        completion(false)
-        return
-    }
 
-    request.httpBody = payloadData
-    request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-
-    URLSession.shared.dataTask(with: request) { data, response, error in
-        if let error = error {
-            print("Error: \(error.localizedDescription)")
-            completion(false)
+class register {
+    static var token: String?
+    static func registerrequest(name: String, phone_number: String, email: String, password: String, repassword: String) {
+        let url = URL(string: "http://localhost:1337/api/auth/local/register")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        
+        let payload: [String: Any] = ["username": name, "email": email, "password": password, "phone": phone_number]
+        guard let payloadData = try? JSONSerialization.data(withJSONObject: payload) else {
+            print("Error creating payload data")
             return
         }
 
-        if let httpResponse = response as? HTTPURLResponse, !(200...299).contains(httpResponse.statusCode) {
-            print("HTTP status code not in the 200-299 range")
-            completion(false)
-        } else {
-            completion(true)
-        }
-    }.resume()
-}
+        request.httpBody = payloadData
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Error: \(error.localizedDescription)")
+                return
+            }
+
+            if let httpResponse = response as? HTTPURLResponse, !(200...299).contains(httpResponse.statusCode) {
+                print("HTTP status code not in the 200-299 range")
+                return
+            }
+            guard let data = data else {
+                           print("No data received")
+                           return
+                       }
+            // Attempt to decode the token from the JSON response
+            do {
+                if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+                   let jwt = json["jwt"] as? String {
+                    register.token = jwt // Save the token in the static variable
+                } else {
+                    print("Failed to decode token")
+                }
+            } catch {
+                print("JSON decoding error: \(error)")
+            }
+            if let token = register.token {
+                print("Token stored: \(token)")
+            } else {
+                print("No token stored.")
+            }
+        }.resume()
+    }
+
+}
 
 struct signup: View {
     @State var name: String = ""
@@ -136,23 +156,11 @@ struct signup: View {
                         .cornerRadius(25)
                         .shadow(color: .black.opacity(0.2), radius: 5)
                         .border(.red, width: CGFloat(wrongRepassword))
-                    
+                    NavigationLink(destination: home().navigationBarBackButtonHidden(), isActive: $showhomescreen1) {
                         Button(action: {
                             regiteruser(name: name, phone_number: phone_number, email: email, password: password, repassword: repassword)
                             
-                            registerrequest(name: name, phone_number: phone_number, email: email, password: password, repassword: repassword) { success in
-                                    DispatchQueue.main.async {
-                                        if success {
-                                            self.showhomescreen1 = true
-                                            NavigationLink(destination: home().navigationBarBackButtonHidden(), isActive: $showhomescreen1) {EmptyView()}
-                                        }
-                                        else {
-                                            // Handle the failure, show an alert or error message if needed
-                                            self.alertserver = true
-                                            }
-                                            }
-                                        }
-                            
+                            register.registerrequest(name: name, phone_number: phone_number, email: email, password: password, repassword: repassword)
                         }, label: {
                             ZStack{
                                 Group {
@@ -167,14 +175,15 @@ struct signup: View {
                             }
                             
                         })
+                    }
                     .padding(.all, 10)
                     .offset(x: 130)
-                    .alert("Password must be at least 8 characters and include at least one [A..Z], one [a..z], one [0..1], and one special character.", isPresented: $alertpassword) {
-                                Button("OK", role: .cancel) {}
-                            }
-                    .alert("Re-password should be the same password you entred", isPresented: $alertrepassword) {
-                                Button("OK", role: .cancel) {}
-                            }
+//                    .alert("Password must be at least 8 characters and include at least one [A..Z], one [a..z], one [0..1], and one special character.", isPresented: $alertpassword) {
+//                                Button("OK", role: .cancel) {}
+//                            }
+//                    .alert("Re-password should be the same password you entred", isPresented: $alertrepassword) {
+//                                Button("OK", role: .cancel) {}
+//                            }
                     .alert("error server", isPresented: $alertserver) {
                                 Button("OK", role: .cancel) {}
                             }
@@ -205,12 +214,12 @@ struct signup: View {
             wrongemail = 2
             wrongnumber = 0
         }
-        else if !isValidPassword(password){
+        else if password == ""{
             wrongpassword = 2
             wrongemail = 0
             alertpassword = true
         }
-        else if repassword.isEmpty || password != repassword{
+        else if repassword == ""{
             wrongRepassword = 2
             wrongpassword = 0
             alertrepassword = true
