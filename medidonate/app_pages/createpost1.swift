@@ -24,7 +24,13 @@ class MedicineViewModel: ObservableObject {
 
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-        request.addValue("Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiaWF0IjoxNzE0NDMxNDE2LCJleHAiOjE3MTcwMjM0MTZ9.q1HEC10oBZQ3OpmeH8GSDeySREBYiKbtFo9cTGbxGdY", forHTTPHeaderField: "Authorization")
+        if let token = AuthService.token {
+                request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+        } else {
+                print("Authorization token is not available.")
+                // Optionally handle the scenario when there is no token (e.g., show login screen)
+                return
+            }
 
         URLSession.shared.dataTask(with: request) { data, response, error in
             guard let data = data else {
@@ -169,12 +175,16 @@ func uploadImage() {
         print("Invalid URL")
         return
     }
-        let authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiaWF0IjoxNzE0NDMxNDE2LCJleHAiOjE3MTcwMjM0MTZ9.q1HEC10oBZQ3OpmeH8GSDeySREBYiKbtFo9cTGbxGdY"
         // Create request
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        request.setValue("Bearer \(authToken)", forHTTPHeaderField: "Authorization")
-
+    if let token = AuthService.token {
+            request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+    } else {
+            print("Authorization token is not available.")
+            // Optionally handle the scenario when there is no token (e.g., show login screen)
+            return
+        }
 
         // Create boundary
         let boundary = UUID().uuidString
@@ -225,6 +235,7 @@ print("response getted from response body" ,    data)
     let newjsonData = data.data(using: .utf8)
         var imagedata: [[String: Any]] = []
         // Attempt to convert Data to an Array of Dictionaries
+        
             do {
                 if let jsonData = newjsonData {
                     if let parsedData = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [[String: Any]] {
@@ -268,12 +279,12 @@ print("response getted from response body" ,    data)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         if let token = AuthService.token {
                 request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-            } else {
+        } else {
                 print("Authorization token is not available.")
                 // Optionally handle the scenario when there is no token (e.g., show login screen)
                 return
             }
-
+        
         var body = Data()
 
 

@@ -178,9 +178,9 @@ struct signup: View {
                     }
                     .padding(.all, 10)
                     .offset(x: 130)
-//                    .alert("Password must be at least 8 characters and include at least one [A..Z], one [a..z], one [0..1], and one special character.", isPresented: $alertpassword) {
-//                                Button("OK", role: .cancel) {}
-//                            }
+                    .alert("Password must be at least 8 characters and include at least one [A..Z], one [a..z], one [0..1], and one special character.", isPresented: $alertpassword) {
+                                Button("OK", role: .cancel) {}
+                            }
 //                    .alert("Re-password should be the same password you entred", isPresented: $alertrepassword) {
 //                                Button("OK", role: .cancel) {}
 //                            }
@@ -214,7 +214,7 @@ struct signup: View {
             wrongemail = 2
             wrongnumber = 0
         }
-        else if password == ""{
+        else if !isValidPassword(password){
             wrongpassword = 2
             wrongemail = 0
             alertpassword = true
@@ -238,7 +238,7 @@ struct signup: View {
     // Password validation check
         func isValidPassword(_ password: String) -> Bool {
             // Passwords must be at least 8 characters, and include at least one uppercase letter, one lowercase letter, one number, and one special character
-            let passwordRegEx = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&._])[A-Za-z\\d$@$!%*?&._]{8,}"
+            let passwordRegEx = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&_])[A-Za-z\\d$@$!%*?&_]{8,}"
             let passwordPred = NSPredicate(format: "SELF MATCHES %@", passwordRegEx)
             return passwordPred.evaluate(with: password)
         }

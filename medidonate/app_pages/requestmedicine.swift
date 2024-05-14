@@ -9,6 +9,9 @@ import SwiftUI
 
 struct requestmedicine: View {
     @State var showview: Bool = false
+    @ObservedObject var viewModel = PostViewModel()
+    
+    
     var body: some View {
         NavigationView{
             VStack{
@@ -17,67 +20,73 @@ struct requestmedicine: View {
                         Circle()
                             .fill(Color.primarycolor)
                             .frame(width: 1500, height: 575)
-                            .offset( y: -490)
+                            .offset( y: -500)
                         Text("Request medicines")
                             .font(.title2)
                             .foregroundColor(.white)
                             .frame(width: 200, height: 50)
                             .offset(x:-60, y:-310)
                     }
-                    ZStack{
-                        RoundedRectangle(cornerRadius: 20)
-                            .stroke(Color.gray4)
-                            .cornerRadius(20)
-                            .foregroundColor(.white)
-                            .frame(width: 365, height: 150)
-                        HStack(spacing: 10){
-                            Image("panadol")
-                                .resizable(resizingMode: .stretch)
-                                .frame(width: 90, height: 120)
-                            VStack(alignment: .leading){
-                                Text("Panadol 500mg")
-                                    .font(.headline)
-                                    .fontWeight(.regular)
-                                Text("Category : Paracetamol")
-                                    .font(.callout)
-                                    .fontWeight(.light)
-                                    .foregroundColor(.gray)
+                    ForEach(viewModel.posts, id: \.id) { post in
+                        ZStack{
+                            RoundedRectangle(cornerRadius: 20)
+                                .stroke(Color.gray4)
+                                .cornerRadius(20)
+                                .foregroundColor(.white)
+                                .frame(width: 365, height: 150)
+                            if let postMedicines = post.attributes.post_medicines?.data {
+                                ForEach(postMedicines, id: \.id) { postMedicine in
+                                    HStack(spacing: 10){
+                                        Image("panadol")
+                                            .resizable(resizingMode: .stretch)
+                                            .frame(width: 90, height: 120)
+                                        VStack(alignment: .leading){
+                                            Text("Medicine Name: \(postMedicine.attributes.medicines.data.attributes.name)")
+                                                .font(.headline)
+                                                .fontWeight(.regular)
+                                            Text("Category: \(postMedicine.attributes.medicines.data.attributes.category)")
+                                                .font(.callout)
+                                                .fontWeight(.light)
+                                                .foregroundColor(.gray)
+                                        }
+                                        .frame(width: 200, height: 100, alignment: .topLeading)
+                                        NavigationLink(destination: requestmedicineinfo().navigationBarBackButtonHidden(), label: {Image(systemName: "arrow.forward.circle")
+                                                .font(.title2)
+                                            .foregroundColor(.primarycolor)})
+                                        .offset(y: -40)
+                                    }
+                                }
                             }
-                            .frame(width: 200, height: 100, alignment: .topLeading)
-                            NavigationLink(destination: requestmedicineinfo().navigationBarBackButtonHidden(), label: {Image(systemName: "arrow.forward.circle")
-                                    .font(.title2)
-                                .foregroundColor(.primarycolor)})
-                            .offset(y: -40)
                         }
                     }
                     .offset(y:-480)
-                    ZStack{
-                        RoundedRectangle(cornerRadius: 20)
-                            .stroke(Color.gray4)
-                            .cornerRadius(20)
-                            .foregroundColor(.white)
-                            .frame(width: 365, height: 150)
-                        HStack(spacing: 10){
-                            Image("vaccin")
-                                .resizable(resizingMode: .stretch)
-                                .frame(width: 90, height: 120)
-                            VStack(alignment: .leading){
-                                Text("Corona vaccin")
-                                    .font(.headline)
-                                    .fontWeight(.regular)
-                                Text("Category : vaccin")
-                                    .font(.callout)
-                                    .fontWeight(.light)
-                                    .foregroundColor(.gray)
-                            }
-                            .frame(width: 200, height: 100, alignment: .topLeading)
-                            NavigationLink(destination: requestmedicineinfo().navigationBarBackButtonHidden(), label: {Image(systemName: "arrow.forward.circle")
-                                    .font(.title2)
-                                .foregroundColor(.primarycolor)})
-                            .offset(y: -40)
-                        }
-                    }
-                    .offset(y:-480)
+                    //                    ZStack{
+                    //                        RoundedRectangle(cornerRadius: 20)
+                    //                            .stroke(Color.gray4)
+                    //                            .cornerRadius(20)
+                    //                            .foregroundColor(.white)
+                    //                            .frame(width: 365, height: 150)
+                    //                        HStack(spacing: 10){
+                    //                            Image("vaccin")
+                    //                                .resizable(resizingMode: .stretch)
+                    //                                .frame(width: 90, height: 120)
+                    //                            VStack(alignment: .leading){
+                    //                                Text("Corona vaccin")
+                    //                                    .font(.headline)
+                    //                                    .fontWeight(.regular)
+                    //                                Text("Category : vaccin")
+                    //                                    .font(.callout)
+                    //                                    .fontWeight(.light)
+                    //                                    .foregroundColor(.gray)
+                    //                            }
+                    //                            .frame(width: 200, height: 100, alignment: .topLeading)
+                    //                            NavigationLink(destination: requestmedicineinfo().navigationBarBackButtonHidden(), label: {Image(systemName: "arrow.forward.circle")
+                    //                                    .font(.title2)
+                    //                                .foregroundColor(.primarycolor)})
+                    //                            .offset(y: -40)
+                    //                        }
+                    //                    }
+                    //                    .offset(y:-480)
                     HStack(spacing: 20){
                         Group{
                             NavigationLink (destination: editrequestmedicine().navigationBarBackButtonHidden(), label:{
@@ -110,6 +119,9 @@ struct requestmedicine: View {
                         }
                     }
                     .offset(y: -230)
+                    .onAppear {
+                        viewModel.fetchPosts()
+                    }
                 }
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationBarItems(leading:NavigationLink(destination: home().navigationBarBackButtonHidden(), label: {Image(systemName: "chevron.backward")
@@ -193,7 +205,7 @@ struct requestmedicine: View {
             }
         }
     }
-}
+    }
 #Preview {
     requestmedicine()
 }

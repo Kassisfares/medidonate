@@ -148,6 +148,8 @@ extension JSONDecoder.DateDecodingStrategy {
 
 class PostViewModel: ObservableObject {
     @Published var posts = [PostData]()
+    @Published var selectedPost: PostData?
+
 
     func fetchPosts() {
         guard let url = URL(string: "http://localhost:1337/api/posts?populate[users_permissions_user]=*&populate[post_medicines][populate]=medicines") else {
@@ -164,6 +166,7 @@ class PostViewModel: ObservableObject {
                 // Optionally handle the scenario when there is no token (e.g., show login screen)
                 return
             }
+        
         URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
             guard let data = data else {
                 print("No data in response: \(error?.localizedDescription ?? "Unknown error")")
@@ -180,6 +183,39 @@ class PostViewModel: ObservableObject {
             }
         }.resume()
     }
+    
+    func fetchPostById(_ id: Int) {
+            guard let url = URL(string: "http://localhost:1337/api/posts/\(id)?populate[users_permissions_user]=*&populate[post_medicines][populate]=medicines") else {
+                print("Invalid URL")
+                return
+            }
+
+            var request = URLRequest(url: url)
+            request.httpMethod = "GET"
+            if let token = AuthService.token {
+                request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+            } else {
+                print("Authorization token is not available.")
+                return
+            }
+            
+            URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
+                guard let data = data else {
+                    print("No data in response: \(error?.localizedDescription ?? "Unknown error")")
+                    return
+                }
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .flexibleISO8601
+                do {
+                    let decodedResponse = try decoder.decode(PostData.self, from: data)
+                    DispatchQueue.main.async {
+                        self?.selectedPost = decodedResponse
+                    }
+                } catch {
+                    print("Failed to decode JSON: \(error)")
+                }
+            }.resume()
+        }
 }
 
 

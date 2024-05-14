@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct requestmedicineinfo: View {
-    @State private var quantity: Int = 0
     @Environment(\.dismiss) private var dismiss
+    @ObservedObject var viewModel = PostViewModel()
+    
     var body: some View {
         NavigationView{
             ScrollView{
@@ -29,23 +30,6 @@ struct requestmedicineinfo: View {
                             .font(.footnote)
                             .fontWeight(.light)
                             .foregroundColor(.gray)
-                    }
-                    .padding(.leading, 40)
-                    Rectangle()
-                        .fill(Color.gray3)
-                        .frame(width:400, height: 5)
-                    Group{
-                        Text("Beneficial for :")
-                            .font(.title3)
-                        Text("+ Headache")
-                            .font(.subheadline)
-                            .fontWeight(.light)
-                        Text("+ Pain")
-                            .font(.subheadline)
-                            .fontWeight(.light)
-                        Text("+ Fever")
-                            .font(.subheadline)
-                            .fontWeight(.light)
                     }
                     .padding(.leading, 40)
                     Rectangle()
@@ -75,25 +59,13 @@ struct requestmedicineinfo: View {
                         .fill(Color.gray3)
                         .frame(width:400, height: 5)
                 }
-                HStack{
-                    ZStack{
-                        RoundedRectangle(cornerRadius: 15)
-                            .stroke(Color.primarycolor, lineWidth: 2)
-                            .frame(width: 235, height: 50)
-                        Stepper(value: $quantity, in: 0...3,step: 1){
-                            Text("Quantity: \(quantity)")
-                                .foregroundColor(.primarycolor)
-                        }
-                        .padding()
-                        .frame(width: 220)
-                    }
-                    Button(action: {
-                        dismiss()
+                Button(action: {
+                    dismiss()
                     }, label: {
                         ZStack{
                             RoundedRectangle(cornerRadius: 15)
                                 .foregroundStyle(Color.primarycolor)
-                                .frame(width: 100, height: 40, alignment: .center)
+                                .frame(width: 200, height: 40, alignment: .center)
                             HStack{
                                 Text("Done")
                                     .fontWeight(.medium)
@@ -101,7 +73,7 @@ struct requestmedicineinfo: View {
                             }
                         }
                     })
-                }
+                .offset(y: 50)
             }
         }
     }
