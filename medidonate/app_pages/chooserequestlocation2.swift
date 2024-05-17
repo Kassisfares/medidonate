@@ -42,10 +42,6 @@ struct chooserequestlocation2: View {
                                 .foregroundColor(.gray)
                         }
                         .frame(width: 200, height: 100, alignment: .topLeading)
-                        NavigationLink(destination: requestmedicineinfo().navigationBarBackButtonHidden(), label: {Image(systemName: "arrow.forward.circle")
-                                .font(.title2)
-                                .foregroundColor(.primarycolor)})
-                        .offset(y: -40)
                     }
                 }
                 .offset(y:-480)
@@ -69,10 +65,6 @@ struct chooserequestlocation2: View {
                                 .foregroundColor(.gray)
                         }
                         .frame(width: 200, height: 100, alignment: .topLeading)
-                        NavigationLink(destination: requestmedicineinfo().navigationBarBackButtonHidden(), label: {Image(systemName: "arrow.forward.circle")
-                                .font(.title2)
-                                .foregroundColor(.primarycolor)})
-                        .offset(y: -40)
                     }
                 }
                 .offset(y:-480)

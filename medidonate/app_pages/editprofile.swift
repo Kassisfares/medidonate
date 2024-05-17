@@ -18,12 +18,12 @@ struct editprofile: View {
     var body: some View {
         NavigationView{
             ScrollView{
-                VStack {
-                    Image(systemName: "person.circle.fill")
-                        .resizable(resizingMode: .tile)
-                        .frame(width: 100, height: 100)
-                        .foregroundColor(.green)
-                    Group{
+                    VStack(spacing: 15){
+                        Image(systemName: "person.circle.fill")
+                            .resizable(resizingMode: .tile)
+                            .frame(width: 100, height: 100)
+                            .foregroundColor(.green)
+                            .padding(.top)
                         Text("Full Name")
                             .offset(x: -130)
                             .frame(height: 25)
@@ -39,40 +39,41 @@ struct editprofile: View {
                                 .padding(.leading)
                                 .fontWeight(.regular)
                         }
-                        Text("Date Of Birth")
-                            .offset(x: -120)
-                            .frame(height: 25)
-                        ZStack{
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.black, lineWidth: 2)
-                                .foregroundColor(.white)
-                                .frame(width: 365, height: 50)
-                                .cornerRadius(10)
-                            DatePicker("D.O.B", selection: $DOB, in: ...Date(), displayedComponents:.date)
-                                .frame(width: 330)
-                        }
+//                        Text("Date Of Birth")
+//                            .offset(x: -120)
+//                            .frame(height: 25)
+//                        ZStack{
+//                            RoundedRectangle(cornerRadius: 10)
+//                                .stroke(Color.black, lineWidth: 2)
+//                                .foregroundColor(.white)
+//                                .frame(width: 365, height: 50)
+//                                .cornerRadius(10)
+//                            DatePicker("D.O.B", selection: $DOB, in: ...Date(), displayedComponents:.date)
+//                                .frame(width: 330)
+//                        }
                         Text("Phone Number")
                             .offset(x: -110)
                             .frame(height: 25)
                         HStack{
                             Group{
-                                ZStack{
+//                                ZStack{
+//                                    RoundedRectangle(cornerRadius: 10)
+//                                        .stroke(Color.black, lineWidth: 2)
+//                                        .foregroundColor(.white)
+//                                        .frame(width: 50, height: 50, alignment: .center)
+//                                        .cornerRadius(10)
+//                                    TextField("+216", text: $code)
+//                                        .frame(width: 50, height: 30)
+//                                }
+                                ZStack(alignment: Alignment(horizontal: .leading, vertical: .center)){
                                     RoundedRectangle(cornerRadius: 10)
                                         .stroke(Color.black, lineWidth: 2)
                                         .foregroundColor(.white)
-                                        .frame(width: 50, height: 50, alignment: .center)
-                                        .cornerRadius(10)
-                                    TextField("+216", text: $code)
-                                        .frame(width: 50, height: 30)
-                                }
-                                ZStack{
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .stroke(Color.black, lineWidth: 2)
-                                        .foregroundColor(.white)
-                                        .frame(width: 305, height: 50, alignment: .leading)
+                                        .frame(width: 365, height: 50, alignment: .leading)
                                         .cornerRadius(10)
                                     TextField("20908696", text: $phonenumber)
-                                        .frame(width: 90, height: 30)
+                                        .frame(width: 90, height: 30, alignment: .leading)
+                                        .padding(.leading)
                                 }
                             }
                         }
@@ -91,27 +92,27 @@ struct editprofile: View {
                                 .padding(.leading)
                                 .fontWeight(.regular)
                         }
-                        Text("Male")
-                            .offset(x: -145)
-                            .frame(height: 25)
-                        ZStack(alignment: .leading){
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.black, lineWidth: 2)
-                                .foregroundColor(.white)
-                                .frame(width: 365, height: 50)
-                                .cornerRadius(10)
-                            Menu("\(gender)"){
-                                Button("Male"){
-                                    gender = "Male"
-                                }
-                                Button("Female"){
-                                    gender = "Female"
-                                }
-                            }
-                            .foregroundColor(.gray)
-                            .padding(.leading)
-                            .frame(width: 250, alignment: .leading)
-                        }
+//                        Text("Male")
+//                            .offset(x: -145)
+//                            .frame(height: 25)
+//                        ZStack(alignment: .leading){
+//                            RoundedRectangle(cornerRadius: 10)
+//                                .stroke(Color.black, lineWidth: 2)
+//                                .foregroundColor(.white)
+//                                .frame(width: 365, height: 50)
+//                                .cornerRadius(10)
+//                            Menu("\(gender)"){
+//                                Button("Male"){
+//                                    gender = "Male"
+//                                }
+//                                Button("Female"){
+//                                    gender = "Female"
+//                                }
+//                            }
+//                            .foregroundColor(.gray)
+//                            .padding(.leading)
+//                            .frame(width: 250, alignment: .leading)
+//                        }
                         Text("Password")
                             .offset(x: -125)
                             .frame(height: 25)
@@ -132,7 +133,7 @@ struct editprofile: View {
                                 Rectangle()
                                     .cornerRadius(12)
                                     .foregroundStyle(Color.primarycolor)
-                                    .frame(width: 250, height: 40, alignment: .center)
+                                    .frame(width: 250, height: 50, alignment: .center)
                                     .padding()
                                 Text("Done")
                                     .font(.title2)
@@ -141,8 +142,8 @@ struct editprofile: View {
                                     .foregroundStyle(.white)
                             }
                         })
+                        .offset(y: 60)
                     }
-                }
             }
             .navigationTitle("Profile")
             .navigationBarTitleDisplayMode(.inline)

@@ -16,7 +16,7 @@ class MedicineViewModel: ObservableObject {
     }
 
     func fetchMedicines(start: Int = 0) {
-        let limit = 6071
+        let limit = 6072
         guard let url = URL(string: "http://localhost:1337/api/medicines?pagination[start]=\(start)&pagination[limit]=\(limit)") else {
             print("Invalid URL")
             return
@@ -97,13 +97,36 @@ struct Medicine: Encodable {
     var quantity: Int
     var fabDate: Date
     var expDate: Date
+    var image: UIImage?
+
+    enum CodingKeys: String, CodingKey {
+        case attributes, quantity, fabDate, expDate, image
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(attributes, forKey: .attributes)
+        try container.encode(quantity, forKey: .quantity)
+        try container.encode(fabDate, forKey: .fabDate)
+        try container.encode(expDate, forKey: .expDate)
+        
+        if let image = image {
+            let imageData = image.pngData() // or use jpegData(compressionQuality:) if you prefer JPEG
+            let imageBase64String = imageData?.base64EncodedString()
+            try container.encode(imageBase64String, forKey: .image)
+        } else {
+            try container.encodeNil(forKey: .image)
+        }
+    }
 }
+
 struct MedicineAttributes: Encodable {
     let id: Int
     let name: String
     let category: String
     let type: String
 }
+
 
 
 let dateFormatter: DateFormatter = {
@@ -123,27 +146,23 @@ struct createpost1: View {
     @State private var showingSearchResults = false
     
 
-    func encodedata(allData: [Medicine]) -> [[String: Any]]{
-        // Use JSONEncoder to convert the array to JSON data
+    func encodedata(allData: [Medicine]) -> [[String: Any]] {
         let encoder = JSONEncoder()
         var jsonString = ""
         do {
             let jsonData = try encoder.encode(allData)
-            //             Convert JSON data to a string
             jsonString = String(data: jsonData, encoding: .utf8) ?? ""
             print(jsonString)
-            //                return(jsonString)
         } catch {
             print("Error encoding array: \(error)")
         }
         
         let newjsonData = jsonString.data(using: .utf8)
         var newalldata: [[String: Any]] = []
-        // Attempt to convert Data to an Array of Dictionaries
         do {
             if let jsonData = newjsonData {
                 if let parsedData = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [[String: Any]] {
-                    newalldata = parsedData // Successfully parsed the JSON data
+                    newalldata = parsedData
                     return newalldata
                 } else {
                     print("Data was not in the expected array of dictionaries format")
@@ -157,6 +176,7 @@ struct createpost1: View {
         
         return []
     }
+
 
 func uploadImage() {
         guard let image = selectedMedicineImage else {
@@ -249,6 +269,24 @@ print("response getted from response body" ,    data)
             } catch {
                 print("Failed to parse JSON: \(error)")
             }
+        
+//        print("Response from upload: \(data)")
+//
+//                guard let recivedData = data.data(using: .utf8) else {
+//                    print("Failed to convert data to JSON")
+//                    return
+//                }
+//
+//                var imagedata: [[String: Any]] = []
+//                do {
+//                    if let parsedData = try JSONSerialization.jsonObject(with: recivedData, options: []) as? [[String: Any]] {
+//                        imagedata = parsedData
+//                    } else {
+//                        print("Data was not in the expected array of dictionaries format")
+//                    }
+//                } catch {
+//                    print("Failed to parse JSON: \(error)")
+//                }
         
 
 //        print (encodedata(allData: medicines))
@@ -346,6 +384,7 @@ print("response getted from response body" ,    data)
     @State private var showAlertDonateRequest = false
     @State private var showAlertForZeroQuantity = false
 
+
     @ObservedObject var viewModel1 = MedicineViewModel()
     @State private var searchText = ""
     @State private var selectedMedicines: [String] = []
@@ -362,11 +401,7 @@ print("response getted from response body" ,    data)
             return
         }
 
-//        // Check if any medicine has a quantity of zero
-//            if medicines.contains(where: { $0.quantity <= 0 }) {
-//                showAlertForZeroQuantity = true
-//                return
-//            }
+
 
         uploadImage() // Call uploadImage() only if conditions are met
 
@@ -513,37 +548,37 @@ print("response getted from response body" ,    data)
                         }
                     })
                     .offset(y: -30)
-                    Button( action: {
-                        showview5.toggle()
-                    }, label: {
-                        ZStack{
-                            RoundedRectangle(cornerRadius: 30)
-                                .stroke(Color.primarycolor, lineWidth: 1)
-                                .foregroundStyle(Color.white)
-                                .frame(width: 180, height: 40, alignment: .center)
-                            HStack{
-                                Image(systemName: "map.circle")
-                                    .foregroundColor(.primarycolor)
-                                Text("Add address")
-                                    .foregroundColor(.primarycolor)
-                                Image(systemName: "plus.circle")
-                                    .foregroundColor(.primarycolor)
-                            }
-                        }
-                    })
-                    .offset(y: -30)
+//                    Button( action: {
+//                        showview5.toggle()
+//                    }, label: {
+//                        ZStack{
+//                            RoundedRectangle(cornerRadius: 30)
+//                                .stroke(Color.primarycolor, lineWidth: 1)
+//                                .foregroundStyle(Color.white)
+//                                .frame(width: 180, height: 40, alignment: .center)
+//                            HStack{
+//                                Image(systemName: "map.circle")
+//                                    .foregroundColor(.primarycolor)
+//                                Text("Add address")
+//                                    .foregroundColor(.primarycolor)
+//                                Image(systemName: "plus.circle")
+//                                    .foregroundColor(.primarycolor)
+//                            }
+//                        }
+//                    })
+//                    .offset(y: -30)
                 }
                 .offset(y: 420)
                 ScrollView{
                     ForEach(medicines.indices, id: \.self) { index in
                         HStack {
-//                            if let image = medicines[index].image {
-//                                Image(uiImage: image)
-//                                    .resizable()
-//                                    .aspectRatio(contentMode: .fit)
-//                                    .frame(width: 100, height: 100)
-//                                    .padding(.bottom, 8)
-//                            }
+                            if let image = medicines[index].image {
+                                Image(uiImage: image)
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 100, height: 100)
+                                    .padding(.bottom, 8)
+                            }
                             VStack(alignment: .leading) {
                                 Text("Medicine Id: \(medicines[index].attributes.id)")
                                 Text("Medicine Name: \(medicines[index].attributes.name)")
@@ -621,12 +656,7 @@ print("response getted from response body" ,    data)
                                         self.category = medicine.category
                                         self.choicemade = medicine.type
                                         dismissKeyboard()
-                                                            }
-//                                    .onAppear {
-//                                        if quantity == 0 {
-//                                            showAlertForZeroQuantity = true
-//                                        }
-//                                    }
+                                    }
                                 }
                             }
                             .frame(width: 380, height: 350, alignment: .center)
@@ -711,11 +741,14 @@ print("response getted from response body" ,    data)
                                         .offset(y: 24)
                                 }
                                 Button(action: {
-//                                    medicine in
-                                    let newMedicine = Medicine(attributes: MedicineAttributes(id : id , name: medicinee, category: category, type: choicemade), quantity: quantity, fabDate: fab_date, expDate: exp_date)
-                                    medicines.append(newMedicine)
-                                    showview3.toggle()
-                                    resetFields()
+                                    if quantity == 0 {
+                                        showAlertForZeroQuantity = true
+                                    } else {
+                                        let newMedicine = Medicine(attributes: MedicineAttributes(id : id , name: medicinee, category: category, type: choicemade), quantity: quantity, fabDate: fab_date, expDate: exp_date, image: selectedMedicineImage)
+                                        medicines.append(newMedicine)
+                                        showview3.toggle()
+                                        resetFields()
+                                    }
                                 }, label: {
                                     ZStack{
                                         RoundedRectangle(cornerRadius: 15)
@@ -726,6 +759,13 @@ print("response getted from response body" ,    data)
                                             .foregroundColor(.white)
                                     }
                                 })
+                                .alert(isPresented: $showAlertForZeroQuantity) {
+                                    Alert(
+                                        title: Text("Alert"),
+                                        message: Text("You must enter a quantity greater than zero."),
+                                        dismissButton: .default(Text("OK"))
+                                    )
+                                }
                             }
                             .offset(y: 20)
                         }
@@ -738,81 +778,81 @@ print("response getted from response body" ,    data)
             .edgesIgnoringSafeArea(.bottom)
             .offset(y: -8)
         }
-        if showview5 {
-            ZStack(alignment: .bottom){
-                Rectangle()
-                    .frame(width: 400, height: 430)
-                    .foregroundColor(.primarycolor)
-                    .cornerRadius(50)
-                VStack{
-                    HStack{
-                        Button(action: {
-                            showview5.toggle()
-                        }, label: {
-                            Image(systemName: "plus")
-                                .padding(.leading, 20)
-                                .font(.title)
-                                .rotationEffect(.degrees(45))
-                                .foregroundColor(.white)
-                        })
-                        .offset(x: -70, y: -7)
-                        Text("Choose location")
-                            .font(.title)
-                            .foregroundColor(.white)
-                            .offset(x: -25)
-                    }
-                    Text("Set location on map")
-                        .font(.title3)
-                        .foregroundColor(.white)
-                        .offset(x: -90)
-                        .padding(.bottom, 10)
-                    NavigationLink (destination: addlocation2().navigationBarBackButtonHidden(), label:{
-                        Image("map")
-                            .resizable(resizingMode: .stretch)
-                            .frame(width: 300, height: 200)
-                    })
-                    HStack{
-                        Rectangle()
-                            .fill(Color.gray3)
-                            .frame(width:100, height: 2)
-                            .offset(y: -2)
-                        Text("Or")
-                            .foregroundColor(.white)
-                            .padding(.leading)
-                            .padding(.trailing)
-                        Rectangle()
-                            .fill(Color.gray3)
-                            .frame(width:100, height: 2)
-                            .offset(y: -2)
-                    }
-                    .padding(.top, 10)
-                    .padding(.bottom, 10)
-                    NavigationLink (destination: addlocation2().navigationBarBackButtonHidden(), label:{
-                        ZStack{
-                            Rectangle()
-                                .cornerRadius(12)
-                                .foregroundStyle(Color.white)
-                                .frame(width: 250, height: 40, alignment: .center)
-                            HStack{
-                                Image(systemName: "plus")
-                                    .foregroundColor(.primarycolor)
-                                    .fontWeight(.medium)
-                                Text("Add new location")
-                                    .font(.title2)
-                                    .fontWeight(.medium)
-                                    .multilineTextAlignment(.center)
-                                    .foregroundStyle(.primarycolor)
-                            }
-                        }
-                    })
-                }
-                .offset(y: -20)
-            }
-            .offset(y: 34)
-            .transition(.move(edge: .bottom))
-            .animation(.easeInOut)
-            .edgesIgnoringSafeArea(.bottom)
-        }
+//        if showview5 {
+//            ZStack(alignment: .bottom){
+//                Rectangle()
+//                    .frame(width: 400, height: 430)
+//                    .foregroundColor(.primarycolor)
+//                    .cornerRadius(50)
+//                VStack{
+//                    HStack{
+//                        Button(action: {
+//                            showview5.toggle()
+//                        }, label: {
+//                            Image(systemName: "plus")
+//                                .padding(.leading, 20)
+//                                .font(.title)
+//                                .rotationEffect(.degrees(45))
+//                                .foregroundColor(.white)
+//                        })
+//                        .offset(x: -70, y: -7)
+//                        Text("Choose location")
+//                            .font(.title)
+//                            .foregroundColor(.white)
+//                            .offset(x: -25)
+//                    }
+//                    Text("Set location on map")
+//                        .font(.title3)
+//                        .foregroundColor(.white)
+//                        .offset(x: -90)
+//                        .padding(.bottom, 10)
+//                    NavigationLink (destination: addlocation2().navigationBarBackButtonHidden(), label:{
+//                        Image("map")
+//                            .resizable(resizingMode: .stretch)
+//                            .frame(width: 300, height: 200)
+//                    })
+//                    HStack{
+//                        Rectangle()
+//                            .fill(Color.gray3)
+//                            .frame(width:100, height: 2)
+//                            .offset(y: -2)
+//                        Text("Or")
+//                            .foregroundColor(.white)
+//                            .padding(.leading)
+//                            .padding(.trailing)
+//                        Rectangle()
+//                            .fill(Color.gray3)
+//                            .frame(width:100, height: 2)
+//                            .offset(y: -2)
+//                    }
+//                    .padding(.top, 10)
+//                    .padding(.bottom, 10)
+//                    NavigationLink (destination: addlocation2().navigationBarBackButtonHidden(), label:{
+//                        ZStack{
+//                            Rectangle()
+//                                .cornerRadius(12)
+//                                .foregroundStyle(Color.white)
+//                                .frame(width: 250, height: 40, alignment: .center)
+//                            HStack{
+//                                Image(systemName: "plus")
+//                                    .foregroundColor(.primarycolor)
+//                                    .fontWeight(.medium)
+//                                Text("Add new location")
+//                                    .font(.title2)
+//                                    .fontWeight(.medium)
+//                                    .multilineTextAlignment(.center)
+//                                    .foregroundStyle(.primarycolor)
+//                            }
+//                        }
+//                    })
+//                }
+//                .offset(y: -20)
+//            }
+//            .offset(y: 34)
+//            .transition(.move(edge: .bottom))
+//            .animation(.easeInOut)
+//            .edgesIgnoringSafeArea(.bottom)
+//        }
     }
 }
 

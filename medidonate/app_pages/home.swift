@@ -17,6 +17,8 @@ struct home: View {
     @State var comment2: String = ""
     @State var comment3: String = ""
     @State var path: [Pages] = []
+    @State private var showhomescreen = false
+
     
     @ObservedObject var viewModel = PostViewModel()
     
@@ -62,29 +64,59 @@ struct home: View {
                                         .foregroundColor(.gray4)
                                 }
                                 .frame(width: 200, height: 50, alignment: .leading)
-                                NavigationLink(destination: requestmedicine().navigationBarBackButtonHidden()){
-                                    ZStack(){
-                                        Group{
-                                            Rectangle()
-                                                .cornerRadius(10)
-                                                .foregroundStyle(Color.primarycolor)
-                                                .frame(width: 100, height: 50, alignment: .center)
-                                            VStack{
-                                                Text("Send")
-                                                    .font(.headline)
-                                                    .fontWeight(.semibold)
-                                                    .multilineTextAlignment(.center)
-                                                    .foregroundStyle(.white)
-                                                Text("Request")
-                                                    .font(.headline)
-                                                    .fontWeight(.semibold)
-                                                    .multilineTextAlignment(.center)
-                                                    .foregroundStyle(.white)
-                                            }
-                                        }
-                                        .padding(.trailing)
-                                    }
-                                }
+                                NavigationLink(destination: requestmedicine(viewModel: viewModel)
+                                    .navigationBarBackButtonHidden()
+                                    .onAppear {
+                                        viewModel.selectPost(id: post.id)
+                                        }) {
+                                                                    ZStack {
+                                                                        Group {
+                                                                            Rectangle()
+                                                                                .cornerRadius(10)
+                                                                                .foregroundStyle(Color.primarycolor)
+                                                                                .frame(width: 100, height: 50, alignment: .center)
+                                                                            VStack {
+                                                                                Text("Send")
+                                                                                    .font(.headline)
+                                                                                    .fontWeight(.semibold)
+                                                                                    .multilineTextAlignment(.center)
+                                                                                    .foregroundStyle(.white)
+                                                                                Text("Request")
+                                                                                    .font(.headline)
+                                                                                    .fontWeight(.semibold)
+                                                                                    .multilineTextAlignment(.center)
+                                                                                    .foregroundStyle(.white)
+                                                                            }
+                                                                        }
+                                                                        .padding(.trailing)
+                                                                    }
+                                                                }
+//                                NavigationLink(destination: requestmedicine().navigationBarBackButtonHidden(true)) {
+//                                    ZStack {
+//                                        Group {
+//                                            Rectangle()
+//                                                .cornerRadius(10)
+//                                                .foregroundStyle(Color.primarycolor)
+//                                                .frame(width: 100, height: 50, alignment: .center)
+//                                            VStack {
+//                                                Text("Send")
+//                                                    .font(.headline)
+//                                                    .fontWeight(.semibold)
+//                                                    .multilineTextAlignment(.center)
+//                                                    .foregroundStyle(.white)
+//                                                Text("Request")
+//                                                    .font(.headline)
+//                                                    .fontWeight(.semibold)
+//                                                    .multilineTextAlignment(.center)
+//                                                    .foregroundStyle(.white)
+//                                            }
+//                                        }
+//                                        .padding(.trailing)
+//                                    }
+//                                }
+//                                .onTapGesture {
+//                                    viewModel.fetchPosts()
+//                                }
                             }
                                 Text("\(post.attributes.description)")
                                 .frame(minWidth: 50, maxWidth: 370, minHeight: 20, maxHeight: 150, alignment: .leading)
@@ -127,9 +159,7 @@ struct home: View {
                         }
                     }
                 }
-                .onAppear {
-                    viewModel.fetchPosts()
-                }
+                
             }
             .navigationTitle("Medi-Donate")
             .navigationDestination(for: Pages.self, destination: { page in
@@ -139,7 +169,11 @@ struct home: View {
             .navigationBarItems(leading: NavigationLink(destination: settings().navigationBarBackButtonHidden(), label: {Image(systemName: "line.3.horizontal.circle.fill").foregroundColor(.primarycolor)
                 .font(.title)}),trailing: NavigationLink(destination: searchesall().navigationBarBackButtonHidden(), label: {Image(systemName: "magnifyingglass.circle.fill")
                         .foregroundColor(.primarycolor)
-                        .font(.title)}))
+                        .font(.title)
+            }))
+        }
+        .onAppear {
+            viewModel.fetchPosts()
         }
     }
 }

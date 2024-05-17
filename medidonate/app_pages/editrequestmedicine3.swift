@@ -43,10 +43,6 @@ struct editrequestmedicine3: View {
                                 .foregroundColor(.gray)
                         }
                         .frame(width: 200, height: 100, alignment: .topLeading)
-                        NavigationLink(destination: requestmedicineinfo().navigationBarBackButtonHidden(), label: {Image(systemName: "arrow.forward.circle")
-                                .font(.title2)
-                                .foregroundColor(.primarycolor)})
-                        .offset(y: -40)
                     }
                 }
                 .offset(y:-480)
@@ -214,10 +210,6 @@ struct chooserequestlocation2_after_edit: View {
                                 .foregroundColor(.gray)
                         }
                         .frame(width: 200, height: 100, alignment: .topLeading)
-                        NavigationLink(destination: requestmedicineinfo().navigationBarBackButtonHidden(), label: {Image(systemName: "arrow.forward.circle")
-                                .font(.title2)
-                                .foregroundColor(.primarycolor)})
-                        .offset(y: -40)
                     }
                 }
                 .offset(y:-480)
@@ -306,10 +298,6 @@ struct chooserequestlocation3_after_edit: View {
                                 .foregroundColor(.gray)
                         }
                         .frame(width: 200, height: 100, alignment: .topLeading)
-                        NavigationLink(destination: requestmedicineinfo().navigationBarBackButtonHidden(), label: {Image(systemName: "arrow.forward.circle")
-                                .font(.title2)
-                                .foregroundColor(.primarycolor)})
-                        .offset(y: -40)
                     }
                 }
                 .offset(y:-480)
@@ -413,10 +401,6 @@ struct confirmerequest_after_edit: View {
                                 .foregroundColor(.gray)
                         }
                         .frame(width: 200, height: 100, alignment: .topLeading)
-                        NavigationLink(destination: requestmedicineinfo().navigationBarBackButtonHidden(), label: {Image(systemName: "arrow.forward.circle")
-                                .font(.title2)
-                                .foregroundColor(.primarycolor)})
-                        .offset(y: -40)
                     }
                 }
                 .offset(y:-480)
