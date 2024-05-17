@@ -47,122 +47,30 @@ struct historyrequest: View {
                     .offset(x: -35, y: -320)
                 }
                 .offset(y: 80)
-                VStack {
-                    ZStack{
-                        RoundedRectangle(cornerRadius: 20)
-                            .stroke(Color.gray4)
-                            .cornerRadius(20)
-                            .foregroundColor(.white)
-                            .frame(width: 365, height: 150)
-                        HStack(spacing: 10){
-                            Image(systemName: "basket")
-                                .font(.system(size: 100))
-                                .foregroundColor(.primarycolor)
-                            VStack(alignment: .leading){
-                                Text("RequesNumber #2001")
-                                    .font(.headline)
-                                    .fontWeight(.regular)
-                                Text("Date: 20/02/2024")
-                                    .font(.callout)
-                                    .fontWeight(.light)
-                                    .foregroundColor(.gray)
+                ForEach(0..<5) { _ in
+                        ZStack{
+                            RoundedRectangle(cornerRadius: 20)
+                                .stroke(Color.gray4)
+                                .cornerRadius(20)
+                                .foregroundColor(.white)
+                                .frame(width: 365, height: 150)
+                            HStack(spacing: 10){
+                                Image(systemName: "pills")
+                                    .font(.system(size: 100))
+                                    .foregroundColor(.primarycolor)
+                                VStack(alignment: .leading){
+                                    Text("Request Number #2001")
+                                        .font(.headline)
+                                        .fontWeight(.regular)
+                                    Text("Date: 20/02/2024")
+                                        .font(.callout)
+                                        .fontWeight(.light)
+                                        .foregroundColor(.gray)
+                                }
+                                .frame(width: 200, height: 100, alignment: .topLeading)
                             }
-                            .frame(width: 200, height: 100, alignment: .topLeading)
                         }
-                    }
-                    .offset(y:-480)
-                    ZStack{
-                        RoundedRectangle(cornerRadius: 20)
-                            .stroke(Color.gray4)
-                            .cornerRadius(20)
-                            .foregroundColor(.white)
-                            .frame(width: 365, height: 150)
-                        HStack(spacing: 10){
-                            Image(systemName: "basket")
-                                .font(.system(size: 100))
-                                .foregroundColor(.primarycolor)
-                            VStack(alignment: .leading){
-                                Text("RequesNumber #2001")
-                                    .font(.headline)
-                                    .fontWeight(.regular)
-                                Text("Date: 20/02/2024")
-                                    .font(.callout)
-                                    .fontWeight(.light)
-                                    .foregroundColor(.gray)
-                            }
-                            .frame(width: 200, height: 100, alignment: .topLeading)
-                        }
-                    }
-                    .offset(y:-480)
-                    ZStack{
-                        RoundedRectangle(cornerRadius: 20)
-                            .stroke(Color.gray4)
-                            .cornerRadius(20)
-                            .foregroundColor(.white)
-                            .frame(width: 365, height: 150)
-                        HStack(spacing: 10){
-                            Image(systemName: "basket")
-                                .font(.system(size: 100))
-                                .foregroundColor(.primarycolor)
-                            VStack(alignment: .leading){
-                                Text("RequesNumber #2001")
-                                    .font(.headline)
-                                    .fontWeight(.regular)
-                                Text("Date: 20/02/2024")
-                                    .font(.callout)
-                                    .fontWeight(.light)
-                                    .foregroundColor(.gray)
-                            }
-                            .frame(width: 200, height: 100, alignment: .topLeading)
-                        }
-                    }
-                    .offset(y:-480)
-                    ZStack{
-                        RoundedRectangle(cornerRadius: 20)
-                            .stroke(Color.gray4)
-                            .cornerRadius(20)
-                            .foregroundColor(.white)
-                            .frame(width: 365, height: 150)
-                        HStack(spacing: 10){
-                            Image(systemName: "basket")
-                                .font(.system(size: 100))
-                                .foregroundColor(.primarycolor)
-                            VStack(alignment: .leading){
-                                Text("RequesNumber #2001")
-                                    .font(.headline)
-                                    .fontWeight(.regular)
-                                Text("Date: 20/02/2024")
-                                    .font(.callout)
-                                    .fontWeight(.light)
-                                    .foregroundColor(.gray)
-                            }
-                            .frame(width: 200, height: 100, alignment: .topLeading)
-                        }
-                    }
-                    .offset(y:-480)
-                    ZStack{
-                        RoundedRectangle(cornerRadius: 20)
-                            .stroke(Color.gray4)
-                            .cornerRadius(20)
-                            .foregroundColor(.white)
-                            .frame(width: 365, height: 150)
-                        HStack(spacing: 10){
-                            Image(systemName: "basket")
-                                .font(.system(size: 100))
-                                .foregroundColor(.primarycolor)
-                            VStack(alignment: .leading){
-                                Text("RequesNumber #2001")
-                                    .font(.headline)
-                                    .fontWeight(.regular)
-                                Text("Date: 20/02/2024")
-                                    .font(.callout)
-                                    .fontWeight(.light)
-                                    .foregroundColor(.gray)
-                            }
-                            .frame(width: 200, height: 100, alignment: .topLeading)
-                        }
-                    }
-                    .offset(y:-480)
+                        .offset(y:-480)
                 }
             }
             .navigationBarItems(leading:NavigationLink(destination: settings().navigationBarBackButtonHidden(), label: {Image(systemName: "chevron.backward")

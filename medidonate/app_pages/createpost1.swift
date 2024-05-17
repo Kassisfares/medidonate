@@ -24,7 +24,7 @@ class MedicineViewModel: ObservableObject {
 
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-        if let token = AuthService.token {
+        if let token = AuthService.token ?? RegisterService.token {
                 request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         } else {
                 print("Authorization token is not available.")
@@ -198,7 +198,7 @@ func uploadImage() {
         // Create request
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-    if let token = AuthService.token {
+    if let token = AuthService.token ?? RegisterService.token {
             request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
     } else {
             print("Authorization token is not available.")
@@ -315,7 +315,7 @@ print("response getted from response body" ,    data)
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        if let token = AuthService.token {
+        if let token = AuthService.token ?? RegisterService.token {
                 request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         } else {
                 print("Authorization token is not available.")

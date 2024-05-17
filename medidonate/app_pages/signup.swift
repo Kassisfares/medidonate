@@ -9,9 +9,10 @@ import SwiftUI
 import Foundation
 
 
-class register {
-    static var token: String?
-    static func registerrequest(name: String, phone_number: String, email: String, password: String, repassword: String) {
+class RegisterService {
+    static var token: String? // Static variable to store the token
+
+    static func registerrequest(name: String, phone_number: String, email: String, password: String, repassword: String, completion: @escaping (Bool) -> Void) {
         let url = URL(string: "http://localhost:1337/api/auth/local/register")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -19,6 +20,7 @@ class register {
         let payload: [String: Any] = ["username": name, "email": email, "password": password, "phone": phone_number]
         guard let payloadData = try? JSONSerialization.data(withJSONObject: payload) else {
             print("Error creating payload data")
+            completion(false)
             return
         }
 
@@ -28,36 +30,44 @@ class register {
         URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 print("Error: \(error.localizedDescription)")
+                completion(false)
                 return
             }
 
-            if let httpResponse = response as? HTTPURLResponse, !(200...299).contains(httpResponse.statusCode) {
-                print("HTTP status code not in the 200-299 range")
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200...299).contains(httpResponse.statusCode) else {
+                print("HTTP status code error")
+                completion(false)
                 return
             }
+
             guard let data = data else {
-                           print("No data received")
-                           return
-                       }
+                print("No data received")
+                completion(false)
+                return
+            }
+
             // Attempt to decode the token from the JSON response
             do {
                 if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
                    let jwt = json["jwt"] as? String {
-                    register.token = jwt // Save the token in the static variable
+                    RegisterService.token = jwt // Save the token in the static variable
+                    completion(true)
                 } else {
                     print("Failed to decode token")
+                    completion(false)
                 }
             } catch {
                 print("JSON decoding error: \(error)")
+                completion(false)
             }
-            if let token = register.token {
+            if let token = RegisterService.token {
                 print("Token stored: \(token)")
             } else {
                 print("No token stored.")
             }
         }.resume()
     }
-
 }
 
 struct signup: View {
@@ -77,10 +87,13 @@ struct signup: View {
     @State private var wrongRepassword = 0
     @State private var showhomescreen1 = false
     @State private var navigateToHome = false
-    @State var isShowPicker: Bool = false
     @State var alertpassword = false
     @State var alertrepassword = false
     @State var alertserver = false
+    @State var verifsignup = false
+
+
+    
 
     var body: some View {
         NavigationView{
@@ -160,7 +173,16 @@ struct signup: View {
                         Button(action: {
                             regiteruser(name: name, phone_number: phone_number, email: email, password: password, repassword: repassword)
                             
-                            register.registerrequest(name: name, phone_number: phone_number, email: email, password: password, repassword: repassword)
+                            RegisterService.registerrequest(name: name, phone_number: phone_number, email: email, password: password, repassword: repassword)
+                            { success in
+                                                    DispatchQueue.main.async {
+                                                        if success {
+                                                            self.showhomescreen1 = true // Navigate only on success
+                                                        } else {
+                                                            self.verifsignup = true
+                                                        }
+                                                    }
+                                                }
                         }, label: {
                             ZStack{
                                 Group {
@@ -218,11 +240,13 @@ struct signup: View {
             wrongpassword = 2
             wrongemail = 0
             alertpassword = true
+            showhomescreen1 = false
         }
-        else if repassword == ""{
+        else if !isValidPassword(repassword){
             wrongRepassword = 2
             wrongpassword = 0
             alertrepassword = true
+            showhomescreen1 = false
         }
         else {
             resetErrors()

@@ -11,7 +11,7 @@ struct ApiResponse: Decodable {
     let data: [PostData]
 }
 
-struct PostData: Decodable {
+struct PostData: Decodable, Identifiable {
     let id: Int
     let attributes: PostAttributes
 }
@@ -161,7 +161,7 @@ class PostViewModel: ObservableObject {
 
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-        if let token = AuthService.token {
+        if let token = AuthService.token ?? RegisterService.token {
                 request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
             } else {
                 print("Authorization token is not available.")
@@ -213,40 +213,38 @@ class PostViewModel: ObservableObject {
             }.resume()
         }
     
-    
-    
-//    func fetchPostById(_ id: Int) {
-//            guard let url = URL(string: "http://localhost:1337/api/posts/\(id)?populate[users_permissions_user]=*&populate[post_medicines][populate]=medicines") else {
-//                print("Invalid URL")
-//                return
-//            }
-//
-//            var request = URLRequest(url: url)
-//            request.httpMethod = "GET"
-//            if let token = AuthService.token {
-//                request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-//            } else {
-//                print("Authorization token is not available.")
-//                return
-//            }
-//            
-//            URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
-//                guard let data = data else {
-//                    print("No data in response: \(error?.localizedDescription ?? "Unknown error")")
-//                    return
-//                }
-//                let decoder = JSONDecoder()
-//                decoder.dateDecodingStrategy = .flexibleISO8601
-//                do {
-//                    let decodedResponse = try decoder.decode(PostData.self, from: data)
-//                    DispatchQueue.main.async {
-//                        self?.selectedPost = decodedResponse
-//                    }
-//                } catch {
-//                    print("Failed to decode JSON: \(error)")
-//                }
-//            }.resume()
-//        }
+    func search() {
+            guard let url = URL(string: "http://localhost:1337/api/posts?populate[users_permissions_user]=*&populate[post_medicines][populate]=medicines") else {
+                print("Invalid URL")
+                return
+            }
+
+            var request = URLRequest(url: url)
+            request.httpMethod = "GET"
+            if let token = AuthService.token ?? RegisterService.token {
+                request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+            } else {
+                print("Authorization token is not available.")
+                return
+            }
+            
+            URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
+                guard let data = data else {
+                    print("No data in response: \(error?.localizedDescription ?? "Unknown error")")
+                    return
+                }
+                let decoder = JSONDecoder()
+                decoder.dateDecodingStrategy = .flexibleISO8601
+                do {
+                    let decodedResponse = try decoder.decode(ApiResponse.self, from: data)
+                    DispatchQueue.main.async {
+                        self?.posts = decodedResponse.data.sorted { $0.attributes.createdAt > $1.attributes.createdAt }
+                    }
+                } catch {
+                    print("Failed to decode JSON: \(error)")
+                }
+            }.resume()
+        }
 }
 
 

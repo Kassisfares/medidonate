@@ -91,37 +91,15 @@ struct home: View {
                                                                         .padding(.trailing)
                                                                     }
                                                                 }
-//                                NavigationLink(destination: requestmedicine().navigationBarBackButtonHidden(true)) {
-//                                    ZStack {
-//                                        Group {
-//                                            Rectangle()
-//                                                .cornerRadius(10)
-//                                                .foregroundStyle(Color.primarycolor)
-//                                                .frame(width: 100, height: 50, alignment: .center)
-//                                            VStack {
-//                                                Text("Send")
-//                                                    .font(.headline)
-//                                                    .fontWeight(.semibold)
-//                                                    .multilineTextAlignment(.center)
-//                                                    .foregroundStyle(.white)
-//                                                Text("Request")
-//                                                    .font(.headline)
-//                                                    .fontWeight(.semibold)
-//                                                    .multilineTextAlignment(.center)
-//                                                    .foregroundStyle(.white)
-//                                            }
-//                                        }
-//                                        .padding(.trailing)
-//                                    }
-//                                }
-//                                .onTapGesture {
-//                                    viewModel.fetchPosts()
-//                                }
                             }
                                 Text("\(post.attributes.description)")
                                 .frame(minWidth: 50, maxWidth: 370, minHeight: 20, maxHeight: 150, alignment: .leading)
                                     .padding(.leading, 15)
-                            NavigationLink(destination: requestmedicine().navigationBarBackButtonHidden()){
+                            NavigationLink(destination: requestmedicine(viewModel: viewModel)
+                                .navigationBarBackButtonHidden()
+                                .onAppear {
+                                    viewModel.selectPost(id: post.id)
+                                    }){
                                 ZStack(){
                                     HStack(alignment: .center, spacing: 10){
                                         Image("panadol")

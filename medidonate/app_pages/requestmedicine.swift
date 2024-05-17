@@ -30,7 +30,7 @@ struct requestmedicine: View {
                                             .foregroundColor(.white)
                                             .frame(width: 365, height: 150)
                                         HStack(spacing: 10) {
-                                            Image("panadol")
+                                            Image(systemName: "pills")
                                                 .resizable(resizingMode: .stretch)
                                                 .frame(width: 90, height: 120)
                                             VStack(alignment: .leading) {
