@@ -14,13 +14,13 @@ struct conversation: View {
             VStack {
                 ZStack{
                         VStack{
-                            Image(systemName: "person.circle.fill")
+                            Image(systemName: "person.circle")
                                 .resizable(resizingMode: .tile)
                                 .frame(width: 50, height: 50)
-                                .padding(.leading, 5)
+                                .foregroundColor(.primarycolor)
                             HStack{
-                                Text("Stephen Yustiono")
-                                    .font(.footnote)
+                                Text("houmem")
+                                    .font(.headline)
                                     .foregroundColor(.black)
                             }
                         }

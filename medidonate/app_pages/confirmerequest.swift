@@ -126,7 +126,7 @@ struct confirmerequest: View {
                                     .foregroundColor(.green)
                             }
                         })
-                        NavigationLink (destination: chooserequestlocation3().navigationBarBackButtonHidden(), label:{
+                        NavigationLink (destination: requestmedicine().navigationBarBackButtonHidden(), label:{
                             ZStack{
                                 RoundedRectangle(cornerRadius: 15)
                                     .foregroundStyle(Color.white)

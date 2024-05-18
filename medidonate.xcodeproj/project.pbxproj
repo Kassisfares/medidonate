@@ -15,9 +15,6 @@
 		A77364D92BF14F470001EFAD /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77364D82BF14F470001EFAD /* HomeView.swift */; };
 		A78FBFEF2BEA505A009532A8 /* SwiftUIX in Frameworks */ = {isa = PBXBuildFile; productRef = A78FBFEE2BEA505A009532A8 /* SwiftUIX */; };
 		A78FBFF12BEAB00F009532A8 /* createpost1.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78FBFF02BEAB00F009532A8 /* createpost1.swift */; };
-		A792BE182BB53A2F008A826C /* addlocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A792BE172BB53A2F008A826C /* addlocation.swift */; };
-		A792BE1A2BB542D4008A826C /* addlocation2.swift in Sources */ = {isa = PBXBuildFile; fileRef = A792BE192BB542D4008A826C /* addlocation2.swift */; };
-		A792BE1C2BB54447008A826C /* addlocation3.swift in Sources */ = {isa = PBXBuildFile; fileRef = A792BE1B2BB54447008A826C /* addlocation3.swift */; };
 		A7B6BF2B2BAC62480013018E /* home.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7B6BF2A2BAC62480013018E /* home.swift */; };
 		A7C20C3F2B9A169F00966CA3 /* medidonateApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C20C3E2B9A169F00966CA3 /* medidonateApp.swift */; };
 		A7C20C432B9A16A100966CA3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A7C20C422B9A16A100966CA3 /* Assets.xcassets */; };
@@ -29,7 +26,6 @@
 		A7D3DAC42BBF67AA00653433 /* message.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D3DAC32BBF67AA00653433 /* message.swift */; };
 		A7D3DAC62BBF716700653433 /* conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D3DAC52BBF716700653433 /* conversation.swift */; };
 		A7D3DAC82BBF796900653433 /* searchesall.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D3DAC72BBF796900653433 /* searchesall.swift */; };
-		A7D3DACA2BBF7CC100653433 /* searcheslatest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D3DAC92BBF7CC100653433 /* searcheslatest.swift */; };
 		A7D3DACC2BBF7FBF00653433 /* welcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D3DACB2BBF7FBF00653433 /* welcome.swift */; };
 		A7D3DACE2BBF856B00653433 /* historyrequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D3DACD2BBF856B00653433 /* historyrequest.swift */; };
 		A7D3DAD02BBF8D8500653433 /* historydonate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D3DACF2BBF8D8500653433 /* historydonate.swift */; };
@@ -38,11 +34,7 @@
 		A7D3DAD62BBF93AE00653433 /* editprofile.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D3DAD52BBF93AE00653433 /* editprofile.swift */; };
 		A7D880202B9D37D200FE2F40 /* login.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D8801F2B9D37D200FE2F40 /* login.swift */; };
 		A7E039E62BF41C790030EF59 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E039E52BF41C790030EF59 /* ContentView.swift */; };
-		A7ECE7F42BBE395500E3EE76 /* chooserequestlocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7ECE7F32BBE395500E3EE76 /* chooserequestlocation.swift */; };
-		A7ECE7F62BBE3ABE00E3EE76 /* chooserequestlocation2.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7ECE7F52BBE3ABE00E3EE76 /* chooserequestlocation2.swift */; };
-		A7ECE7F82BBE3AE300E3EE76 /* chooserequestlocation3.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7ECE7F72BBE3AE300E3EE76 /* chooserequestlocation3.swift */; };
 		A7ECE7FA2BBE3DE700E3EE76 /* confirmerequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7ECE7F92BBE3DE700E3EE76 /* confirmerequest.swift */; };
-		A7ECE7FC2BBE67EC00E3EE76 /* requestconfirmed.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7ECE7FB2BBE67EC00E3EE76 /* requestconfirmed.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,9 +44,6 @@
 		A739B9CE2B9F49C0003952DA /* settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settings.swift; sourceTree = "<group>"; };
 		A77364D82BF14F470001EFAD /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		A78FBFF02BEAB00F009532A8 /* createpost1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = createpost1.swift; sourceTree = "<group>"; };
-		A792BE172BB53A2F008A826C /* addlocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addlocation.swift; sourceTree = "<group>"; };
-		A792BE192BB542D4008A826C /* addlocation2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addlocation2.swift; sourceTree = "<group>"; };
-		A792BE1B2BB54447008A826C /* addlocation3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = addlocation3.swift; sourceTree = "<group>"; };
 		A7B6BF2A2BAC62480013018E /* home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = home.swift; sourceTree = "<group>"; };
 		A7C20C3B2B9A169F00966CA3 /* medidonate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = medidonate.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7C20C3E2B9A169F00966CA3 /* medidonateApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = medidonateApp.swift; sourceTree = "<group>"; };
@@ -67,7 +56,6 @@
 		A7D3DAC32BBF67AA00653433 /* message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = message.swift; sourceTree = "<group>"; };
 		A7D3DAC52BBF716700653433 /* conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = conversation.swift; sourceTree = "<group>"; };
 		A7D3DAC72BBF796900653433 /* searchesall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = searchesall.swift; sourceTree = "<group>"; };
-		A7D3DAC92BBF7CC100653433 /* searcheslatest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = searcheslatest.swift; sourceTree = "<group>"; };
 		A7D3DACB2BBF7FBF00653433 /* welcome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = welcome.swift; sourceTree = "<group>"; };
 		A7D3DACD2BBF856B00653433 /* historyrequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = historyrequest.swift; sourceTree = "<group>"; };
 		A7D3DACF2BBF8D8500653433 /* historydonate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = historydonate.swift; sourceTree = "<group>"; };
@@ -76,11 +64,7 @@
 		A7D3DAD52BBF93AE00653433 /* editprofile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = editprofile.swift; sourceTree = "<group>"; };
 		A7D8801F2B9D37D200FE2F40 /* login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = login.swift; sourceTree = "<group>"; };
 		A7E039E52BF41C790030EF59 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		A7ECE7F32BBE395500E3EE76 /* chooserequestlocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chooserequestlocation.swift; sourceTree = "<group>"; };
-		A7ECE7F52BBE3ABE00E3EE76 /* chooserequestlocation2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chooserequestlocation2.swift; sourceTree = "<group>"; };
-		A7ECE7F72BBE3AE300E3EE76 /* chooserequestlocation3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chooserequestlocation3.swift; sourceTree = "<group>"; };
 		A7ECE7F92BBE3DE700E3EE76 /* confirmerequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = confirmerequest.swift; sourceTree = "<group>"; };
-		A7ECE7FB2BBE67EC00E3EE76 /* requestconfirmed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = requestconfirmed.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,21 +154,13 @@
 				A78FBFF02BEAB00F009532A8 /* createpost1.swift */,
 				A7CB95172BBCDDA60088192A /* editrequestmedicine2.swift */,
 				A7CB95192BBCDE280088192A /* editrequestmedicine3.swift */,
-				A7ECE7F32BBE395500E3EE76 /* chooserequestlocation.swift */,
-				A7ECE7F52BBE3ABE00E3EE76 /* chooserequestlocation2.swift */,
-				A7ECE7F72BBE3AE300E3EE76 /* chooserequestlocation3.swift */,
 				A7ECE7F92BBE3DE700E3EE76 /* confirmerequest.swift */,
-				A7ECE7FB2BBE67EC00E3EE76 /* requestconfirmed.swift */,
 				A7D3DAC72BBF796900653433 /* searchesall.swift */,
-				A7D3DAC92BBF7CC100653433 /* searcheslatest.swift */,
 				A7D3DACD2BBF856B00653433 /* historyrequest.swift */,
 				A7D3DACF2BBF8D8500653433 /* historydonate.swift */,
 				A7D3DAD52BBF93AE00653433 /* editprofile.swift */,
 				A7D3DAC32BBF67AA00653433 /* message.swift */,
 				A7D3DAC52BBF716700653433 /* conversation.swift */,
-				A792BE172BB53A2F008A826C /* addlocation.swift */,
-				A792BE192BB542D4008A826C /* addlocation2.swift */,
-				A792BE1B2BB54447008A826C /* addlocation3.swift */,
 				A7E039E52BF41C790030EF59 /* ContentView.swift */,
 				A71D701A2BF8DC1600C3DB14 /* Views */,
 				A71D70192BF8DBF300C3DB14 /* View Models */,
@@ -272,15 +248,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				A7D3DAD22BBF90DE00653433 /* changelocation.swift in Sources */,
-				A792BE1A2BB542D4008A826C /* addlocation2.swift in Sources */,
 				A7C20C672B9A24FD00966CA3 /* signup.swift in Sources */,
 				A71AF84D2BA1FEB100341C89 /* forgetpwd1.swift in Sources */,
 				A7D3DAC82BBF796900653433 /* searchesall.swift in Sources */,
-				A792BE182BB53A2F008A826C /* addlocation.swift in Sources */,
 				A7B6BF2B2BAC62480013018E /* home.swift in Sources */,
-				A7ECE7F62BBE3ABE00E3EE76 /* chooserequestlocation2.swift in Sources */,
 				A7CB95182BBCDDA60088192A /* editrequestmedicine2.swift in Sources */,
-				A7ECE7FC2BBE67EC00E3EE76 /* requestconfirmed.swift in Sources */,
 				A7CB95162BBCDB2C0088192A /* editrequestmedicine.swift in Sources */,
 				A7D3DACC2BBF7FBF00653433 /* welcome.swift in Sources */,
 				A77364D92BF14F470001EFAD /* HomeView.swift in Sources */,
@@ -288,10 +260,8 @@
 				A7E039E62BF41C790030EF59 /* ContentView.swift in Sources */,
 				A7D880202B9D37D200FE2F40 /* login.swift in Sources */,
 				A7D3DAC42BBF67AA00653433 /* message.swift in Sources */,
-				A7ECE7F82BBE3AE300E3EE76 /* chooserequestlocation3.swift in Sources */,
 				A7D3DAD42BBF929C00653433 /* changelocation2.swift in Sources */,
 				A702AB1F2BBB175E0066A9B7 /* requestmedicine.swift in Sources */,
-				A7D3DACA2BBF7CC100653433 /* searcheslatest.swift in Sources */,
 				A71AF84F2BA2167A00341C89 /* forgetpwd2.swift in Sources */,
 				A7ECE7FA2BBE3DE700E3EE76 /* confirmerequest.swift in Sources */,
 				A7C20C3F2B9A169F00966CA3 /* medidonateApp.swift in Sources */,
@@ -300,8 +270,6 @@
 				A7D3DAD02BBF8D8500653433 /* historydonate.swift in Sources */,
 				A7D3DACE2BBF856B00653433 /* historyrequest.swift in Sources */,
 				A739B9CF2B9F49C0003952DA /* settings.swift in Sources */,
-				A792BE1C2BB54447008A826C /* addlocation3.swift in Sources */,
-				A7ECE7F42BBE395500E3EE76 /* chooserequestlocation.swift in Sources */,
 				A7D3DAD62BBF93AE00653433 /* editprofile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

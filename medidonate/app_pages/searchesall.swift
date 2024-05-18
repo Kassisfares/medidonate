@@ -51,27 +51,6 @@ struct searchesall: View {
                         )
                         .padding(.horizontal)
                     .offset(y: -260)
-                    ZStack{
-                        RoundedRectangle(cornerRadius: 15)
-                            .foregroundStyle(Color.secondarycolor)
-                            .frame(width: 50, height: 40, alignment: .center)
-                        Text("ALL")
-                            .fontWeight(.medium)
-                            .foregroundColor(.white)
-                    }
-                    .offset(x: -40, y: -200)
-                    NavigationLink(destination: searcheslatest().navigationBarBackButtonHidden(), label: {ZStack{
-                        RoundedRectangle(cornerRadius: 15)
-                            .stroke(Color.white, lineWidth: 1)
-                            .foregroundStyle(Color.white)
-                            .frame(width: 80, height: 40, alignment: .center)
-                        HStack{
-                            Text("Latest")
-                                .fontWeight(.medium)
-                                .foregroundColor(.white)
-                        }
-                    }})
-                    .offset(x: 40, y: -200)
                 }
                 if showingSearchResults && !searchText.isEmpty {
                     List {
@@ -99,12 +78,12 @@ struct searchesall: View {
                             }
                         }
                     }
-                    .frame(width: 400, height: 500, alignment: .center)
+                    .frame(width: 390, height: 600, alignment: .center)
                     .background(Color.white)
                     .transition(.move(edge: .bottom))
                     .animation(.easeInOut(duration: 0.5))
                     .edgesIgnoringSafeArea(.bottom)
-                    .offset(y:-420)
+                    .offset(y:-430)
                 }
             }
             .navigationBarTitleDisplayMode(.inline)

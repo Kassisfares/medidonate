@@ -101,13 +101,37 @@ struct home: View {
                                     viewModel.selectPost(id: post.id)
                                     }){
                                 ZStack(){
-                                    HStack(alignment: .center, spacing: 10){
-                                        Image("panadol")
-                                            .resizable(resizingMode: .stretch)
-                                            .frame(width: 180, height: 250)
-                                        Image("vaccin")
-                                            .resizable(resizingMode: .stretch)
-                                            .frame(width: 180, height: 250)
+                                    VStack(alignment: .center, spacing: 2){
+                                        // Post Photos
+                                        if let photos = post.attributes.photos?.data {
+                                                    ForEach(photos, id: \.id) { photo in
+                                                        if let photoUrl = URL(string: "http://localhost:1337" + photo.attributes.url) {
+//                                                            Text("Photo URL: \(photoUrl.absoluteString)") // Debugging
+                                                            AsyncImage(url: photoUrl) { phase in
+                                                                switch phase {
+                                                                case .empty:
+                                                                    ProgressView()
+                                                                        .frame(width: 180, height: 250)
+                                                                case .success(let image):
+                                                                    image
+                                                                        .resizable()
+//                                                                        .scaledToFit()
+                                                                        .frame(width: 200, height: 150)
+                                                                case .failure:
+                                                                    Image(systemName: "photo")
+                                                                        .resizable()
+                                                                        .scaledToFit()
+                                                                        .frame(width: 180, height: 250)
+                                                                    Text("Failed to load image.") // Debugging
+                                                                @unknown default:
+                                                                    EmptyView()
+                                                                }
+                                                            }
+                                                        } else {
+                                                            Text("Invalid URL") // Debugging
+                                                        }
+                                                    }
+                                                }
                                     }
                                 }
                             }
@@ -187,13 +211,13 @@ struct conversation1: View {
             VStack {
                 ZStack{
                         VStack{
-                            Image(systemName: "person.circle.fill")
+                            Image(systemName: "person.circle")
                                 .resizable(resizingMode: .tile)
                                 .frame(width: 50, height: 50)
-                                .padding(.leading, 5)
+                                .foregroundColor(.primarycolor)
                             HStack{
-                                Text("Stephen Yustiono")
-                                    .font(.footnote)
+                                Text("fares")
+                                    .font(.headline)
                                     .foregroundColor(.black)
                             }
                         }

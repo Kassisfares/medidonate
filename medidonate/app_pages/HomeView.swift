@@ -24,6 +24,7 @@ struct PostAttributes: Decodable {
     let message: String?
     let users_permissions_user: PostUserPermissionsWrapper
     let post_medicines: PostMedicineWrapper?
+    let photos: PhotoWrapper?
 }
 
 
@@ -81,6 +82,54 @@ struct MedicineAttributes1: Decodable {
     let publishedAt: Date
     let category: String
     let type: String
+}
+
+struct PhotoWrapper: Decodable {
+    let data: [PhotoData]?
+}
+
+struct PhotoData: Decodable, Identifiable {
+    let id: Int
+    let attributes: PhotoAttributes
+}
+
+struct PhotoAttributes: Decodable {
+    let name: String
+    let alternativeText: String?
+    let caption: String?
+    let width: Int
+    let height: Int
+    let formats: PhotoFormats
+    let hash: String
+    let ext: String
+    let mime: String
+    let size: Double
+    let url: String
+    let previewUrl: String?
+    let provider: String
+    let provider_metadata: String?
+    let createdAt: Date
+    let updatedAt: Date
+}
+
+struct PhotoFormats: Decodable {
+    let large: PhotoFormat?
+    let small: PhotoFormat?
+    let medium: PhotoFormat?
+    let thumbnail: PhotoFormat?
+}
+
+struct PhotoFormat: Decodable {
+    let ext: String
+    let url: String
+    let hash: String
+    let mime: String
+    let name: String
+    let path: String?
+    let size: Double
+    let width: Int
+    let height: Int
+    let sizeInBytes: Int
 }
 
 
@@ -154,7 +203,7 @@ class PostViewModel: ObservableObject {
 
 
     func fetchPosts() {
-        guard let url = URL(string: "http://localhost:1337/api/posts?populate[users_permissions_user]=*&populate[post_medicines][populate]=medicines") else {
+        guard let url = URL(string: "http://localhost:1337/api/posts?populate[users_permissions_user]=*&populate[post_medicines][populate]=medicines&populate[photos]=*") else {
             print("Invalid URL")
             return
         }
@@ -214,7 +263,7 @@ class PostViewModel: ObservableObject {
         }
     
     func search() {
-            guard let url = URL(string: "http://localhost:1337/api/posts?populate[users_permissions_user]=*&populate[post_medicines][populate]=medicines") else {
+            guard let url = URL(string: "http://localhost:1337/api/posts?populate[users_permissions_user]=*&populate[post_medicines][populate]=medicines&populate[photos]=*") else {
                 print("Invalid URL")
                 return
             }

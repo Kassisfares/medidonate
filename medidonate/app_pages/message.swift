@@ -32,15 +32,16 @@ struct message: View {
                         VStack{
                             ForEach(0..<10){ index in
                                 HStack{
-                                    Circle()
-                                        .frame(width: 15, height: 15)
-                                        .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
-                                        .padding(.leading, 25)
+//                                    Circle()
+//                                        .frame(width: 15, height: 15)
+//                                        .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
+//                                        .padding(.leading, 25)
                                     NavigationLink(destination: conversation().navigationBarBackButtonHidden()){
-                                        Image(systemName: "person.circle.fill")
+                                        Image(systemName: "person.circle")
                                             .resizable(resizingMode: .tile)
                                             .frame(width: 50, height: 50)
-                                            .padding(.leading, 5)
+                                            .padding(.trailing, 10)
+                                            .foregroundColor(.primarycolor)
                                         VStack(alignment: .leading){
                                             Text("Stephen Yustiono")
                                                 .font(.title2)
@@ -58,6 +59,7 @@ struct message: View {
                             }
                             .offset(x: -45, y:90)
                         }
+                        .padding(.leading)
                     }
                 }
             }
