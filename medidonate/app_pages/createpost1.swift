@@ -110,13 +110,13 @@ struct Medicine: Encodable {
         try container.encode(fabDate, forKey: .fabDate)
         try container.encode(expDate, forKey: .expDate)
         
-        if let image = image {
-            let imageData = image.pngData() // or use jpegData(compressionQuality:) if you prefer JPEG
-            let imageBase64String = imageData?.base64EncodedString()
-            try container.encode(imageBase64String, forKey: .image)
-        } else {
-            try container.encodeNil(forKey: .image)
-        }
+//        if let image = image {
+//            let imageData = image.pngData() // or use jpegData(compressionQuality:) if you prefer JPEG
+//            let imageBase64String = imageData?.base64EncodedString()
+//            try container.encode(imageBase64String, forKey: .image)
+//        } else {
+//            try container.encodeNil(forKey: .image)
+//        }
     }
 }
 
@@ -178,10 +178,9 @@ struct createpost1: View {
     }
 
 
-func uploadImage() {
-        guard let image = selectedMedicineImage else {
+    func uploadImage(selectedImage: UIImage?) {
+        guard let image = selectedImage else {
             print("No image selected")
-            sendPostRequest(with: "", with: description)
             return
         }
 
@@ -234,7 +233,29 @@ func uploadImage() {
                 if let data = data {
                     if let responseBody = String(data: data, encoding: .utf8) {
                         print("Response body: \(responseBody)")
-                        sendPostRequest(with: responseBody, with: description)
+                        //sendPostRequest(with: responseBody, with: description)
+                        let newjsonData = responseBody.data(using: .utf8)
+                        var imagedata: [[String: Any]] = []
+                        // Attempt to convert Data to an Array of Dictionaries
+                        do {
+                            if let jsonData = newjsonData {
+                                if let parsedData = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [[String: Any]] {
+                                    if let firstObject = parsedData.first, let id = firstObject["id"] as? Int {
+                                                print("Extracted id: \(id)")
+                                                uploadedImages.append(id)
+                                            } else {
+                                                print("Could not find id in the first JSON object")
+                                            }
+                                } else {
+                                    print("Data was not in the expected array of dictionaries format")
+                                }
+                            } else {
+                                print("Failed to create Data from String")
+                            }
+                        } catch {
+                            print("Failed to parse JSON: \(error)")
+                        }
+                        
 
                     }
                 }
@@ -248,54 +269,14 @@ func uploadImage() {
     }
 
     // Function to send HTTP POST request with image
-    func sendPostRequest(with data: String, with description: String) {
+    func sendPostRequest(with description: String) {
 
-print("response getted from response body" ,    data)
-
-    let newjsonData = data.data(using: .utf8)
-        var imagedata: [[String: Any]] = []
-        // Attempt to convert Data to an Array of Dictionaries
-        
-            do {
-                if let jsonData = newjsonData {
-                    if let parsedData = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [[String: Any]] {
-                        imagedata = parsedData // Successfully parsed the JSON data
-                    } else {
-                        print("Data was not in the expected array of dictionaries format")
-                    }
-                } else {
-                    print("Failed to create Data from String")
-                }
-            } catch {
-                print("Failed to parse JSON: \(error)")
-            }
-        
-//        print("Response from upload: \(data)")
-//
-//                guard let recivedData = data.data(using: .utf8) else {
-//                    print("Failed to convert data to JSON")
-//                    return
-//                }
-//
-//                var imagedata: [[String: Any]] = []
-//                do {
-//                    if let parsedData = try JSONSerialization.jsonObject(with: recivedData, options: []) as? [[String: Any]] {
-//                        imagedata = parsedData
-//                    } else {
-//                        print("Data was not in the expected array of dictionaries format")
-//                    }
-//                } catch {
-//                    print("Failed to parse JSON: \(error)")
-//                }
-        
-
-//        print (encodedata(allData: medicines))
 
         // Create a dictionary representing the JSON structure
         let jsonData: [String: Any] = [
             "data": [
                 "description": description,
-                "photos": imagedata,
+                "photos": uploadedImages,
                 "post_medicines": encodedata(allData: medicines)
                 ]
             ]
@@ -388,6 +369,7 @@ print("response getted from response body" ,    data)
     @ObservedObject var viewModel1 = MedicineViewModel()
     @State private var searchText = ""
     @State private var selectedMedicines: [String] = []
+    @State var uploadedImages: [Int] = []
 
 
     private func validateAndPost() {
@@ -400,10 +382,10 @@ print("response getted from response body" ,    data)
             showAlertDonateRequest = true
             return
         }
+        sendPostRequest(with: description)
 
 
-
-        uploadImage() // Call uploadImage() only if conditions are met
+       //uploadImage() // Call uploadImage() only if conditions are met
 
         // Set shownewpost to true to activate the navigation link
             shownewpost = true
@@ -737,7 +719,7 @@ print("response getted from response body" ,    data)
                                 .padding(.leading, -30)
                                 .padding(.trailing, -30)
                                 .sheet(isPresented: $showingImagePicker) {
-                                    ImagePicker(selectedMedicineImage: $selectedMedicineImage)
+                                    ImagePicker(selectedImage: $selectedMedicineImage)
                                         .offset(y: 24)
                                 }
                                 Button(action: {
@@ -746,6 +728,7 @@ print("response getted from response body" ,    data)
                                     } else {
                                         let newMedicine = Medicine(attributes: MedicineAttributes(id : id , name: medicinee, category: category, type: choicemade), quantity: quantity, fabDate: fab_date, expDate: exp_date, image: selectedMedicineImage)
                                         medicines.append(newMedicine)
+                                        uploadImage(selectedImage: selectedMedicineImage)
                                         showview3.toggle()
                                         resetFields()
                                     }
@@ -778,90 +761,15 @@ print("response getted from response body" ,    data)
             .edgesIgnoringSafeArea(.bottom)
             .offset(y: -8)
         }
-//        if showview5 {
-//            ZStack(alignment: .bottom){
-//                Rectangle()
-//                    .frame(width: 400, height: 430)
-//                    .foregroundColor(.primarycolor)
-//                    .cornerRadius(50)
-//                VStack{
-//                    HStack{
-//                        Button(action: {
-//                            showview5.toggle()
-//                        }, label: {
-//                            Image(systemName: "plus")
-//                                .padding(.leading, 20)
-//                                .font(.title)
-//                                .rotationEffect(.degrees(45))
-//                                .foregroundColor(.white)
-//                        })
-//                        .offset(x: -70, y: -7)
-//                        Text("Choose location")
-//                            .font(.title)
-//                            .foregroundColor(.white)
-//                            .offset(x: -25)
-//                    }
-//                    Text("Set location on map")
-//                        .font(.title3)
-//                        .foregroundColor(.white)
-//                        .offset(x: -90)
-//                        .padding(.bottom, 10)
-//                    NavigationLink (destination: addlocation2().navigationBarBackButtonHidden(), label:{
-//                        Image("map")
-//                            .resizable(resizingMode: .stretch)
-//                            .frame(width: 300, height: 200)
-//                    })
-//                    HStack{
-//                        Rectangle()
-//                            .fill(Color.gray3)
-//                            .frame(width:100, height: 2)
-//                            .offset(y: -2)
-//                        Text("Or")
-//                            .foregroundColor(.white)
-//                            .padding(.leading)
-//                            .padding(.trailing)
-//                        Rectangle()
-//                            .fill(Color.gray3)
-//                            .frame(width:100, height: 2)
-//                            .offset(y: -2)
-//                    }
-//                    .padding(.top, 10)
-//                    .padding(.bottom, 10)
-//                    NavigationLink (destination: addlocation2().navigationBarBackButtonHidden(), label:{
-//                        ZStack{
-//                            Rectangle()
-//                                .cornerRadius(12)
-//                                .foregroundStyle(Color.white)
-//                                .frame(width: 250, height: 40, alignment: .center)
-//                            HStack{
-//                                Image(systemName: "plus")
-//                                    .foregroundColor(.primarycolor)
-//                                    .fontWeight(.medium)
-//                                Text("Add new location")
-//                                    .font(.title2)
-//                                    .fontWeight(.medium)
-//                                    .multilineTextAlignment(.center)
-//                                    .foregroundStyle(.primarycolor)
-//                            }
-//                        }
-//                    })
-//                }
-//                .offset(y: -20)
-//            }
-//            .offset(y: 34)
-//            .transition(.move(edge: .bottom))
-//            .animation(.easeInOut)
-//            .edgesIgnoringSafeArea(.bottom)
-//        }
+
     }
 }
 
 struct ImagePicker: UIViewControllerRepresentable {
-    @Binding var selectedMedicineImage: UIImage?
-    @Environment(\.presentationMode) var presentationMode
+    @Binding var selectedImage: UIImage?
 
     func makeCoordinator() -> Coordinator {
-        Coordinator(parent: self)
+        Coordinator(self)
     }
 
     func makeUIViewController(context: Context) -> UIImagePickerController {
@@ -875,15 +783,15 @@ struct ImagePicker: UIViewControllerRepresentable {
     class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
         let parent: ImagePicker
 
-        init(parent: ImagePicker) {
+        init(_ parent: ImagePicker) {
             self.parent = parent
         }
 
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
             if let image = info[.originalImage] as? UIImage {
-                parent.selectedMedicineImage = image
+                parent.selectedImage = image
             }
-            parent.presentationMode.wrappedValue.dismiss()
+            picker.dismiss(animated: true)
         }
     }
 }
