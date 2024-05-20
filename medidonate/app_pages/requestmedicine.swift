@@ -3,7 +3,8 @@ import SwiftUI
 struct requestmedicine: View {
     @ObservedObject var viewModel = PostViewModel()
     @State private var showConfirmAlert = false
-    
+    @State private var alertMessage = ""
+    @State private var navigateToHome = false
     
     
     var body: some View {
@@ -48,7 +49,7 @@ struct requestmedicine: View {
                                                             .foregroundColor(.gray)
                                                     }
                                                 }
-                                                    HStack{
+                                                HStack{
                                                     if let expDate = postMedicine.attributes.expirationDate {
                                                         Text("Expiration Date: \(expDate, formatter: itemFormatter)")
                                                             .font(.callout)
@@ -68,20 +69,28 @@ struct requestmedicine: View {
                                 }
                             }
                             Button {
-                                viewModel.sendPostInformation(post)
-                                        } label: {
-                                            ZStack {
-                                                RoundedRectangle(cornerRadius: 15)
-                                                    .foregroundStyle(Color.primarycolor)
-                                                    .frame(width: 150, height: 40, alignment: .center)
-                                                HStack {
-                                                    Text("Request Now")
-                                                        .fontWeight(.medium)
-                                                        .foregroundColor(.white)
-                                                }
-                                            }
-                                        }
-                            .offset(y: 50)
+                                viewModel.sendPostInformation(post) { success in
+                                    if success {
+                                        alertMessage = "Request sent successfully!"
+                                    } else {
+                                        alertMessage = "Failed to send request."
+                                    }
+                                    showConfirmAlert = true
+                                }
+                            }
+                        label: {
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 15)
+                                    .foregroundStyle(Color.primarycolor)
+                                    .frame(width: 150, height: 40, alignment: .center)
+                                HStack {
+                                    Text("Request Now")
+                                        .fontWeight(.medium)
+                                        .foregroundColor(.white)
+                                }
+                            }
+                        }
+                        .offset(y: 50)
                         }
                         .offset(y: -480)
                     }
@@ -90,17 +99,25 @@ struct requestmedicine: View {
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarItems(leading: NavigationLink(destination: home().navigationBarBackButtonHidden(), label: {
+            .navigationBarItems(leading: NavigationLink(destination: home().navigationBarBackButtonHidden(), isActive: $navigateToHome) {
                 Image(systemName: "chevron.backward")
                     .font(.title2)
                     .foregroundColor(.white)
-            }))
+            })
             .onAppear {
                 if let selectedPostID = viewModel.selectedPostID {
                     viewModel.fetchMedicines(for: selectedPostID)
                 }
             }
-            
+            .alert(isPresented: $showConfirmAlert) {
+                Alert(
+                    title: Text("Request Status"),
+                    message: Text(alertMessage),
+                    dismissButton: .default(Text("OK")) {
+                        navigateToHome = true
+                    }
+                )
+            }
         }
         var itemFormatter: DateFormatter {
             let formatter = DateFormatter()

@@ -529,7 +529,6 @@ struct createpost1: View {
                                     .padding(.bottom, 8)
                             }
                             VStack(alignment: .leading) {
-                                Text("Medicine Id: \(medicines[index].attributes.id)")
                                 Text("Medicine Name: \(medicines[index].attributes.name)")
                                 Text("Category: \(medicines[index].attributes.category)")
                                 Text("Type: \(medicines[index].attributes.type)")

@@ -32,10 +32,6 @@ struct message: View {
                         VStack{
                             ForEach(0..<10){ index in
                                 HStack{
-//                                    Circle()
-//                                        .frame(width: 15, height: 15)
-//                                        .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
-//                                        .padding(.leading, 25)
                                     NavigationLink(destination: conversation().navigationBarBackButtonHidden()){
                                         Image(systemName: "person.circle")
                                             .resizable(resizingMode: .tile)
@@ -43,7 +39,7 @@ struct message: View {
                                             .padding(.trailing, 10)
                                             .foregroundColor(.primarycolor)
                                         VStack(alignment: .leading){
-                                            Text("Stephen Yustiono")
+                                            Text("Homem")
                                                 .font(.title2)
                                                 .fontWeight(.bold)
                                                 .foregroundColor(.black)

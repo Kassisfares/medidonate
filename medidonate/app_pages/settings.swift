@@ -55,13 +55,13 @@ struct settings: View {
                 }
                 VStack(alignment: .leading){
                     Group(){
-                        NavigationLink(destination: historyrequest().navigationBarBackButtonHidden()){
+                        NavigationLink(destination: ReceivedRequests().navigationBarBackButtonHidden()){
                             HStack{
                                 Image(systemName: "clock.arrow.circlepath")
                                     .padding(.bottom, 10)
                                     .padding(.leading, 20)
                                     .padding(.top, 10)
-                                Text("History")
+                                Text("Received Requests")
                                     .font(.title2)
                                     .padding(.bottom, 10)
                                     .padding(.top, 10)
