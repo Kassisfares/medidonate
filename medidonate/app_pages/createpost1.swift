@@ -270,73 +270,58 @@ struct createpost1: View {
 
     // Function to send HTTP POST request with image
     func sendPostRequest(with description: String) {
-
-
-        // Create a dictionary representing the JSON structure
-        let jsonData: [String: Any] = [
-            "data": [
-                "description": description,
-                "photos": uploadedImages,
-                "post_medicines": encodedata(allData: medicines)
+        Task {
+            // Create a dictionary representing the JSON structure
+            let jsonData: [String: Any] = [
+                "data": [
+                    "description": description,
+                    "photos": uploadedImages,
+                    "post_medicines": encodedata(allData: medicines)
                 ]
             ]
-        print("JSON data structured for sending: \(jsonData)")
+            print("JSON data structured for sending: \(jsonData)")
 
+            // Create the URL to which you want to send the request
+            guard let url = URL(string: "http://localhost:1337/api/post/uploadpost") else {
+                print("Invalid URL")
+                return
+            }
 
-
-        // Create the URL to which you want to send the request
-        guard let url = URL(string: "http://localhost:1337/api/post/uploadpost") else {
-            print("Invalid URL")
-            return
-        }
-
-//        let authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzE1NjI3ODY2LCJleHAiOjE3MTgyMTk4NjZ9.ObmAyiS5y4tJYjtV50OVGdrUkGUH7uVpEksVNzSndIg"
-        
-        // Create the request
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        if let token = AuthService.token ?? RegisterService.token {
+            // Create the request
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            
+            if let token = AuthService.token ?? RegisterService.token {
                 request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        } else {
+            } else {
                 print("Authorization token is not available.")
                 // Optionally handle the scenario when there is no token (e.g., show login screen)
                 return
             }
-        
-        var body = Data()
 
+            do {
+                // Add JSON data to the request body
+                let json = try JSONSerialization.data(withJSONObject: jsonData)
+                request.httpBody = json
+            } catch {
+                print("Failed to serialize JSON: \(error)")
+                return
+            }
 
-
-        // Add JSON data to the request body
-        let json = try! JSONSerialization.data(withJSONObject: jsonData)
-        body.append(json)
-        body.append(Data("\r\n".utf8))
-//
-        // Add closing boundary to the request body
-
-        request.httpBody = body
-        // Perform the request
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            // Handle response
-            // (You can update the UI or perform any other actions here)
-            if let error = error {
-                print("Error: \(error)")
-            }else if let response = response as? HTTPURLResponse {
-                print("Status code: \(response.statusCode)")
-                if let data = data {
+            do {
+                // Perform the request
+                let (data, response) = try await URLSession.shared.data(for: request)
+                if let response = response as? HTTPURLResponse {
+                    print("Status code: \(response.statusCode)")
                     if let responseBody = String(data: data, encoding: .utf8) {
                         print("Response body: \(responseBody)")
-
                     }
                 }
-
+            } catch {
+                print("Error: \(error)")
             }
         }
-
-        // Start the task
-        task.resume()
-
     }
 
 // Function to select an image
@@ -468,10 +453,11 @@ struct createpost1: View {
                             .padding(.leading, 80)
                             .foregroundColor(.green)
                         VStack(alignment: .leading){
-                            Text("Freas Kassis")
-                                .font(.title3)
-                                .fontWeight(.semibold)
-                                //.padding(.leading, 9)
+                            if let userInfo = AuthService.userInfo ?? RegisterService.userInfo {
+                                Text("\(userInfo.username)")
+                                    .font(.title3)
+                                    .fontWeight(.semibold)
+                            }
                             HStack {
                                 Button(action: { self.activeButton = 1 }) {
                                 Text("Donate")
@@ -530,25 +516,6 @@ struct createpost1: View {
                         }
                     })
                     .offset(y: -30)
-//                    Button( action: {
-//                        showview5.toggle()
-//                    }, label: {
-//                        ZStack{
-//                            RoundedRectangle(cornerRadius: 30)
-//                                .stroke(Color.primarycolor, lineWidth: 1)
-//                                .foregroundStyle(Color.white)
-//                                .frame(width: 180, height: 40, alignment: .center)
-//                            HStack{
-//                                Image(systemName: "map.circle")
-//                                    .foregroundColor(.primarycolor)
-//                                Text("Add address")
-//                                    .foregroundColor(.primarycolor)
-//                                Image(systemName: "plus.circle")
-//                                    .foregroundColor(.primarycolor)
-//                            }
-//                        }
-//                    })
-//                    .offset(y: -30)
                 }
                 .offset(y: 420)
                 ScrollView{
@@ -582,9 +549,8 @@ struct createpost1: View {
                     }
                 }
                 .border(Color.gray1)
-                .frame(width: 390, height: 357)
-
-                .offset(y: -95)
+                .frame(width: 390, height: 380)
+                .offset(y: -75)
             }
         }
         if showview3{

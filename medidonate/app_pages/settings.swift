@@ -27,19 +27,21 @@ struct settings: View {
                                 .frame(width: 80, height: 80)
                                 .foregroundColor(.green)
                                 .offset(y: 30)
-                            VStack(alignment: .leading){
-                                Group{
-                                    Text("Hello, Fares!")
-                                        .font(.title2)
-                                        .fontWeight(.bold)
-                                        .foregroundStyle(Color.white)
-                                    Text("Registered Since Feb 2024")
-                                        .font(.headline)
-                                        .fontWeight(.medium)
-                                        .foregroundStyle(Color.white)
+                            if let userInfo = AuthService.userInfo ?? RegisterService.userInfo {
+                                VStack(alignment: .leading){
+                                    Group{
+                                        Text("Hello, \(userInfo.username) ")
+                                            .font(.title2)
+                                            .fontWeight(.bold)
+                                            .foregroundStyle(Color.white)
+                                        Text("Registered Since Apr 2024")
+                                            .font(.headline)
+                                            .fontWeight(.medium)
+                                            .foregroundStyle(Color.white)
+                                    }
+                                    .padding(.leading, 5)
+                                    .offset(y: 28)
                                 }
-                                .padding(.leading, 5)
-                                .offset(y: 28)
                             }
                             NavigationLink(destination: editprofile().navigationBarBackButtonHidden()){
                                 Image(systemName: "square.and.pencil")

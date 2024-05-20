@@ -11,10 +11,7 @@ struct editprofile: View {
     @State var fullname: String = ""
     @State var email: String = ""
     @State var password: String = ""
-    @State var code: String = ""
     @State var phonenumber: String = ""
-    @State private var DOB = Date()
-    @State var gender = "tap to select medicine's name"
     var body: some View {
         NavigationView{
             ScrollView{
@@ -33,46 +30,25 @@ struct editprofile: View {
                                 .foregroundColor(.white)
                                 .frame(width: 365, height: 50)
                                 .cornerRadius(10)
-                            TextField("fares kassis", text: $fullname)
+                            TextField("", text: $fullname)
                                 .font(.headline)
                                 .frame(width: 300, height: 50)
                                 .padding(.leading)
                                 .fontWeight(.regular)
                         }
-//                        Text("Date Of Birth")
-//                            .offset(x: -120)
-//                            .frame(height: 25)
-//                        ZStack{
-//                            RoundedRectangle(cornerRadius: 10)
-//                                .stroke(Color.black, lineWidth: 2)
-//                                .foregroundColor(.white)
-//                                .frame(width: 365, height: 50)
-//                                .cornerRadius(10)
-//                            DatePicker("D.O.B", selection: $DOB, in: ...Date(), displayedComponents:.date)
-//                                .frame(width: 330)
-//                        }
                         Text("Phone Number")
                             .offset(x: -110)
                             .frame(height: 25)
                         HStack{
                             Group{
-//                                ZStack{
-//                                    RoundedRectangle(cornerRadius: 10)
-//                                        .stroke(Color.black, lineWidth: 2)
-//                                        .foregroundColor(.white)
-//                                        .frame(width: 50, height: 50, alignment: .center)
-//                                        .cornerRadius(10)
-//                                    TextField("+216", text: $code)
-//                                        .frame(width: 50, height: 30)
-//                                }
                                 ZStack(alignment: Alignment(horizontal: .leading, vertical: .center)){
                                     RoundedRectangle(cornerRadius: 10)
                                         .stroke(Color.black, lineWidth: 2)
                                         .foregroundColor(.white)
                                         .frame(width: 365, height: 50, alignment: .leading)
                                         .cornerRadius(10)
-                                    TextField("20908696", text: $phonenumber)
-                                        .frame(width: 90, height: 30, alignment: .leading)
+                                    TextField("Add your phone number", text: $phonenumber)
+                                        .frame(width: 200, height: 30, alignment: .leading)
                                         .padding(.leading)
                                 }
                             }
@@ -86,33 +62,12 @@ struct editprofile: View {
                                 .foregroundColor(.white)
                                 .frame(width: 365, height: 50)
                                 .cornerRadius(10)
-                            TextField("fareskas123@gmail.com", text: $email)
+                            TextField("", text: $email)
                                 .font(.headline)
                                 .frame(width: 300, height: 50)
                                 .padding(.leading)
                                 .fontWeight(.regular)
                         }
-//                        Text("Male")
-//                            .offset(x: -145)
-//                            .frame(height: 25)
-//                        ZStack(alignment: .leading){
-//                            RoundedRectangle(cornerRadius: 10)
-//                                .stroke(Color.black, lineWidth: 2)
-//                                .foregroundColor(.white)
-//                                .frame(width: 365, height: 50)
-//                                .cornerRadius(10)
-//                            Menu("\(gender)"){
-//                                Button("Male"){
-//                                    gender = "Male"
-//                                }
-//                                Button("Female"){
-//                                    gender = "Female"
-//                                }
-//                            }
-//                            .foregroundColor(.gray)
-//                            .padding(.leading)
-//                            .frame(width: 250, alignment: .leading)
-//                        }
                         Text("Password")
                             .offset(x: -125)
                             .frame(height: 25)
@@ -127,6 +82,7 @@ struct editprofile: View {
                                 .frame(width: 300, height: 50)
                                 .padding(.leading)
                                 .fontWeight(.regular)
+                                .offset(y: 5)
                         }
                         NavigationLink (destination: settings().navigationBarBackButtonHidden(), label:{
                             ZStack{
@@ -150,8 +106,19 @@ struct editprofile: View {
             .navigationBarItems(leading:NavigationLink(destination: settings().navigationBarBackButtonHidden(), label: {Image(systemName: "chevron.backward")
                     .font(.title2)
                 .foregroundColor(.black)}))
+            .onAppear {
+                loadUserProfile()
+            }
         }
     }
+    private func loadUserProfile() {
+        if let userInfo = AuthService.userInfo ?? RegisterService.userInfo {
+                fullname = userInfo.username
+                email = userInfo.email
+                phonenumber = userInfo.phone ?? ""
+                // Note: Do not prefill the password field for security reasons
+            }
+        }
 }
 #Preview {
     editprofile()

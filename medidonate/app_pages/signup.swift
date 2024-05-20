@@ -9,10 +9,14 @@ import SwiftUI
 import Foundation
 
 
-class RegisterService {
-    static var token: String? // Static variable to store the token
+import Foundation
 
-    static func registerrequest(name: String, phone_number: String, email: String, password: String, repassword: String, completion: @escaping (Bool) -> Void) {
+class RegisterService {
+    static var token: String?
+    static var userID: Int?
+    static var userInfo: UserInfo?
+
+    static func registerrequest(name: String, phone_number: String, email: String, password: String, completion: @escaping (Bool) -> Void) {
         let url = URL(string: "http://localhost:1337/api/auth/local/register")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -47,24 +51,24 @@ class RegisterService {
                 return
             }
 
-            // Attempt to decode the token from the JSON response
             do {
                 if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
-                   let jwt = json["jwt"] as? String {
-                    RegisterService.token = jwt // Save the token in the static variable
+                   let jwt = json["jwt"] as? String,
+                   let user = json["user"] as? [String: Any] {
+                    RegisterService.token = jwt
+                    let userData = try JSONSerialization.data(withJSONObject: user)
+                    RegisterService.userInfo = try JSONDecoder().decode(UserInfo.self, from: userData)
+                    RegisterService.userID = RegisterService.userInfo?.id
+                    print("Token stored: \(jwt)")
+                    print("User Info: \(String(describing: RegisterService.userInfo))")
                     completion(true)
                 } else {
-                    print("Failed to decode token")
+                    print("Failed to decode token or user info")
                     completion(false)
                 }
             } catch {
                 print("JSON decoding error: \(error)")
                 completion(false)
-            }
-            if let token = RegisterService.token {
-                print("Token stored: \(token)")
-            } else {
-                print("No token stored.")
             }
         }.resume()
     }
@@ -76,21 +80,8 @@ struct signup: View {
     @State var code: String = ""
     @State var email: String = ""
     @State var password: String = ""
-    @State var repassword: String = ""
-//    @State private var selectadate: Date = Date()
-//    @State private var wrongdate = 0
-    @State private var wrongname = 0
-    @State private var wrongnumber = 0
-    @State private var wrongcode = 0
-    @State private var wrongemail = 0
-    @State private var wrongpassword = 0
-    @State private var wrongRepassword = 0
-    @State private var showhomescreen1 = false
-    @State private var navigateToHome = false
-    @State var alertpassword = false
-    @State var alertrepassword = false
-    @State var alertserver = false
-    @State var verifsignup = false
+    @ObservedObject var viewModel = PostViewModel()
+
 
 
     
@@ -122,17 +113,6 @@ struct signup: View {
                         .background(Color.white)
                         .cornerRadius(25)
                         .shadow(color: .black.opacity(0.2), radius: 5)
-                        .border(.red, width: CGFloat(wrongname))
-//                    ZStack{
-//                        Rectangle()
-//                            .foregroundColor(.white)
-//                            .frame(width: 360, height: 65)
-//                            .cornerRadius(20)
-//                            .shadow(color: .black.opacity(0.2), radius: 5)
-//                        DatePicker("D.O.B", selection: $selectadate, in: ...Date(), displayedComponents:.date)
-//                            .frame(width: 320)
-//                    }
-//                    .border(.red, width: CGFloat(wrongdate))
                     HStack{
                         TextField("Phone Number", text: $phone_number)
                             .frame(width: 330, height: 30)
@@ -143,14 +123,12 @@ struct signup: View {
                     .background(Color.white)
                     .cornerRadius(25)
                     .shadow(color: .black.opacity(0.2), radius: 5)
-                    .border(.red, width: CGFloat(wrongnumber))
                     TextField("Email", text: $email)
                         .frame(width: 330, height: 30)
                         .padding()
                         .background(Color.white)
                         .cornerRadius(25)
                         .shadow(color: .black.opacity(0.2), radius: 5)
-                        .border(.red, width: CGFloat(wrongemail))
                         .keyboardType(.emailAddress)
                     SecureField("Password", text: $password)
                         .textContentType(.password)
@@ -159,122 +137,40 @@ struct signup: View {
                         .background(Color.white)
                         .cornerRadius(25)
                         .shadow(color: .black.opacity(0.2), radius: 5)
-                        .border(.red, width: CGFloat(wrongpassword))
                         .keyboardType(.asciiCapable)
-                    SecureField("Retype Password", text: $repassword)
-                        .textContentType(.password)
-                        .frame(width: 330, height: 30)
-                        .padding()
-                        .background(Color.white)
-                        .cornerRadius(25)
-                        .shadow(color: .black.opacity(0.2), radius: 5)
-                        .border(.red, width: CGFloat(wrongRepassword))
-                    NavigationLink(destination: home().navigationBarBackButtonHidden(), isActive: $showhomescreen1) {
+                    NavigationLink(destination: home().navigationBarBackButtonHidden(true), isActive: $viewModel.showhomescreen) {
                         Button(action: {
-                            regiteruser(name: name, phone_number: phone_number, email: email, password: password, repassword: repassword)
-                            
-                            RegisterService.registerrequest(name: name, phone_number: phone_number, email: email, password: password, repassword: repassword)
-                            { success in
-                                                    DispatchQueue.main.async {
-                                                        if success {
-                                                            self.showhomescreen1 = true // Navigate only on success
-                                                        } else {
-                                                            self.verifsignup = true
-                                                        }
-                                                    }
-                                                }
+                            viewModel.registerUser(name: name, phone: phone_number, email: email, password: password)
                         }, label: {
-                            ZStack{
+                            ZStack {
                                 Group {
                                     Circle()
                                         .foregroundColor(.secondarycolor)
                                         .frame(width: 64, height: 64)
                                     Image(systemName: "arrowshape.right.fill")
-                                        .font(.system (size: 30))
+                                        .font(.system(size: 30))
                                         .foregroundColor(.white)
                                 }
-                                .padding(.all, 5)
                             }
-                            
                         })
+                        .alert(isPresented: $viewModel.showAlert) {
+                            Alert(title: Text("Registration"), message: Text(viewModel.alertMessage), dismissButton: .default(Text("OK")))
+                        }
                     }
-                    .padding(.all, 10)
-                    .offset(x: 130)
-                    .alert("Password must be at least 8 characters and include at least one [A..Z], one [a..z], one [0..1], and one special character.", isPresented: $alertpassword) {
-                                Button("OK", role: .cancel) {}
-                            }
-//                    .alert("Re-password should be the same password you entred", isPresented: $alertrepassword) {
-//                                Button("OK", role: .cancel) {}
-//                            }
-                    .alert("error server", isPresented: $alertserver) {
-                                Button("OK", role: .cancel) {}
-                            }
-                    
+                    .offset(x: 135, y: 30)
                     NavigationLink(destination: login().navigationBarBackButtonHidden()){
                         Text("Already have an account ? Login")
                             .font(.body)
                             .padding(.all, 10)
                             .underline()
                     }
-                    .offset(y: -15)
+                    .offset(y: 70)
                     .accentColor(.gray)
                 }
-                .offset(y: 110)
+                .offset(y: 80)
             }
         }
     }
-    func regiteruser(name: String, phone_number: String, email: String, password: String, repassword: String) {
-        
-        if name.lowercased() == ""{
-            wrongname = 2
-        }
-        else if phone_number == "" || phone_number.count != 8{
-            wrongnumber = 2
-            wrongname = 0
-        }
-        else if !isValidEmail(email){
-            wrongemail = 2
-            wrongnumber = 0
-        }
-        else if !isValidPassword(password){
-            wrongpassword = 2
-            wrongemail = 0
-            alertpassword = true
-            showhomescreen1 = false
-        }
-        else if !isValidPassword(repassword){
-            wrongRepassword = 2
-            wrongpassword = 0
-            alertrepassword = true
-            showhomescreen1 = false
-        }
-        else {
-            resetErrors()
-            showhomescreen1 = true
-        }
-    }
-    // Email validation check
-        func isValidEmail(_ email: String) -> Bool {
-            let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Z0-9a-z.-]+\\.[A-Za-z]{2,64}"
-            let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
-            return emailPred.evaluate(with: email)
-        }
-    // Password validation check
-        func isValidPassword(_ password: String) -> Bool {
-            // Passwords must be at least 8 characters, and include at least one uppercase letter, one lowercase letter, one number, and one special character
-            let passwordRegEx = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&_])[A-Za-z\\d$@$!%*?&_]{8,}"
-            let passwordPred = NSPredicate(format: "SELF MATCHES %@", passwordRegEx)
-            return passwordPred.evaluate(with: password)
-        }
-    private func resetErrors() {
-            wrongname = 0
-            wrongnumber = 0
-            wrongemail = 0
-            wrongpassword = 0
-            wrongRepassword = 0
-            alertrepassword = false
-            showhomescreen1 = false
-        }
 }
 #Preview {
     signup()

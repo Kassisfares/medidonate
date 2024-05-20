@@ -9,71 +9,84 @@ import SwiftUI
 
 import Foundation
 
-class AuthService {
-    static var token: String? // Static variable to store the token
-
-    static func loginrequest(email: String, password: String, completion: @escaping (Bool) -> Void) {
-        let url = URL(string: "http://localhost:1337/api/auth/local")!
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        
-        let payload: [String: Any] = ["identifier": email, "password": password]
-        guard let payloadData = try? JSONSerialization.data(withJSONObject: payload) else {
-            print("Error creating payload data")
-            completion(false)
-            return
-        }
-        
-        request.httpBody = payloadData
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                print("Error: \(error)")
-                completion(false)
-                return
-            }
-            
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode) else {
-                print("HTTP status code error")
-                completion(false)
-                return
-            }
-            
-            guard let data = data else {
-                print("No data")
-                completion(false)
-                return
-            }
-            
-            // Attempt to decode the token from the JSON response
-            do {
-                if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
-                   let jwt = json["jwt"] as? String {
-                    AuthService.token = jwt // Save the token in the static variable
-                    completion(true)
-                } else {
-                    print("Failed to decode token")
-                    completion(false)
-                }
-            } catch {
-                print("JSON decoding error: \(error)")
-                completion(false)
-            }
-            if let token = AuthService.token {
-                print("Token stored: \(token)")
-            } else {
-                print("No token stored.")
-            }
-        }
-        
-        task.resume()
-    }
+struct UserInfo: Decodable {
+    let id: Int
+    let username: String
+    let email: String
+    let provider: String
+    let confirmed: Bool
+    let blocked: Bool
+    let createdAt: String
+    let updatedAt: String
+    let phone: String?
 }
 
-// Example usage
-//login(email: "fares@gmail.com", password: "fares10")
+class AuthService {
+    static var token: String?
+    static var userID: Int?
+    static var userInfo: UserInfo?
+
+    
+
+    static func loginrequest(email: String, password: String, completion: @escaping (Bool) -> Void) {
+            let url = URL(string: "http://localhost:1337/api/auth/local")!
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            
+            let payload: [String: Any] = ["identifier": email, "password": password]
+            guard let payloadData = try? JSONSerialization.data(withJSONObject: payload) else {
+                print("Error creating payload data")
+                completion(false)
+                return
+            }
+            
+            request.httpBody = payloadData
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                if let error = error {
+                    print("Error: \(error)")
+                    completion(false)
+                    return
+                }
+                
+                guard let httpResponse = response as? HTTPURLResponse,
+                      (200...299).contains(httpResponse.statusCode) else {
+                    print("HTTP status code error")
+                    completion(false)
+                    return
+                }
+                
+                guard let data = data else {
+                    print("No data")
+                    completion(false)
+                    return
+                }
+                
+                do {
+                    if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+                       let jwt = json["jwt"] as? String,
+                       let user = json["user"] as? [String: Any] {
+                        AuthService.token = jwt
+                        let userData = try JSONSerialization.data(withJSONObject: user)
+                        AuthService.userInfo = try JSONDecoder().decode(UserInfo.self, from: userData)
+                        AuthService.userID = AuthService.userInfo?.id
+                        print("Token stored: \(jwt)")
+                        print("User Info: \(String(describing: AuthService.userInfo))")
+                        completion(true)
+                    } else {
+                        print("Failed to decode token or user info")
+                        completion(false)
+                    }
+                } catch {
+                    print("JSON decoding error: \(error)")
+                    completion(false)
+                }
+            }
+            task.resume()
+        }
+}
+
 
 
 
@@ -87,6 +100,10 @@ struct login: View {
     @State private var showhomescreen = false
     @State private var navigateToHome = false
     @State private var verifLigin = false
+    @State private var loginSuccess = false
+    @State private var showAlert = false
+    @State private var alertMessage = ""
+    @ObservedObject var viewModel = PostViewModel()
 
     var body: some View {
         NavigationView(){
@@ -131,19 +148,9 @@ struct login: View {
                                 .padding(.leading)
                         }
                         .accentColor(.black)
-                        NavigationLink(destination: home().navigationBarBackButtonHidden(), isActive: $showhomescreen) {
+                        NavigationLink(destination: home().navigationBarBackButtonHidden(), isActive: $viewModel.showhomescreen) {
                             Button(action: {
-                                
-                                loginuser(email: email, password: password)
-                                AuthService.loginrequest(email: email, password: password) { success in
-                                                        DispatchQueue.main.async {
-                                                            if success {
-                                                                self.showhomescreen = true // Navigate only on success
-                                                            } else {
-                                                                self.verifLigin = true
-                                                            }
-                                                        }
-                                                    }
+                                viewModel.loginAndFetchUser(email: email, password: password)
                             }, label: {
                                 ZStack{
                                     Group {
@@ -158,9 +165,9 @@ struct login: View {
                                     .padding(.trailing)
                                 }
                             })
-                            .alert("Wrong email or password", isPresented: $verifLigin) {
-                                        Button("OK", role: .cancel) {}
-                                    }
+                            .alert(isPresented: $viewModel.showAlert) {
+                                Alert(title: Text("Login"), message: Text(viewModel.alertMessage), dismissButton: .default(Text("OK")))
+                            }
                         }
                         
                     }
