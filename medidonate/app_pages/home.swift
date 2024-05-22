@@ -104,34 +104,32 @@ struct home: View {
                                     VStack(alignment: .center, spacing: 2){
                                         // Post Photos
                                         if let photos = post.attributes.photos?.data {
-                                                    ForEach(photos, id: \.id) { photo in
-                                                        if let photoUrl = URL(string: "http://localhost:1337" + photo.attributes.url) {
-//                                                            Text("Photo URL: \(photoUrl.absoluteString)") // Debugging
-                                                            AsyncImage(url: photoUrl) { phase in
-                                                                switch phase {
-                                                                case .empty:
-                                                                    ProgressView()
-                                                                        .frame(width: 180, height: 250)
-                                                                case .success(let image):
-                                                                    image
-                                                                        .resizable()
-//                                                                        .scaledToFit()
-                                                                        .frame(width: 200, height: 150)
-                                                                case .failure:
-                                                                    Image(systemName: "photo")
-                                                                        .resizable()
-                                                                        .scaledToFit()
-                                                                        .frame(width: 180, height: 250)
-                                                                    Text("Failed to load image.") // Debugging
-                                                                @unknown default:
-                                                                    EmptyView()
-                                                                }
-                                                            }
-                                                        } else {
-                                                            Text("Invalid URL") // Debugging
+                                            ForEach(photos, id: \.id) { photo in
+                                                if let photoUrl = URL(string: "http://localhost:1337" + photo.attributes.url) {
+                                                    AsyncImage(url: photoUrl) { phase in
+                                                        switch phase {
+                                                        case .empty:
+                                                            ProgressView()
+                                                                .frame(width: 180, height: 250)
+                                                        case .success(let image):
+                                                            image
+                                                                .resizable()
+                                                                .frame(width: 200, height: 150)
+                                                        case .failure:
+                                                            Image(systemName: "photo")
+                                                                .resizable()
+                                                                .scaledToFit()
+                                                                .frame(width: 180, height: 250)
+                                                            Text("Failed to load image.") // Debugging
+                                                        @unknown default:
+                                                            EmptyView()
                                                         }
                                                     }
+                                                } else {
+                                                    Text("Invalid URL") // Debugging
                                                 }
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -143,7 +141,7 @@ struct home: View {
                                         .foregroundColor(Color.white)
                                         .cornerRadius(30)
                                         .shadow(color: .black, radius: 2)
-                                    TextField("Write your message", text: $comment1, axis: .vertical)
+                                    TextField("Write your message", text: .constant(""), axis: .vertical)
                                         .frame(width: 280, height: 50)
                                         .offset(x: -20)
                                     Button {
@@ -156,7 +154,6 @@ struct home: View {
                                     .offset(x: 150)
                                 }
                             }
-                            .padding(.leading)
                             .padding(.top, 5)
                         }
                     }
@@ -216,7 +213,7 @@ struct conversation1: View {
                                 .frame(width: 50, height: 50)
                                 .foregroundColor(.primarycolor)
                             HStack{
-                                Text("fares")
+                                Text("houmem")
                                     .font(.headline)
                                     .foregroundColor(.black)
                             }
@@ -224,21 +221,21 @@ struct conversation1: View {
                         .offset(y: -20)
                 }
                 ScrollView{
-                    ForEach(0..<10){ index in
+                    ForEach(0..<1){ index in
                         let condition = index%2 == 0
                         let condition1 = index%1 == 1
                         ZStack{
                             RoundedRectangle(cornerRadius: 15)
-                                .foregroundStyle(condition ? Color(.gray4) : Color(.primarycolor))
+                                .foregroundStyle(condition ? Color(.primarycolor) : Color(.primarycolor))
                                 .frame(width: 250, height: 80, alignment: .leading)
-                                .padding(condition ? .leading : .trailing, -100)
+                                .padding(condition1 ? .leading : .trailing, -100)
                             VStack(alignment: .leading){
-                                Text("Lorem ipsum dolor sit amet, consectetur.")
+                                Text("Salut, ce medicament est disponible maintenant ??")
                                     .frame(width: 225)
                                     .fontWeight(.medium)
                                     .foregroundColor(.white)
-                                    .padding(condition ? .leading : .trailing, -100)
-                                    .padding(condition1 ? .leading : .trailing, -10)
+                                    .padding(condition1 ? .leading : .trailing, -100)
+                                    .padding(condition ? .leading : .trailing, -10)
                             }
                         }
                     }

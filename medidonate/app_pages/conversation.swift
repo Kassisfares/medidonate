@@ -19,7 +19,7 @@ struct conversation: View {
                                 .frame(width: 50, height: 50)
                                 .foregroundColor(.primarycolor)
                             HStack{
-                                Text("houmem")
+                                Text("Mohamed")
                                     .font(.headline)
                                     .foregroundColor(.black)
                             }
@@ -27,7 +27,7 @@ struct conversation: View {
                         .offset(y: -20)
                 }
                 ScrollView{
-                    ForEach(0..<10){ index in
+                    ForEach(0..<2){ index in
                         let condition = index%2 == 0
                         let condition1 = index%1 == 1
                         ZStack{
@@ -36,7 +36,7 @@ struct conversation: View {
                                 .frame(width: 250, height: 80, alignment: .leading)
                                 .padding(condition ? .leading : .trailing, -100)
                             VStack(alignment: .leading){
-                                Text("Lorem ipsum dolor sit amet, consectetur.")
+                                Text(condition ? "Salut, ce medicament est disponible maintenant ??" : "Salut, Oui bien sur monsieur il est disponible .")
                                     .frame(width: 225)
                                     .fontWeight(.medium)
                                     .foregroundColor(.white)

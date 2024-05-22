@@ -55,13 +55,11 @@ struct searchesall: View {
                 if showingSearchResults && !searchText.isEmpty {
                     List {
                         ForEach(searchResults) { post in
-                            VStack(alignment: .leading) {
+                            VStack(alignment: .leading, spacing: 5) {
                                 let userPermissions = post.attributes.users_permissions_user.data
                                 Text("\(userPermissions.attributes.username)")
                                     .font(.headline)
                                 Text("Description: \(post.attributes.description)")
-                                    .font(.subheadline)
-                                Text("Created At: \(post.attributes.createdAt)")
                                     .font(.subheadline)
                                 if let postMedicines = post.attributes.post_medicines?.data {
                                     ForEach(postMedicines, id: \.id) { postMedicine in

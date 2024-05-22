@@ -32,29 +32,51 @@ struct ReceivedRequests: View {
                                 .stroke(Color.gray4)
                                 .cornerRadius(20)
                                 .foregroundColor(.white)
-                                .frame(width: 365, height: 150)
-                            HStack(spacing: 10){
-                                Image(systemName: "pills")
-                                    .font(.system(size: 100))
+                                .frame(width: 365, height: 100)
+                            HStack(spacing: 5){
+                                Image(systemName: "tray.and.arrow.down")
+                                    .font(.system(size: 60))
                                     .foregroundColor(.primarycolor)
                                 VStack(alignment: .leading){
-                                    Text("Received it At: \(request.attributes.createdAt)")
+                                    HStack{
+                                        Text("Received it At:")
+                                            .fontWeight(.bold)
+                                            .font(.headline)
+                                            .lineLimit(1)
+                                            .layoutPriority(1)
+                                        Text(request.attributes.createdAt)
+                                            .font(.body)
+                                            .lineLimit(1)
+                                    }
                                     if let users = request.attributes.users_permissions_users?.data {
                                         ForEach(users, id: \.id) { user in
-                                            VStack(alignment: .leading) {
-                                                Text("From: \(user.attributes.username)")
+                                            HStack{
+                                                Text("Sender:")
+                                                    .fontWeight(.bold)
+                                                    .font(.headline)
+                                                Text(user.attributes.username)
+                                                    .font(.body)
                                             }
                                         }
                                     } else {
                                         Text("No User Data")
                                     }
                                     if let postData = request.attributes.post.data {
-                                        Text("Post Description: \(postData.attributes.description)")
+                                        HStack{
+                                            Text("Post Description:")
+                                                .fontWeight(.bold)
+                                                .font(.headline)
+                                                .lineLimit(1)
+                                                .layoutPriority(1)
+                                            Text(postData.attributes.description)
+                                                .font(.body)
+                                                .lineLimit(1)
+                                        }
                                     } else {
                                         Text("No Post Data")
                                     }
                                 }
-                                .frame(width: 200, height: 100, alignment: .topLeading)
+                                .frame(width: 275, height: 100, alignment: .leading)
                             }
                         }
                         .offset(y: -450)

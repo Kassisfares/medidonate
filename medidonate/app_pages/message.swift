@@ -26,11 +26,9 @@ struct message: View {
                                     .foregroundColor(.gray)
                                     .offset(x: 150)
                             }
-                            .offset(y: -350)
                         }
-                        .offset(y: -50)
+//                        .offset(y: -90)
                         VStack{
-                            ForEach(0..<10){ index in
                                 HStack{
                                     NavigationLink(destination: conversation().navigationBarBackButtonHidden()){
                                         Image(systemName: "person.circle")
@@ -39,11 +37,11 @@ struct message: View {
                                             .padding(.trailing, 10)
                                             .foregroundColor(.primarycolor)
                                         VStack(alignment: .leading){
-                                            Text("Homem")
+                                            Text("Mohamed")
                                                 .font(.title2)
                                                 .fontWeight(.bold)
                                                 .foregroundColor(.black)
-                                            Text("Lorem ipsum dolor sit amet consectetur adipiscing elit.")
+                                            Text("Salut, ce medicament est disponible maintenant ??")
                                                 .frame(width: 200, height: 50, alignment: .leading)
                                                 .font(.callout)
                                                 .fontWeight(.light)
@@ -52,8 +50,51 @@ struct message: View {
                                         }
                                     }
                                 }
-                            }
                             .offset(x: -45, y:90)
+//                            HStack{
+//                                NavigationLink(destination: conversation().navigationBarBackButtonHidden()){
+//                                    Image(systemName: "person.circle")
+//                                        .resizable(resizingMode: .tile)
+//                                        .frame(width: 50, height: 50)
+//                                        .padding(.trailing, 10)
+//                                        .foregroundColor(.primarycolor)
+//                                    VStack(alignment: .leading){
+//                                        Text("Omar")
+//                                            .font(.title2)
+//                                            .fontWeight(.bold)
+//                                            .foregroundColor(.black)
+//                                        Text("Bonjour...")
+//                                            .frame(width: 200, height: 50, alignment: .leading)
+//                                            .font(.callout)
+//                                            .fontWeight(.light)
+//                                            .foregroundColor(.gray)
+//                                            .padding(.top, -25)
+//                                    }
+//                                }
+//                            }
+//                        .offset(x: -45, y:90)
+//                            HStack{
+//                                NavigationLink(destination: conversation().navigationBarBackButtonHidden()){
+//                                    Image(systemName: "person.circle")
+//                                        .resizable(resizingMode: .tile)
+//                                        .frame(width: 50, height: 50)
+//                                        .padding(.trailing, 10)
+//                                        .foregroundColor(.primarycolor)
+//                                    VStack(alignment: .leading){
+//                                        Text("Karim")
+//                                            .font(.title2)
+//                                            .fontWeight(.bold)
+//                                            .foregroundColor(.black)
+//                                        Text("salem")
+//                                            .frame(width: 200, height: 50, alignment: .leading)
+//                                            .font(.callout)
+//                                            .fontWeight(.light)
+//                                            .foregroundColor(.gray)
+//                                            .padding(.top, -25)
+//                                    }
+//                                }
+//                            }
+//                        .offset(x: -45, y:90)
                         }
                         .padding(.leading)
                     }

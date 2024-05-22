@@ -12,6 +12,8 @@
 		A71AF84D2BA1FEB100341C89 /* forgetpwd1.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71AF84C2BA1FEB100341C89 /* forgetpwd1.swift */; };
 		A71AF84F2BA2167A00341C89 /* forgetpwd2.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71AF84E2BA2167A00341C89 /* forgetpwd2.swift */; };
 		A739B9CF2B9F49C0003952DA /* settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A739B9CE2B9F49C0003952DA /* settings.swift */; };
+		A767DB5D2BFC233B0074E4D8 /* structure1.swift in Sources */ = {isa = PBXBuildFile; fileRef = A767DB5C2BFC233B0074E4D8 /* structure1.swift */; };
+		A767DB5F2BFC256B0074E4D8 /* function.swift in Sources */ = {isa = PBXBuildFile; fileRef = A767DB5E2BFC256B0074E4D8 /* function.swift */; };
 		A77364D92BF14F470001EFAD /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77364D82BF14F470001EFAD /* HomeView.swift */; };
 		A78FBFEF2BEA505A009532A8 /* SwiftUIX in Frameworks */ = {isa = PBXBuildFile; productRef = A78FBFEE2BEA505A009532A8 /* SwiftUIX */; };
 		A78FBFF12BEAB00F009532A8 /* createpost1.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78FBFF02BEAB00F009532A8 /* createpost1.swift */; };
@@ -42,6 +44,8 @@
 		A71AF84C2BA1FEB100341C89 /* forgetpwd1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = forgetpwd1.swift; sourceTree = "<group>"; };
 		A71AF84E2BA2167A00341C89 /* forgetpwd2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = forgetpwd2.swift; sourceTree = "<group>"; };
 		A739B9CE2B9F49C0003952DA /* settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = settings.swift; sourceTree = "<group>"; };
+		A767DB5C2BFC233B0074E4D8 /* structure1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = structure1.swift; sourceTree = "<group>"; };
+		A767DB5E2BFC256B0074E4D8 /* function.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = function.swift; sourceTree = "<group>"; };
 		A77364D82BF14F470001EFAD /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		A78FBFF02BEAB00F009532A8 /* createpost1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = createpost1.swift; sourceTree = "<group>"; };
 		A7B6BF2A2BAC62480013018E /* home.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = home.swift; sourceTree = "<group>"; };
@@ -80,22 +84,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		A71D70172BF8DBBF00C3DB14 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				A7D9416C2BFAD64D0001EC0E /* getrequestmedicine.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		A71D701A2BF8DC1600C3DB14 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				A7D3DACD2BBF856B00653433 /* historyrequest.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
 		A7C20C322B9A169F00966CA3 = {
 			isa = PBXGroup;
 			children = (
@@ -146,17 +134,19 @@
 				A77364D82BF14F470001EFAD /* HomeView.swift */,
 				A78FBFF02BEAB00F009532A8 /* createpost1.swift */,
 				A702AB1E2BBB175E0066A9B7 /* requestmedicine.swift */,
-				A7CB95152BBCDB2C0088192A /* editrequestmedicine.swift */,
-				A7CB95172BBCDDA60088192A /* editrequestmedicine2.swift */,
-				A7CB95192BBCDE280088192A /* editrequestmedicine3.swift */,
 				A7ECE7F92BBE3DE700E3EE76 /* confirmerequest.swift */,
 				A7D3DAC72BBF796900653433 /* searchesall.swift */,
 				A7D3DACF2BBF8D8500653433 /* ReceivedRequests.swift */,
 				A7D3DAD52BBF93AE00653433 /* editprofile.swift */,
 				A7D3DAC32BBF67AA00653433 /* message.swift */,
 				A7D3DAC52BBF716700653433 /* conversation.swift */,
-				A71D70172BF8DBBF00C3DB14 /* Models */,
-				A71D701A2BF8DC1600C3DB14 /* Views */,
+				A7D9416C2BFAD64D0001EC0E /* getrequestmedicine.swift */,
+				A7D3DACD2BBF856B00653433 /* historyrequest.swift */,
+				A767DB5C2BFC233B0074E4D8 /* structure1.swift */,
+				A767DB5E2BFC256B0074E4D8 /* function.swift */,
+				A7CB95152BBCDB2C0088192A /* editrequestmedicine.swift */,
+				A7CB95172BBCDDA60088192A /* editrequestmedicine2.swift */,
+				A7CB95192BBCDE280088192A /* editrequestmedicine3.swift */,
 			);
 			path = app_pages;
 			sourceTree = "<group>";
@@ -242,6 +232,7 @@
 				A7D3DAD22BBF90DE00653433 /* changelocation.swift in Sources */,
 				A7C20C672B9A24FD00966CA3 /* signup.swift in Sources */,
 				A71AF84D2BA1FEB100341C89 /* forgetpwd1.swift in Sources */,
+				A767DB5F2BFC256B0074E4D8 /* function.swift in Sources */,
 				A7D3DAC82BBF796900653433 /* searchesall.swift in Sources */,
 				A7B6BF2B2BAC62480013018E /* home.swift in Sources */,
 				A7CB95182BBCDDA60088192A /* editrequestmedicine2.swift in Sources */,
@@ -254,6 +245,7 @@
 				A7D3DAC42BBF67AA00653433 /* message.swift in Sources */,
 				A7D3DAD42BBF929C00653433 /* changelocation2.swift in Sources */,
 				A702AB1F2BBB175E0066A9B7 /* requestmedicine.swift in Sources */,
+				A767DB5D2BFC233B0074E4D8 /* structure1.swift in Sources */,
 				A71AF84F2BA2167A00341C89 /* forgetpwd2.swift in Sources */,
 				A7ECE7FA2BBE3DE700E3EE76 /* confirmerequest.swift in Sources */,
 				A7C20C3F2B9A169F00966CA3 /* medidonateApp.swift in Sources */,

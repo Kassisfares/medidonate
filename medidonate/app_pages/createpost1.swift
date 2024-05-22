@@ -349,6 +349,8 @@ struct createpost1: View {
     @State private var showAlertEmptyDescription = false
     @State private var showAlertDonateRequest = false
     @State private var showAlertForZeroQuantity = false
+    @State private var showAlertForEmptyFields = false
+    @State private var showAlertForInvalidDateDifference = false
 
 
     @ObservedObject var viewModel1 = MedicineViewModel()
@@ -375,6 +377,13 @@ struct createpost1: View {
         // Set shownewpost to true to activate the navigation link
             shownewpost = true
     }
+    
+    // Function to check if the date difference is at least 6 months
+    func isDateDifferenceValid(fabDate: Date, expDate: Date) -> Bool {
+        let calendar = Calendar.current
+        guard let sixMonthsLater = calendar.date(byAdding: .month, value: 6, to: fabDate) else { return false }
+        return expDate >= sixMonthsLater
+    }
 
     func resetFields() {
         // Reset all related fields to their default values
@@ -389,6 +398,13 @@ struct createpost1: View {
     private func dismissKeyboard() {
             UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
         }
+    
+    let multiLineText = """
+        1- Choose the medicine name
+        2- Choose the quantity
+        3- Select the Fab_Date and Exp_Date with a 6 months minimum difference between them
+        4- You can add a photo if you want
+        """
     
     @ObservedObject var viewModel = PostViewModel()
 
@@ -688,17 +704,19 @@ struct createpost1: View {
                                         .offset(y: 24)
                                 }
                                 Button(action: {
-                                    if quantity == 0 {
+                                    if medicinee.isEmpty || category.isEmpty || choicemade.isEmpty || quantity == 0 || !isDateDifferenceValid(fabDate: fab_date, expDate: exp_date) {
                                         showAlertForZeroQuantity = true
-                                    } else {
-                                        let newMedicine = Medicine(attributes: MedicineAttributes(id : id , name: medicinee, category: category, type: choicemade), quantity: quantity, fabDate: fab_date, expDate: exp_date, image: selectedMedicineImage)
+                                    }
+                                    // All checks passed, add the new medicine
+                                    else {
+                                        let newMedicine = Medicine(attributes: MedicineAttributes(id: id, name: medicinee, category: category, type: choicemade), quantity: quantity, fabDate: fab_date, expDate: exp_date, image: selectedMedicineImage)
                                         medicines.append(newMedicine)
                                         uploadImage(selectedImage: selectedMedicineImage)
                                         showview3.toggle()
                                         resetFields()
                                     }
                                 }, label: {
-                                    ZStack{
+                                    ZStack {
                                         RoundedRectangle(cornerRadius: 15)
                                             .foregroundStyle(Color.primarycolor)
                                             .frame(width: 100, height: 40, alignment: .center)
@@ -710,7 +728,7 @@ struct createpost1: View {
                                 .alert(isPresented: $showAlertForZeroQuantity) {
                                     Alert(
                                         title: Text("Alert"),
-                                        message: Text("You must enter a quantity greater than zero."),
+                                        message: Text(multiLineText),
                                         dismissButton: .default(Text("OK"))
                                     )
                                 }
