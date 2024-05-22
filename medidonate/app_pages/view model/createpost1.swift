@@ -109,14 +109,6 @@ struct Medicine: Encodable {
         try container.encode(quantity, forKey: .quantity)
         try container.encode(fabDate, forKey: .fabDate)
         try container.encode(expDate, forKey: .expDate)
-        
-//        if let image = image {
-//            let imageData = image.pngData() // or use jpegData(compressionQuality:) if you prefer JPEG
-//            let imageBase64String = imageData?.base64EncodedString()
-//            try container.encode(imageBase64String, forKey: .image)
-//        } else {
-//            try container.encodeNil(forKey: .image)
-//        }
     }
 }
 
@@ -429,7 +421,6 @@ struct createpost1: View {
                                 .offset(x: -5)
                             NavigationLink(destination: home().navigationBarBackButtonHidden(), isActive: $shownewpost) {
                                 Button {
-//                                    viewModel.fetchPosts()
                                     //this we write the function
                                     print("Button tapped")
                                     // Validate input before posting

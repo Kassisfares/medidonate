@@ -25,6 +25,7 @@
 		A7CB95162BBCDB2C0088192A /* editrequestmedicine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CB95152BBCDB2C0088192A /* editrequestmedicine.swift */; };
 		A7CB95182BBCDDA60088192A /* editrequestmedicine2.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CB95172BBCDDA60088192A /* editrequestmedicine2.swift */; };
 		A7CB951A2BBCDE280088192A /* editrequestmedicine3.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CB95192BBCDE280088192A /* editrequestmedicine3.swift */; };
+		A7CC987B2BFE9AA80064A3CA /* model1.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CC987A2BFE9AA80064A3CA /* model1.swift */; };
 		A7D3DAC42BBF67AA00653433 /* message.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D3DAC32BBF67AA00653433 /* message.swift */; };
 		A7D3DAC62BBF716700653433 /* conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D3DAC52BBF716700653433 /* conversation.swift */; };
 		A7D3DAC82BBF796900653433 /* searchesall.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D3DAC72BBF796900653433 /* searchesall.swift */; };
@@ -57,6 +58,7 @@
 		A7CB95152BBCDB2C0088192A /* editrequestmedicine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = editrequestmedicine.swift; sourceTree = "<group>"; };
 		A7CB95172BBCDDA60088192A /* editrequestmedicine2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = editrequestmedicine2.swift; sourceTree = "<group>"; };
 		A7CB95192BBCDE280088192A /* editrequestmedicine3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = editrequestmedicine3.swift; sourceTree = "<group>"; };
+		A7CC987A2BFE9AA80064A3CA /* model1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = model1.swift; sourceTree = "<group>"; };
 		A7D3DAC32BBF67AA00653433 /* message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = message.swift; sourceTree = "<group>"; };
 		A7D3DAC52BBF716700653433 /* conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = conversation.swift; sourceTree = "<group>"; };
 		A7D3DAC72BBF796900653433 /* searchesall.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = searchesall.swift; sourceTree = "<group>"; };
@@ -119,34 +121,67 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		A7D8801E2B9D378E00FE2F40 /* app_pages */ = {
+		A7CC98752BFE98230064A3CA /* model */ = {
 			isa = PBXGroup;
 			children = (
-				A7D3DACB2BBF7FBF00653433 /* welcome.swift */,
-				A7D8801F2B9D37D200FE2F40 /* login.swift */,
-				A7C20C662B9A24FD00966CA3 /* signup.swift */,
-				A739B9CE2B9F49C0003952DA /* settings.swift */,
-				A7D3DAD12BBF90DE00653433 /* changelocation.swift */,
-				A7D3DAD32BBF929C00653433 /* changelocation2.swift */,
-				A71AF84C2BA1FEB100341C89 /* forgetpwd1.swift */,
-				A71AF84E2BA2167A00341C89 /* forgetpwd2.swift */,
+				A7D9416C2BFAD64D0001EC0E /* getrequestmedicine.swift */,
+				A7CC987A2BFE9AA80064A3CA /* model1.swift */,
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
+		A7CC98772BFE98380064A3CA /* view */ = {
+			isa = PBXGroup;
+			children = (
+				A7D3DAD52BBF93AE00653433 /* editprofile.swift */,
+				A7D3DAC52BBF716700653433 /* conversation.swift */,
+				A7D3DAC32BBF67AA00653433 /* message.swift */,
+				A7D3DACF2BBF8D8500653433 /* ReceivedRequests.swift */,
+				A7D3DAC72BBF796900653433 /* searchesall.swift */,
 				A7B6BF2A2BAC62480013018E /* home.swift */,
+				A702AB1E2BBB175E0066A9B7 /* requestmedicine.swift */,
+				A71AF84E2BA2167A00341C89 /* forgetpwd2.swift */,
+				A71AF84C2BA1FEB100341C89 /* forgetpwd1.swift */,
+				A7D3DAD32BBF929C00653433 /* changelocation2.swift */,
+				A7D3DAD12BBF90DE00653433 /* changelocation.swift */,
+				A739B9CE2B9F49C0003952DA /* settings.swift */,
+				A7C20C662B9A24FD00966CA3 /* signup.swift */,
+				A7D8801F2B9D37D200FE2F40 /* login.swift */,
+				A7D3DACB2BBF7FBF00653433 /* welcome.swift */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+		A7CC98782BFE98470064A3CA /* view model */ = {
+			isa = PBXGroup;
+			children = (
 				A77364D82BF14F470001EFAD /* HomeView.swift */,
 				A78FBFF02BEAB00F009532A8 /* createpost1.swift */,
-				A702AB1E2BBB175E0066A9B7 /* requestmedicine.swift */,
-				A7ECE7F92BBE3DE700E3EE76 /* confirmerequest.swift */,
-				A7D3DAC72BBF796900653433 /* searchesall.swift */,
-				A7D3DACF2BBF8D8500653433 /* ReceivedRequests.swift */,
-				A7D3DAD52BBF93AE00653433 /* editprofile.swift */,
-				A7D3DAC32BBF67AA00653433 /* message.swift */,
-				A7D3DAC52BBF716700653433 /* conversation.swift */,
-				A7D9416C2BFAD64D0001EC0E /* getrequestmedicine.swift */,
+			);
+			path = "view model";
+			sourceTree = "<group>";
+		};
+		A7CC98792BFE98B10064A3CA /* New Group */ = {
+			isa = PBXGroup;
+			children = (
 				A7D3DACD2BBF856B00653433 /* historyrequest.swift */,
 				A767DB5C2BFC233B0074E4D8 /* structure1.swift */,
 				A767DB5E2BFC256B0074E4D8 /* function.swift */,
 				A7CB95152BBCDB2C0088192A /* editrequestmedicine.swift */,
 				A7CB95172BBCDDA60088192A /* editrequestmedicine2.swift */,
 				A7CB95192BBCDE280088192A /* editrequestmedicine3.swift */,
+				A7ECE7F92BBE3DE700E3EE76 /* confirmerequest.swift */,
+			);
+			path = "New Group";
+			sourceTree = "<group>";
+		};
+		A7D8801E2B9D378E00FE2F40 /* app_pages */ = {
+			isa = PBXGroup;
+			children = (
+				A7CC98752BFE98230064A3CA /* model */,
+				A7CC98782BFE98470064A3CA /* view model */,
+				A7CC98772BFE98380064A3CA /* view */,
+				A7CC98792BFE98B10064A3CA /* New Group */,
 			);
 			path = app_pages;
 			sourceTree = "<group>";
@@ -239,6 +274,7 @@
 				A7CB95162BBCDB2C0088192A /* editrequestmedicine.swift in Sources */,
 				A7D3DACC2BBF7FBF00653433 /* welcome.swift in Sources */,
 				A7D9416D2BFAD64D0001EC0E /* getrequestmedicine.swift in Sources */,
+				A7CC987B2BFE9AA80064A3CA /* model1.swift in Sources */,
 				A77364D92BF14F470001EFAD /* HomeView.swift in Sources */,
 				A7CB951A2BBCDE280088192A /* editrequestmedicine3.swift in Sources */,
 				A7D880202B9D37D200FE2F40 /* login.swift in Sources */,
