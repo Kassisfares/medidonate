@@ -33,7 +33,7 @@ struct home: View {
                                     .frame(width: 50, height: 50)
                                     .padding(.leading)
                                     .foregroundColor(.green)
-                                    Text("Write your post here")
+                                    Text("Create your post here")
                                         .font(.title3)
                                         .padding(.leading)
                                 }
@@ -59,9 +59,6 @@ struct home: View {
                                     Text("\(userPermissions.attributes.username)")
                                         .font(.title3)
                                         .fontWeight(.semibold)
-                                    Text("30m")
-                                        .font(.callout)
-                                        .foregroundColor(.gray4)
                                 }
                                 .frame(width: 200, height: 50, alignment: .leading)
                                 NavigationLink(destination: requestmedicine(viewModel: viewModel)
@@ -144,13 +141,11 @@ struct home: View {
                                     TextField("Write your message", text: .constant(""), axis: .vertical)
                                         .frame(width: 280, height: 50)
                                         .offset(x: -20)
-                                    Button {
-                                        path.append(Pages.conversation1)
-                                    } label: {
-                                    Image(systemName: "arrow.up.circle.fill")
-                                }
-                                    .foregroundColor(Color("primarycolor"))
-                                    .font(.largeTitle)
+                                    NavigationLink(destination: conversation1().navigationBarBackButtonHidden(), label: {
+                                        Image(systemName: "arrow.up.circle.fill")
+                                            .foregroundColor(.primarycolor)
+                                            .font(.largeTitle)
+                                    })
                                     .offset(x: 150)
                                 }
                             }
@@ -161,9 +156,6 @@ struct home: View {
                 
             }
             .navigationTitle("Medi-Donate")
-            .navigationDestination(for: Pages.self, destination: { page in
-                Navigator.navigate(page: page)
-            })
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarItems(leading: NavigationLink(destination: settings().navigationBarBackButtonHidden(), label: {Image(systemName: "line.3.horizontal.circle.fill").foregroundColor(.primarycolor)
                 .font(.title)}),trailing: NavigationLink(destination: searchesall().navigationBarBackButtonHidden(), label: {Image(systemName: "magnifyingglass.circle.fill")
@@ -180,24 +172,6 @@ struct home: View {
     home()
 }
 
-struct Navigator{
-    @ViewBuilder
-    static func navigate(page: Pages) -> some View{
-        switch page {
-        case .conversation1:
-            conversation1()
-        }
-    }
-}
-
-
-//
-//  settings.swift
-//  medidonate
-//
-//  Created by fares kassis on 11/3/2024.
-//
-
 import SwiftUI
 
 
@@ -213,7 +187,7 @@ struct conversation1: View {
                                 .frame(width: 50, height: 50)
                                 .foregroundColor(.primarycolor)
                             HStack{
-                                Text("houmem")
+                                Text("Mohamed")
                                     .font(.headline)
                                     .foregroundColor(.black)
                             }
@@ -261,6 +235,9 @@ struct conversation1: View {
                     }
                 }
             }
+            .navigationBarItems(leading:NavigationLink(destination: home().navigationBarBackButtonHidden(), label: {Image(systemName: "chevron.backward")
+                    .font(.title2)
+                .foregroundColor(.black)}))
         }
     }
 }

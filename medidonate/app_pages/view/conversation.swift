@@ -32,16 +32,16 @@ struct conversation: View {
                         let condition1 = index%1 == 1
                         ZStack{
                             RoundedRectangle(cornerRadius: 15)
-                                .foregroundStyle(condition ? Color(.gray4) : Color(.primarycolor))
+                                .foregroundStyle(condition ? Color(.primarycolor) : Color(.gray4))
                                 .frame(width: 250, height: 80, alignment: .leading)
-                                .padding(condition ? .leading : .trailing, -100)
+                                .padding(condition ? .trailing : .leading, -100)
                             VStack(alignment: .leading){
-                                Text(condition ? "Salut, ce medicament est disponible maintenant ??" : "Salut, Oui bien sur monsieur il est disponible .")
+                                Text(condition ? "Salut, ce médicament est disponible maintenant ??" : "Salut, Oui bien sur il est disponible .")
                                     .frame(width: 225)
                                     .fontWeight(.medium)
                                     .foregroundColor(.white)
-                                    .padding(condition ? .leading : .trailing, -100)
-                                    .padding(condition1 ? .leading : .trailing, -10)
+                                    .padding(condition1 ? .trailing : .leading, -10)
+                                    .padding(condition ? .trailing : .leading, -90)
                             }
                         }
                     }

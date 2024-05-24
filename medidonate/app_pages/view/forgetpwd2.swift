@@ -17,7 +17,7 @@ struct forgetpwd2: View {
                     .padding(.leading, 5)
                     .padding(.top)
                     .padding(.bottom, 8)
-                Text("We have sent an instructions email to fareskas123@gmail.com")
+                Text("We have sent an instructions email to exemple@gmail.com")
                     .font(.title3)
                     .foregroundColor(Color("gray2"))
                     .padding(.leading, 5)

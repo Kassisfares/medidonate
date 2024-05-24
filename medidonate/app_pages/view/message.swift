@@ -51,50 +51,6 @@ struct message: View {
                                     }
                                 }
                             .offset(x: -45, y:90)
-//                            HStack{
-//                                NavigationLink(destination: conversation().navigationBarBackButtonHidden()){
-//                                    Image(systemName: "person.circle")
-//                                        .resizable(resizingMode: .tile)
-//                                        .frame(width: 50, height: 50)
-//                                        .padding(.trailing, 10)
-//                                        .foregroundColor(.primarycolor)
-//                                    VStack(alignment: .leading){
-//                                        Text("Omar")
-//                                            .font(.title2)
-//                                            .fontWeight(.bold)
-//                                            .foregroundColor(.black)
-//                                        Text("Bonjour...")
-//                                            .frame(width: 200, height: 50, alignment: .leading)
-//                                            .font(.callout)
-//                                            .fontWeight(.light)
-//                                            .foregroundColor(.gray)
-//                                            .padding(.top, -25)
-//                                    }
-//                                }
-//                            }
-//                        .offset(x: -45, y:90)
-//                            HStack{
-//                                NavigationLink(destination: conversation().navigationBarBackButtonHidden()){
-//                                    Image(systemName: "person.circle")
-//                                        .resizable(resizingMode: .tile)
-//                                        .frame(width: 50, height: 50)
-//                                        .padding(.trailing, 10)
-//                                        .foregroundColor(.primarycolor)
-//                                    VStack(alignment: .leading){
-//                                        Text("Karim")
-//                                            .font(.title2)
-//                                            .fontWeight(.bold)
-//                                            .foregroundColor(.black)
-//                                        Text("salem")
-//                                            .frame(width: 200, height: 50, alignment: .leading)
-//                                            .font(.callout)
-//                                            .fontWeight(.light)
-//                                            .foregroundColor(.gray)
-//                                            .padding(.top, -25)
-//                                    }
-//                                }
-//                            }
-//                        .offset(x: -45, y:90)
                         }
                         .padding(.leading)
                     }
