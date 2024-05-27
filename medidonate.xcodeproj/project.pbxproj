@@ -126,9 +126,9 @@
 		A7CC98752BFE98230064A3CA /* model */ = {
 			isa = PBXGroup;
 			children = (
-				A7D9416C2BFAD64D0001EC0E /* getrequestmedicine.swift */,
 				A7CC987A2BFE9AA80064A3CA /* posts.swift */,
 				A7CC987E2BFE9EC10064A3CA /* medicines.swift */,
+				A7D9416C2BFAD64D0001EC0E /* getrequestmedicine.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";

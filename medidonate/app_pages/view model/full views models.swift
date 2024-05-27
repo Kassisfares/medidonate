@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import Foundation
+
 
 class PostViewModel: ObservableObject {
     @Published var posts = [PostData]()
@@ -18,7 +20,8 @@ class PostViewModel: ObservableObject {
     @Published var showAlert = false
     @Published var alertMessage = ""
     @Published var confirmRequest = false
-    
+    @Published var selectedPostUsername: String?
+
     
     func fetchPosts() {
         guard let url = URL(string: "http://localhost:1337/api/posts?populate[users_permissions_user]=*&populate[post_medicines][populate]=medicines&populate[photos]=*") else {
@@ -56,6 +59,7 @@ class PostViewModel: ObservableObject {
     func selectPost(id: Int) {
         self.selectedPostID = id
         fetchMedicines(for: id)
+        fetchUsername(for: id)
     }
     
     func fetchMedicines(for postID: Int) {
@@ -231,4 +235,9 @@ class PostViewModel: ObservableObject {
             }
         }.resume()
     }
+    
+    func fetchUsername(for postID: Int) {
+            guard let post = posts.first(where: { $0.id == postID }) else { return }
+            self.selectedPostUsername = post.attributes.users_permissions_user.data.attributes.username
+        }
 }

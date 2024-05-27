@@ -13,14 +13,11 @@ enum Pages{
 
 struct home: View {
     
-    @State var comment1: String = ""
-    @State var comment2: String = ""
-    @State var comment3: String = ""
     @State var path: [Pages] = []
     @State private var showhomescreen = false
-
-    
     @ObservedObject var viewModel = PostViewModel()
+    @State private var messages: [Int: String] = [:]
+    
     
     var body: some View {
         NavigationStack(path: $path){
@@ -138,10 +135,18 @@ struct home: View {
                                         .foregroundColor(Color.white)
                                         .cornerRadius(30)
                                         .shadow(color: .black, radius: 2)
-                                    TextField("Write your message", text: .constant(""), axis: .vertical)
+                                    TextField("Write your message", text: Binding(
+                                        get: { messages[post.id, default: ""] },
+                                        set: { messages[post.id] = $0 }
+                                    ), axis: .vertical)
                                         .frame(width: 280, height: 50)
                                         .offset(x: -20)
-                                    NavigationLink(destination: conversation1().navigationBarBackButtonHidden(), label: {
+                                    NavigationLink(destination: conversation1(viewModel: viewModel, messageText: messages[post.id, default: ""])
+                                        .navigationBarBackButtonHidden()
+                                        .onAppear {
+                                            viewModel.selectPost(id: post.id)
+                                            }
+                                                   , label: {
                                         Image(systemName: "arrow.up.circle.fill")
                                             .foregroundColor(.primarycolor)
                                             .font(.largeTitle)
@@ -177,22 +182,30 @@ import SwiftUI
 
 struct conversation1: View {
     @State var messages: String = ""
+    @ObservedObject var viewModel = PostViewModel()
+    @State private var posts: [PostData] = []
+    var messageText: String
+
     var body: some View {
         NavigationView{
             VStack {
                 ZStack{
-                        VStack{
+                    VStack{
+                        if let selectedPostID = viewModel.selectedPostID {
                             Image(systemName: "person.circle")
                                 .resizable(resizingMode: .tile)
                                 .frame(width: 50, height: 50)
                                 .foregroundColor(.primarycolor)
-                            HStack{
-                                Text("Mohamed")
-                                    .font(.headline)
-                                    .foregroundColor(.black)
+                            if let username = viewModel.selectedPostUsername {
+                                HStack {
+                                    Text(username)
+                                        .font(.headline)
+                                        .foregroundColor(.black)
+                                }
                             }
                         }
-                        .offset(y: -20)
+                    }
+                    .offset(y: -20)
                 }
                 ScrollView{
                     ForEach(0..<1){ index in
@@ -204,7 +217,7 @@ struct conversation1: View {
                                 .frame(width: 250, height: 80, alignment: .leading)
                                 .padding(condition1 ? .leading : .trailing, -100)
                             VStack(alignment: .leading){
-                                Text("Salut, ce medicament est disponible maintenant ??")
+                                Text(messageText)
                                     .frame(width: 225)
                                     .fontWeight(.medium)
                                     .foregroundColor(.white)
@@ -238,11 +251,14 @@ struct conversation1: View {
             .navigationBarItems(leading:NavigationLink(destination: home().navigationBarBackButtonHidden(), label: {Image(systemName: "chevron.backward")
                     .font(.title2)
                 .foregroundColor(.black)}))
+            .onAppear {
+                viewModel.fetchPosts()
+            }
         }
     }
 }
 #Preview {
-    conversation1()
+    conversation1(viewModel: PostViewModel(), messageText: "Preview message")
 }
 
 

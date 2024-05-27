@@ -1,9 +1,9 @@
-//
-//  model1.swift
-//  medidonate
-//
-//  Created by fares kassis on 22/5/2024.
-//
+////
+////  model1.swift
+////  medidonate
+////
+////  Created by fares kassis on 22/5/2024.
+////
 import Foundation
 
 struct ApiResponse: Decodable {
