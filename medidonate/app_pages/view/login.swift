@@ -85,6 +85,67 @@ class AuthService {
             }
             task.resume()
         }
+    
+    static func updateUserProfile(fullname: String, email: String, phonenumber: String, password: String, completion: @escaping (Bool, String?) -> Void) {
+            guard let userID = userID, let token = token else {
+                completion(false, "User not logged in.")
+                return
+            }
+
+            let url = URL(string: "http://localhost:1337/api/users/\(userID)")!
+            var request = URLRequest(url: url)
+            request.httpMethod = "PUT"
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            
+            var payload: [String: Any] = [
+                "username": fullname,
+                "email": email,
+                "phone": phonenumber
+            ]
+            
+            if !password.isEmpty {
+                payload["password"] = password
+            }
+            
+            guard let payloadData = try? JSONSerialization.data(withJSONObject: payload) else {
+                completion(false, "Error creating payload data")
+                return
+            }
+            
+            request.httpBody = payloadData
+            
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                if let error = error {
+                    print("Error: \(error)")
+                    completion(false, "Network error.")
+                    return
+                }
+                
+                guard let httpResponse = response as? HTTPURLResponse,
+                      (200...299).contains(httpResponse.statusCode) else {
+                    print("HTTP status code error")
+                    completion(false, "Server error.")
+                    return
+                }
+                
+                guard let data = data else {
+                    print("No data")
+                    completion(false, "No response data.")
+                    return
+                }
+                
+                do {
+                    let updatedUser = try JSONDecoder().decode(UserInfo.self, from: data)
+                    AuthService.userInfo = updatedUser
+                    completion(true, nil)
+                } catch {
+                    print("JSON decoding error: \(error)")
+                    completion(false, "Failed to parse response.")
+                }
+            }
+            task.resume()
+        }
 }
 
 
